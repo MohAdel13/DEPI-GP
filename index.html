@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>JustTech</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app-wrapper">
+  <!-- SIDEBAR / NAVIGATION (fully functional) -->
+  <aside class="sidebar" id="mainSidebar">
+    <div class="logo-area">
+      <div class="logo-icon"><i class="fas fa-code"></i></div>
+      <div class="logo-text">
+        <span class="brand-bold">JustTech</span>
+        <span class="brand-light"></span>
+      </div>
+    </div>
+    <nav class="nav-menu">
+      <ul class="nav-list">
+        <li class="nav-item active" data-nav="dashboard"><a href="#" class="nav-link" id="navDashboard"><i class="fa fa-home"></i><span>Home</span></a></li>
+        <li class="nav-item" data-nav="lectures"><a href="#" class="nav-link" id="navLectures"><i class="fas fa-chalkboard-teacher"></i><span>Lectures</span></a></li>
+        <li class="nav-item" data-nav="courses"><a href="#" class="nav-link" id="navCourses"><i class="fas fa-book-open"></i><span>Enrolled Courses</span></a></li>
+        <li class="nav-item" data-nav="progress"><a href="#" class="nav-link" id="navProgress"><i class="fas fa-user-graduate"></i><span>My Progress</span></a></li>
+        <li class="nav-item" data-nav="rankings"><a href="#" class="nav-link" id="navRankings"><i class="fas fa-chart-line"></i><span>Round Rank</span></a></li>
+        <li class="nav-item" data-nav="stats"><a href="#" class="nav-link" id="navStats"><i class="fas fa-chart-pie"></i><span>Round Stats</span></a></li>
+        <li class="nav-item" data-nav="tickets"><a href="#" class="nav-link" id="navTickets"><i class="fas fa-ticket-alt"></i><span>Tickets</span></a></li>
+        <li class="nav-item" data-nav="profile"><a href="#" class="nav-link" id="navProfile"><i class="fas fa-user-circle"></i><span>Profile</span></a></li>
+      </ul>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-mini"><i class="fas fa-user-circle"></i><span>John Doe</span></div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT AREA -->
+  <main class="main-content">
+    <div class="top-bar">
+      <button class="mobile-menu-toggle" id="mobileToggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+      <div class="page-title-area"><h2 id="dynamicPageTitle">Dashboard</h2><p class="breadcrumb">JustTech / BackEnd PHP / Top Students</p></div>
+      <div class="header-actions"><span class="notification-bell"><i class="far fa-bell"></i></span><div class="avatar-small"><span>JD</span></div></div>
+    </div>
+
+    <!-- ========== DASHBOARD VIEW ========== -->
+    <div id="dashboardView" class="view-pane active-view">
+      <div class="hero-card"><div class="hero-left"><div class="badge-php">PHP 331 · BackEnd Elite</div><h1>Top students in <span class="highlight">BackEnd PHP</span></h1><div class="student-tagline"><i class="fas fa-trophy"></i> JustTech – Leaders</div></div><div class="hero-right"><div class="student-stack"><div class="stack-item">⭐ John Doe</div><div class="stack-item">⭐ John Doe</div><div class="stack-item">⭐John Doe</div></div></div></div>
+      <div class="stats-grid"><div class="stat-card"><div class="stat-icon"><i class="fas fa-medal"></i></div><div class="stat-info"><h3>Round Rank</h3><div class="stat-value">#1 <span class="small-label">/ 331</span></div><p>Top performer</p></div></div><div class="stat-card"><div class="stat-icon"><i class="fas fa-calendar-check"></i></div><div class="stat-info"><h3>Attendance</h3><div class="stat-value">93.55%</div><p>Excellent record</p></div></div><div class="stat-card"><div class="stat-icon"><i class="fas fa-tasks"></i></div><div class="stat-info"><h3>Task Avg</h3><div class="stat-value">95.16%</div><p>Consistency</p></div></div><div class="stat-card"><div class="stat-icon"><i class="fas fa-star"></i></div><div class="stat-info"><h3>Avg Score</h3><div class="stat-value">95.94%</div><p>+ Bonus 0%</p></div></div></div>
+      <div class="section-card"><div class="card-header"><h3><i class="fas fa-chart-bar"></i> Lectures Degree Progress</h3><span class="pill">Last 11 lectures</span></div><div class="bar-chart-container"><div class="chart-bars"><div class="bar-item" data-lecture="Lecture 1" data-value="85"><div class="bar-fill" style="height: 85%;"></div><span>L1</span></div><div class="bar-item" data-lecture="Lecture 4" data-value="78"><div class="bar-fill" style="height: 78%;"></div><span>L4</span></div><div class="bar-item" data-lecture="Lecture 7" data-value="92"><div class="bar-fill" style="height: 92%;"></div><span>L7</span></div><div class="bar-item" data-lecture="Lecture 10" data-value="88"><div class="bar-fill" style="height: 88%;"></div><span>L10</span></div><div class="bar-item" data-lecture="Lecture 13" data-value="96"><div class="bar-fill" style="height: 96%;"></div><span>L13</span></div><div class="bar-item" data-lecture="Lecture 16" data-value="94"><div class="bar-fill" style="height: 94%;"></div><span>L16</span></div><div class="bar-item" data-lecture="Lecture 19" data-value="91"><div class="bar-fill" style="height: 91%;"></div><span>L19</span></div><div class="bar-item" data-lecture="Lecture 22" data-value="89"><div class="bar-fill" style="height: 89%;"></div><span>L22</span></div><div class="bar-item" data-lecture="Lecture 25" data-value="97"><div class="bar-fill" style="height: 97%;"></div><span>L25</span></div><div class="bar-item" data-lecture="Lecture 28" data-value="93"><div class="bar-fill" style="height: 93%;"></div><span>L28</span></div><div class="bar-item" data-lecture="Lecture 31" data-value="99"><div class="bar-fill" style="height: 99%;"></div><span>L31</span></div></div></div><div class="lecture-note"><i class="fas fa-chart-simple"></i> Lecture degree trend: continuous improvement</div></div>
+    </div>
+
+    <!-- ========== ROUND RANK VIEW ========== -->
+    <div id="rankingsView" class="view-pane"><div class="section-card"><div class="card-header"><h3><i class="fas fa-ranking-star"></i> Round Rank · PHP 331</h3><span class="pill">Top performers</span></div><div class="ranking-table-wrapper"><table class="ranking-table"><thead><tr><th>Student</th><th>Rank</th><th>Score %</th></tr></thead><tbody><tr class="top-rank"><td><i class="fas fa-crown crown-icon"></i> John Doe </td><td>1</td><td>97.5%</td></tr><tr><td>Mohamed Waleed</td><td>2</td><td>94.84%</td></tr><tr><td>Mahmoud Reda</td><td>3</td><td>93%</td></tr><tr><td>Ziad Ashraf</td><td>4</td><td>85.67%</td></tr><tr><td>Mohamed Amr</td><td>5</td><td>85.5%</td></tr><tr><td>Abdelhalim Ahmed</td><td>7</td><td>80.67%</td></tr><tr><td>Ahmed Hany</td><td>8</td><td>79.2%</td></tr><tr><td>Youssef Emad</td><td>9</td><td>77.9%</td></tr></tbody></table></div><div class="rank-stats-mini"><span><i class="fas fa-chart-line"></i> Your position: #1</span><span><i class="fas fa-percent"></i> Top 0.3%</span></div></div><div class="mini-leader-grid"><div class="mini-leader-card"><strong>Abdelhalim...</strong> 7 · 80.67%</div><div class="mini-leader-card"><strong>Mohamed Am...</strong> 5 · 85.5%</div><div class="mini-leader-card"><strong>Mahmoud Re...</strong> 3 · 93%</div><div class="mini-leader-card highlight-card"><strong>John Doe...</strong> 1 · 97.5%</div><div class="mini-leader-card"><strong>Mohamed Wa...</strong> 2 · 94.84%</div><div class="mini-leader-card"><strong>Ziad Ashra...</strong> 4 · 85.67%</div></div></div>
+
+    <!-- ========== LECTURES VIEW ========== -->
+    <div id="lecturesView" class="view-pane"><div class="section-card"><div class="card-header"><h3><i class="fas fa-book-open"></i> Lectures Degree Breakdown</h3><span class="pill">Interactive</span></div><div class="lecture-list-detailed"><div class="lecture-row"><span>Lecture 1</span><div class="progress-bar-bg"><div class="progress-fill" style="width:85%"></div></div><span>85%</span></div><div class="lecture-row"><span>Lecture 4</span><div class="progress-bar-bg"><div class="progress-fill" style="width:78%"></div></div><span>78%</span></div><div class="lecture-row"><span>Lecture 7</span><div class="progress-bar-bg"><div class="progress-fill" style="width:92%"></div></div><span>92%</span></div><div class="lecture-row"><span>Lecture 10</span><div class="progress-bar-bg"><div class="progress-fill" style="width:88%"></div></div><span>88%</span></div><div class="lecture-row"><span>Lecture 13</span><div class="progress-bar-bg"><div class="progress-fill" style="width:96%"></div></div><span>96%</span></div><div class="lecture-row"><span>Lecture 16</span><div class="progress-bar-bg"><div class="progress-fill" style="width:94%"></div></div><span>94%</span></div><div class="lecture-row"><span>Lecture 19</span><div class="progress-bar-bg"><div class="progress-fill" style="width:91%"></div></div><span>91%</span></div><div class="lecture-row"><span>Lecture 22</span><div class="progress-bar-bg"><div class="progress-fill" style="width:89%"></div></div><span>89%</span></div><div class="lecture-row"><span>Lecture 25</span><div class="progress-bar-bg"><div class="progress-fill" style="width:97%"></div></div><span>97%</span></div><div class="lecture-row"><span>Lecture 28</span><div class="progress-bar-bg"><div class="progress-fill" style="width:93%"></div></div><span>93%</span></div><div class="lecture-row"><span>Lecture 31</span><div class="progress-bar-bg"><div class="progress-fill" style="width:99%"></div></div><span>99%</span></div></div></div></div>
+
+    <!-- ========== ROUND STATS VIEW ========== -->
+    <div id="statsView" class="view-pane"><div class="stats-full-card"><div class="stat-circle-container"><div class="stat-circle-item"><div class="circle-percent">93.55%</div><span><i class="fas fa-user-check"></i> Attendance</span></div><div class="stat-circle-item"><div class="circle-percent">95.16%</div><span><i class="fas fa-file-alt"></i> Task Avg</span></div><div class="stat-circle-item"><div class="circle-percent">95.94%</div><span><i class="fas fa-chart-simple"></i> Avg Score</span></div><div class="stat-circle-item"><div class="circle-percent bonus-zero">0%</div><span><i class="fas fa-gift"></i> Bonus</span></div></div><div class="stats-details"><p><i class="fas fa-chart-line"></i> Round consistency: <strong>Excellent performance</strong> — Top 1 student among 331 participants.</p><div class="stats-badge-group"><span class="badge-stat">🔥 93.55% Attendance</span><span class="badge-stat">📊 95.16% Tasks</span><span class="badge-stat">🏆 95.94% Overall</span></div></div></div></div>
+
+    <!-- ========== MY PROGRESS VIEW ========== -->
+    <div id="progressView" class="view-pane"><div class="section-card"><div class="card-header"><h3><i class="fas fa-chart-line"></i> Your Progress · PHP 331</h3><span class="pill">Personal dashboard</span></div><div class="progress-individual"><div class="progress-metric"><div class="metric-label">Overall Completion</div><div class="metric-value">96%</div><div class="progress-bar-global"><div class="global-fill" style="width:96%"></div></div></div><div class="split-metrics"><div class="split-item"><span>Assignments done</span><strong>30/31</strong></div><div class="split-item"><span>Quizzes avg</span><strong>94%</strong></div><div class="split-item"><span>Attendance rate</span><strong>93.55%</strong></div></div><div class="motivation-message"><i class="fas fa-rocket"></i> You're in top 1% — Keep pushing!</div></div></div></div>
+
+    <!-- ========== TICKETS VIEW (NEW) ========== -->
+    <div id="ticketsView" class="view-pane">
+      <div class="tickets-main-container">
+        <div class="tickets-header-section">
+          <h1 class="tickets-main-title"><i class="fas fa-ticket-alt"></i> Tickets</h1>
+          <div class="ticket-filters">
+            <button class="filter-btn active-filter" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="pending">Pending</button>
+            <button class="filter-btn" data-filter="open">Open</button>
+            <button class="filter-btn" data-filter="in-progress">In Progress</button>
+            <button class="filter-btn" data-filter="closed">Closed</button>
+          </div>
+        </div>
+
+        <!-- Tickets List Section -->
+        <div class="tickets-list-area" id="ticketsListArea">
+          <div class="no-tickets-message" id="noTicketsMsg">
+            <i class="fas fa-inbox"></i>
+            <h3>No Tickets</h3>
+            <p>You haven't created any support tickets yet.</p>
+          </div>
+          <div id="ticketsDynamicList" class="tickets-dynamic-grid"></div>
+        </div>
+
+        <!-- New Ticket Form -->
+        <div class="new-ticket-card">
+          <h3><i class="fas fa-plus-circle"></i> New Ticket</h3>
+          <div class="form-group">
+            <label>Subject</label>
+            <input type="text" id="ticketSubject" placeholder="e.g., Lecture access issue" class="ticket-input">
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <textarea id="ticketDesc" rows="3" placeholder="Describe your problem in detail..." class="ticket-textarea"></textarea>
+          </div>
+          <button id="sendTicketBtn" class="send-ticket-btn"><i class="fas fa-paper-plane"></i> Send</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== ENROLLED COURSES VIEW (NEW) ========== -->
+    <div id="coursesView" class="view-pane">
+      <div class="enrolled-header">
+        <h2><i class="fas fa-graduation-cap"></i> Enrolled Courses</h2>
+        <p>Your active learning journey</p>
+      </div>
+      <div class="courses-grid-single">
+        <div class="course-master-card">
+          <div class="course-badge-top"><span class="course-status active-status">Active</span><span class="course-mode"><i class="fas fa-globe"></i> Online</span></div>
+          <div class="course-title-section">
+            <h3>PHP 331</h3>
+            <p class="course-sub">BackEnd PHP · Advanced Track</p>
+          </div>
+          <div class="course-stats-mini">
+            <div class="course-stat-item"><span class="stat-number">93.55%</span><span class="stat-label">Attendance Rate</span></div>
+            <div class="course-stat-item"><span class="stat-number">98.33%</span><span class="stat-label">Task Degree Rate</span></div>
+          </div>
+          <div class="course-actions">
+            <button class="course-btn outline-btn"><i class="fas fa-calendar-alt"></i> View Course Plan</button>
+            <button class="course-btn solid-btn"><i class="fas fa-info-circle"></i> View Details</button>
+          </div>
+        </div>
+        <!-- additional demo course to match design richness (optional but stays consistent) -->
+        <div class="course-master-card secondary-card">
+          <div class="course-badge-top"><span class="course-status active-status">Active</span><span class="course-mode"><i class="fas fa-globe"></i> Online</span></div>
+          <div class="course-title-section"><h3>JavaScript Advanced</h3><p class="course-sub">FullStack Integration</p></div>
+          <div class="course-stats-mini"><div class="course-stat-item"><span class="stat-number">87.2%</span><span class="stat-label">Attendance Rate</span></div><div class="course-stat-item"><span class="stat-number">91.5%</span><span class="stat-label">Task Degree</span></div></div>
+          <div class="course-actions"><button class="course-btn outline-btn"><i class="fas fa-calendar-alt"></i> View Plan</button><button class="course-btn solid-btn"><i class="fas fa-info-circle"></i> Details</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== PROFILE VIEW (NEW) ========== -->
+    <div id="profileView" class="view-pane">
+      <div class="profile-container">
+        <div class="profile-cover-card">
+          <div class="profile-avatar-large"><i class="fas fa-user-astronaut"></i></div>
+          <div class="profile-name-title"><h2>John Doe</h2><p>JohnDoe123@gmail.com</p></div>
+        </div>
+        <div class="profile-form-card">
+          <h3><i class="fas fa-user-edit"></i> Personal Data</h3>
+          <div class="form-2col">
+            <div class="input-field"><label>Name</label><input type="text" value="John Doe" class="profile-input"></div>
+            <div class="input-field"><label>Email</label><input type="email" value="JohnDoe123@gmail.com" class="profile-input"></div>
+            <div class="input-field"><label>Phone</label><input type="tel" placeholder="+20 123 456 789" class="profile-input"></div>
+            <div class="input-field"><label>Password</label><input type="password" placeholder="Enter Password" class="profile-input"></div>
+            <div class="input-field"><label>Birthdate</label><input type="date" class="profile-input"></div>
+            <div class="input-field"><label>Country</label><input type="text" placeholder="Egypt" class="profile-input"></div>
+            <div class="input-field"><label>City</label><input type="text" value="Cairo" class="profile-input"></div>
+            <div class="input-field"><label>College</label><input type="text" placeholder="Computer Science" class="profile-input"></div>
+            <div class="input-field"><label>Profession</label><input type="text" value="Student / Graduate" class="profile-input"></div>
+            <div class="input-field"><label>Army Status</label><input type="text" placeholder="Exempted / Completed" class="profile-input"></div>
+          </div>
+          <div class="save-btn-wrap"><button class="save-profile-btn"><i class="fas fa-save"></i> Save</button></div>
+        </div>
+        <div class="profile-social-card"><h3><i class="fas fa-share-alt"></i> Social Links</h3><div class="social-placeholder"><i class="fab fa-github"></i><i class="fab fa-linkedin"></i><i class="fab fa-twitter"></i><span class="add-link">+ Add social link</span></div></div>
+        <div class="profile-skills-card"><h3><i class="fas fa-code"></i> Skills</h3><div class="no-skills"><i class="fas fa-exclamation-circle"></i> No Skills Added Yet</div><button class="add-skill-btn"><i class="fas fa-plus"></i> Add Skill</button></div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+  (function() {
+    // view elements
+    const views = {
+      dashboard: document.getElementById('dashboardView'),
+      rankings: document.getElementById('rankingsView'),
+      lectures: document.getElementById('lecturesView'),
+      stats: document.getElementById('statsView'),
+      progress: document.getElementById('progressView'),
+      tickets: document.getElementById('ticketsView'),
+      courses: document.getElementById('coursesView'),
+      profile: document.getElementById('profileView')
+    };
+    const navItems = document.querySelectorAll('.nav-item');
+    const dynamicTitle = document.getElementById('dynamicPageTitle');
+    const mobileToggle = document.getElementById('mobileToggle');
+    const sidebar = document.getElementById('mainSidebar');
+    
+    function setActiveView(viewId) {
+      Object.values(views).forEach(v => { if(v) v.classList.remove('active-view'); });
+      if(views[viewId]) views[viewId].classList.add('active-view');
+      let titleText = "Dashboard";
+      if(viewId === 'dashboard') titleText = "Dashboard";
+      else if(viewId === 'rankings') titleText = "Round Rank";
+      else if(viewId === 'lectures') titleText = "Lectures";
+      else if(viewId === 'stats') titleText = "Round Stats";
+      else if(viewId === 'progress') titleText = "My Progress";
+      else if(viewId === 'tickets') titleText = "Tickets";
+      else if(viewId === 'courses') titleText = "Enrolled Courses";
+      else if(viewId === 'profile') titleText = "Profile";
+      if(dynamicTitle) dynamicTitle.innerText = titleText;
+      navItems.forEach(item => {
+        item.classList.remove('active');
+        const navVal = item.getAttribute('data-nav');
+        if(navVal === viewId) item.classList.add('active');
+      });
+      if(window.innerWidth <= 880) sidebar.classList.remove('mobile-open');
+    }
+    
+    document.getElementById('navDashboard')?.addEventListener('click', (e) => { e.preventDefault(); setActiveView('dashboard'); });
+    document.getElementById('navRankings')?.addEventListener('click', (e) => { e.preventDefault(); setActiveView('rankings'); });
+    document.getElementById('navLectures')?.addEventListener('click', (e) => { e.preventDefault(); setActiveView('lectures'); });
+    document.getElementById('navStats')?.addEventListener('click', (e) => { e.preventDefault(); setActiveView('stats'); });
+    document.getElementById('navProgress')?.addEventListener('click', (e) => { e.preventDefault(); setActiveView('progress'); });
+    document.getElementById('navTickets')?.addEventListener('click', (e) => { e.preventDefault(); setActiveView('tickets'); renderTickets(); });
+    document.getElementById('navCourses')?.addEventListener('click', (e) => { e.preventDefault(); setActiveView('courses'); });
+    document.getElementById('navProfile')?.addEventListener('click', (e) => { e.preventDefault(); setActiveView('profile'); });
+    if(mobileToggle) mobileToggle.addEventListener('click', () => sidebar.classList.toggle('mobile-open'));
+    document.addEventListener('click', function(e) { if(window.innerWidth <= 880 && !sidebar.contains(e.target) && !mobileToggle.contains(e.target)) sidebar.classList.remove('mobile-open'); });
+    
+    // TICKETS LOGIC (fully functional)
+    let ticketsArray = [];
+    const ticketsListDiv = document.getElementById('ticketsDynamicList');
+    const noTicketsMsgDiv = document.getElementById('noTicketsMsg');
+    function renderTickets(filter = 'all') {
+      let filtered = ticketsArray;
+      if(filter === 'pending') filtered = ticketsArray.filter(t => t.status === 'pending');
+      else if(filter === 'open') filtered = ticketsArray.filter(t => t.status === 'open');
+      else if(filter === 'in-progress') filtered = ticketsArray.filter(t => t.status === 'in-progress');
+      else if(filter === 'closed') filtered = ticketsArray.filter(t => t.status === 'closed');
+      if(filtered.length === 0) { if(noTicketsMsgDiv) noTicketsMsgDiv.style.display = 'flex'; ticketsListDiv.style.display = 'none'; } 
+      else { if(noTicketsMsgDiv) noTicketsMsgDiv.style.display = 'none'; ticketsListDiv.style.display = 'grid'; 
+        ticketsListDiv.innerHTML = filtered.map(ticket => `
+          <div class="ticket-item-card status-${ticket.status}">
+            <div class="ticket-header"><strong>${escapeHtml(ticket.subject)}</strong><span class="ticket-status-badge">${ticket.status.toUpperCase()}</span></div>
+            <div class="ticket-desc">${escapeHtml(ticket.description)}</div>
+            <div class="ticket-footer"><small>${new Date(ticket.date).toLocaleString()}</small><button class="delete-ticket-btn" data-id="${ticket.id}"><i class="fas fa-trash-alt"></i></button></div>
+          </div>`).join('');
+        document.querySelectorAll('.delete-ticket-btn').forEach(btn => { btn.addEventListener('click', (e) => { const id = parseInt(btn.getAttribute('data-id')); ticketsArray = ticketsArray.filter(t => t.id !== id); renderTickets(getActiveFilter()); }); });
+      }
+    }
+    function getActiveFilter() { const active = document.querySelector('.filter-btn.active-filter'); return active ? active.getAttribute('data-filter') : 'all'; }
+    function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, function(m) { if(m === '&') return '&amp;'; if(m === '<') return '&lt;'; if(m === '>') return '&gt;'; return m;}); }
+    window.renderTickets = renderTickets;
+    document.getElementById('sendTicketBtn')?.addEventListener('click', () => {
+      const subject = document.getElementById('ticketSubject')?.value.trim();
+      const desc = document.getElementById('ticketDesc')?.value.trim();
+      if(!subject || !desc) { alert("Please fill both subject and description"); return; }
+      const newTicket = { id: Date.now(), subject, description: desc, status: 'open', date: new Date().toISOString() };
+      ticketsArray.unshift(newTicket);
+      document.getElementById('ticketSubject').value = '';
+      document.getElementById('ticketDesc').value = '';
+      renderTickets(getActiveFilter());
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      filterBtns.forEach(btn => { btn.classList.remove('active-filter'); if(btn.getAttribute('data-filter') === 'all') btn.classList.add('active-filter'); });
+    });
+    document.querySelectorAll('.filter-btn').forEach(btn => { btn.addEventListener('click', function() { document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active-filter')); this.classList.add('active-filter'); renderTickets(this.getAttribute('data-filter')); }); });
+    function initTickets() { if(document.getElementById('ticketsView')) renderTickets('all'); }
+    initTickets();
+    setActiveView('dashboard');
+  })();
+</script>
+</body>
+</html>
