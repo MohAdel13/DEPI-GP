@@ -1,0 +1,12 @@
+D:\Backend\DEPI\Graduation-Project\JustTeack\DEPI-GP\Backend\JustTech\JustTech.Core\bin\Debug\net10.0\JustTech.Core.deps.json
+D:\Backend\DEPI\Graduation-Project\JustTeack\DEPI-GP\Backend\JustTech\JustTech.Core\bin\Debug\net10.0\JustTech.Core.dll
+D:\Backend\DEPI\Graduation-Project\JustTeack\DEPI-GP\Backend\JustTech\JustTech.Core\bin\Debug\net10.0\JustTech.Core.pdb
+D:\Backend\DEPI\Graduation-Project\JustTeack\DEPI-GP\Backend\JustTech\JustTech.Core\obj\Debug\net10.0\JustTech.Core.GeneratedMSBuildEditorConfig.editorconfig
+D:\Backend\DEPI\Graduation-Project\JustTeack\DEPI-GP\Backend\JustTech\JustTech.Core\obj\Debug\net10.0\JustTech.Core.AssemblyInfoInputs.cache
+D:\Backend\DEPI\Graduation-Project\JustTeack\DEPI-GP\Backend\JustTech\JustTech.Core\obj\Debug\net10.0\JustTech.Core.AssemblyInfo.cs
+D:\Backend\DEPI\Graduation-Project\JustTeack\DEPI-GP\Backend\JustTech\JustTech.Core\obj\Debug\net10.0\JustTech.Core.csproj.CoreCompileInputs.cache
+D:\Backend\DEPI\Graduation-Project\JustTeack\DEPI-GP\Backend\JustTech\JustTech.Core\obj\Debug\net10.0\JustTech.Core.sourcelink.json
+D:\Backend\DEPI\Graduation-Project\JustTeack\DEPI-GP\Backend\JustTech\JustTech.Core\obj\Debug\net10.0\JustTech.Core.dll
+D:\Backend\DEPI\Graduation-Project\JustTeack\DEPI-GP\Backend\JustTech\JustTech.Core\obj\Debug\net10.0\refint\JustTech.Core.dll
+D:\Backend\DEPI\Graduation-Project\JustTeack\DEPI-GP\Backend\JustTech\JustTech.Core\obj\Debug\net10.0\JustTech.Core.pdb
+D:\Backend\DEPI\Graduation-Project\JustTeack\DEPI-GP\Backend\JustTech\JustTech.Core\obj\Debug\net10.0\ref\JustTech.Core.dll

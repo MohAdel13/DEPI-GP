@@ -1,0 +1,305 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Backend\\DEPI\\Graduation-Project\\JustTeack\\DEPI-GP\\Backend\\JustTech\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Backend\\DEPI\\Graduation-Project\\JustTeack\\DEPI-GP\\Backend\\JustTech\\JustTech.Infrastructure\\Migrations\\20260423183547_InitialCreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:JustTech.Infrastructure\\Migrations\\20260423183547_InitialCreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7618FC7F-1D3C-F703-8988-C871E259891D}|JustTech.Core\\JustTech.Core.csproj|d:\\backend\\depi\\graduation-project\\justteack\\depi-gp\\backend\\justtech\\justtech.core\\entities\\baseentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7618FC7F-1D3C-F703-8988-C871E259891D}|JustTech.Core\\JustTech.Core.csproj|solutionrelative:justtech.core\\entities\\baseentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7618FC7F-1D3C-F703-8988-C871E259891D}|JustTech.Core\\JustTech.Core.csproj|d:\\backend\\depi\\graduation-project\\justteack\\depi-gp\\backend\\justtech\\justtech.core\\entities\\certificate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7618FC7F-1D3C-F703-8988-C871E259891D}|JustTech.Core\\JustTech.Core.csproj|solutionrelative:justtech.core\\entities\\certificate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7618FC7F-1D3C-F703-8988-C871E259891D}|JustTech.Core\\JustTech.Core.csproj|d:\\backend\\depi\\graduation-project\\justteack\\depi-gp\\backend\\justtech\\justtech.core\\entities\\submission.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7618FC7F-1D3C-F703-8988-C871E259891D}|JustTech.Core\\JustTech.Core.csproj|solutionrelative:justtech.core\\entities\\submission.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7618FC7F-1D3C-F703-8988-C871E259891D}|JustTech.Core\\JustTech.Core.csproj|d:\\backend\\depi\\graduation-project\\justteack\\depi-gp\\backend\\justtech\\justtech.core\\entities\\progress.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7618FC7F-1D3C-F703-8988-C871E259891D}|JustTech.Core\\JustTech.Core.csproj|solutionrelative:justtech.core\\entities\\progress.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7618FC7F-1D3C-F703-8988-C871E259891D}|JustTech.Core\\JustTech.Core.csproj|d:\\backend\\depi\\graduation-project\\justteack\\depi-gp\\backend\\justtech\\justtech.core\\entities\\enrollment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7618FC7F-1D3C-F703-8988-C871E259891D}|JustTech.Core\\JustTech.Core.csproj|solutionrelative:justtech.core\\entities\\enrollment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7618FC7F-1D3C-F703-8988-C871E259891D}|JustTech.Core\\JustTech.Core.csproj|d:\\backend\\depi\\graduation-project\\justteack\\depi-gp\\backend\\justtech\\justtech.core\\entities\\course.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7618FC7F-1D3C-F703-8988-C871E259891D}|JustTech.Core\\JustTech.Core.csproj|solutionrelative:justtech.core\\entities\\course.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7618FC7F-1D3C-F703-8988-C871E259891D}|JustTech.Core\\JustTech.Core.csproj|d:\\backend\\depi\\graduation-project\\justteack\\depi-gp\\backend\\justtech\\justtech.core\\entities\\instructor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7618FC7F-1D3C-F703-8988-C871E259891D}|JustTech.Core\\JustTech.Core.csproj|solutionrelative:justtech.core\\entities\\instructor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7618FC7F-1D3C-F703-8988-C871E259891D}|JustTech.Core\\JustTech.Core.csproj|d:\\backend\\depi\\graduation-project\\justteack\\depi-gp\\backend\\justtech\\justtech.core\\entities\\assignment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7618FC7F-1D3C-F703-8988-C871E259891D}|JustTech.Core\\JustTech.Core.csproj|solutionrelative:justtech.core\\entities\\assignment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7618FC7F-1D3C-F703-8988-C871E259891D}|JustTech.Core\\JustTech.Core.csproj|d:\\backend\\depi\\graduation-project\\justteack\\depi-gp\\backend\\justtech\\justtech.core\\entities\\student.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7618FC7F-1D3C-F703-8988-C871E259891D}|JustTech.Core\\JustTech.Core.csproj|solutionrelative:justtech.core\\entities\\student.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7618FC7F-1D3C-F703-8988-C871E259891D}|JustTech.Core\\JustTech.Core.csproj|d:\\backend\\depi\\graduation-project\\justteack\\depi-gp\\backend\\justtech\\justtech.core\\entities\\round.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7618FC7F-1D3C-F703-8988-C871E259891D}|JustTech.Core\\JustTech.Core.csproj|solutionrelative:justtech.core\\entities\\round.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7618FC7F-1D3C-F703-8988-C871E259891D}|JustTech.Core\\JustTech.Core.csproj|d:\\backend\\depi\\graduation-project\\justteack\\depi-gp\\backend\\justtech\\justtech.core\\entities\\lecture.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7618FC7F-1D3C-F703-8988-C871E259891D}|JustTech.Core\\JustTech.Core.csproj|solutionrelative:justtech.core\\entities\\lecture.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7618FC7F-1D3C-F703-8988-C871E259891D}|JustTech.Core\\JustTech.Core.csproj|d:\\backend\\depi\\graduation-project\\justteack\\depi-gp\\backend\\justtech\\justtech.core\\entities\\material.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7618FC7F-1D3C-F703-8988-C871E259891D}|JustTech.Core\\JustTech.Core.csproj|solutionrelative:justtech.core\\entities\\material.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AEA0C186-F9F9-45A2-7D01-CBDFC89977C4}|JustTech\\JustTech.csproj|d:\\backend\\depi\\graduation-project\\justteack\\depi-gp\\backend\\justtech\\justtech\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AEA0C186-F9F9-45A2-7D01-CBDFC89977C4}|JustTech\\JustTech.csproj|solutionrelative:justtech\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AEA0C186-F9F9-45A2-7D01-CBDFC89977C4}|JustTech\\JustTech.csproj|d:\\backend\\depi\\graduation-project\\justteack\\depi-gp\\backend\\justtech\\justtech\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{AEA0C186-F9F9-45A2-7D01-CBDFC89977C4}|JustTech\\JustTech.csproj|solutionrelative:justtech\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C69BBC6F-6446-85C3-05F2-9B9020DE451C}|JustTech.Infrastructure\\JustTech.Infrastructure.csproj|d:\\backend\\depi\\graduation-project\\justteack\\depi-gp\\backend\\justtech\\justtech.infrastructure\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C69BBC6F-6446-85C3-05F2-9B9020DE451C}|JustTech.Infrastructure\\JustTech.Infrastructure.csproj|solutionrelative:justtech.infrastructure\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "20260423183547_InitialCreate.cs",
+              "DocumentMoniker": "D:\\Backend\\DEPI\\Graduation-Project\\JustTeack\\DEPI-GP\\Backend\\JustTech\\JustTech.Infrastructure\\Migrations\\20260423183547_InitialCreate.cs",
+              "RelativeDocumentMoniker": "JustTech.Infrastructure\\Migrations\\20260423183547_InitialCreate.cs",
+              "ToolTip": "D:\\Backend\\DEPI\\Graduation-Project\\JustTeack\\DEPI-GP\\Backend\\JustTech\\JustTech.Infrastructure\\Migrations\\20260423183547_InitialCreate.cs",
+              "RelativeToolTip": "JustTech.Infrastructure\\Migrations\\20260423183547_InitialCreate.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA4AAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-23T18:35:47.71Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Lecture.cs",
+              "DocumentMoniker": "D:\\Backend\\DEPI\\Graduation-Project\\JustTeack\\DEPI-GP\\Backend\\JustTech\\JustTech.Core\\Entities\\Lecture.cs",
+              "RelativeDocumentMoniker": "JustTech.Core\\Entities\\Lecture.cs",
+              "ToolTip": "D:\\Backend\\DEPI\\Graduation-Project\\JustTeack\\DEPI-GP\\Backend\\JustTech\\JustTech.Core\\Entities\\Lecture.cs",
+              "RelativeToolTip": "JustTech.Core\\Entities\\Lecture.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-22T21:51:52.538Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Round.cs",
+              "DocumentMoniker": "D:\\Backend\\DEPI\\Graduation-Project\\JustTeack\\DEPI-GP\\Backend\\JustTech\\JustTech.Core\\Entities\\Round.cs",
+              "RelativeDocumentMoniker": "JustTech.Core\\Entities\\Round.cs",
+              "ToolTip": "D:\\Backend\\DEPI\\Graduation-Project\\JustTeack\\DEPI-GP\\Backend\\JustTech\\JustTech.Core\\Entities\\Round.cs",
+              "RelativeToolTip": "JustTech.Core\\Entities\\Round.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-22T21:42:14.449Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Student.cs",
+              "DocumentMoniker": "D:\\Backend\\DEPI\\Graduation-Project\\JustTeack\\DEPI-GP\\Backend\\JustTech\\JustTech.Core\\Entities\\Student.cs",
+              "RelativeDocumentMoniker": "JustTech.Core\\Entities\\Student.cs",
+              "ToolTip": "D:\\Backend\\DEPI\\Graduation-Project\\JustTeack\\DEPI-GP\\Backend\\JustTech\\JustTech.Core\\Entities\\Student.cs",
+              "RelativeToolTip": "JustTech.Core\\Entities\\Student.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAA0wAwAAABKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-22T20:57:27.226Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Progress.cs",
+              "DocumentMoniker": "D:\\Backend\\DEPI\\Graduation-Project\\JustTeack\\DEPI-GP\\Backend\\JustTech\\JustTech.Core\\Entities\\Progress.cs",
+              "RelativeDocumentMoniker": "JustTech.Core\\Entities\\Progress.cs",
+              "ToolTip": "D:\\Backend\\DEPI\\Graduation-Project\\JustTeack\\DEPI-GP\\Backend\\JustTech\\JustTech.Core\\Entities\\Progress.cs",
+              "RelativeToolTip": "JustTech.Core\\Entities\\Progress.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-22T21:57:37.071Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Assignment.cs",
+              "DocumentMoniker": "D:\\Backend\\DEPI\\Graduation-Project\\JustTeack\\DEPI-GP\\Backend\\JustTech\\JustTech.Core\\Entities\\Assignment.cs",
+              "RelativeDocumentMoniker": "JustTech.Core\\Entities\\Assignment.cs",
+              "ToolTip": "D:\\Backend\\DEPI\\Graduation-Project\\JustTeack\\DEPI-GP\\Backend\\JustTech\\JustTech.Core\\Entities\\Assignment.cs",
+              "RelativeToolTip": "JustTech.Core\\Entities\\Assignment.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAsAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-22T22:00:32.373Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "BaseEntity.cs",
+              "DocumentMoniker": "D:\\Backend\\DEPI\\Graduation-Project\\JustTeack\\DEPI-GP\\Backend\\JustTech\\JustTech.Core\\Entities\\BaseEntity.cs",
+              "RelativeDocumentMoniker": "JustTech.Core\\Entities\\BaseEntity.cs",
+              "ToolTip": "D:\\Backend\\DEPI\\Graduation-Project\\JustTeack\\DEPI-GP\\Backend\\JustTech\\JustTech.Core\\Entities\\BaseEntity.cs",
+              "RelativeToolTip": "JustTech.Core\\Entities\\BaseEntity.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-22T22:15:54.742Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Instructor.cs",
+              "DocumentMoniker": "D:\\Backend\\DEPI\\Graduation-Project\\JustTeack\\DEPI-GP\\Backend\\JustTech\\JustTech.Core\\Entities\\Instructor.cs",
+              "RelativeDocumentMoniker": "JustTech.Core\\Entities\\Instructor.cs",
+              "ToolTip": "D:\\Backend\\DEPI\\Graduation-Project\\JustTeack\\DEPI-GP\\Backend\\JustTech\\JustTech.Core\\Entities\\Instructor.cs",
+              "RelativeToolTip": "JustTech.Core\\Entities\\Instructor.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA4AAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-22T21:34:48.466Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Course.cs",
+              "DocumentMoniker": "D:\\Backend\\DEPI\\Graduation-Project\\JustTeack\\DEPI-GP\\Backend\\JustTech\\JustTech.Core\\Entities\\Course.cs",
+              "RelativeDocumentMoniker": "JustTech.Core\\Entities\\Course.cs",
+              "ToolTip": "D:\\Backend\\DEPI\\Graduation-Project\\JustTeack\\DEPI-GP\\Backend\\JustTech\\JustTech.Core\\Entities\\Course.cs",
+              "RelativeToolTip": "JustTech.Core\\Entities\\Course.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-22T21:39:20.206Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Enrollment.cs",
+              "DocumentMoniker": "D:\\Backend\\DEPI\\Graduation-Project\\JustTeack\\DEPI-GP\\Backend\\JustTech\\JustTech.Core\\Entities\\Enrollment.cs",
+              "RelativeDocumentMoniker": "JustTech.Core\\Entities\\Enrollment.cs",
+              "ToolTip": "D:\\Backend\\DEPI\\Graduation-Project\\JustTeack\\DEPI-GP\\Backend\\JustTech\\JustTech.Core\\Entities\\Enrollment.cs",
+              "RelativeToolTip": "JustTech.Core\\Entities\\Enrollment.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-22T21:49:07.488Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Submission.cs",
+              "DocumentMoniker": "D:\\Backend\\DEPI\\Graduation-Project\\JustTeack\\DEPI-GP\\Backend\\JustTech\\JustTech.Core\\Entities\\Submission.cs",
+              "RelativeDocumentMoniker": "JustTech.Core\\Entities\\Submission.cs",
+              "ToolTip": "D:\\Backend\\DEPI\\Graduation-Project\\JustTeack\\DEPI-GP\\Backend\\JustTech\\JustTech.Core\\Entities\\Submission.cs",
+              "RelativeToolTip": "JustTech.Core\\Entities\\Submission.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAA1wAsAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-22T22:04:02.495Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Certificate.cs",
+              "DocumentMoniker": "D:\\Backend\\DEPI\\Graduation-Project\\JustTeack\\DEPI-GP\\Backend\\JustTech\\JustTech.Core\\Entities\\Certificate.cs",
+              "RelativeDocumentMoniker": "JustTech.Core\\Entities\\Certificate.cs",
+              "ToolTip": "D:\\Backend\\DEPI\\Graduation-Project\\JustTeack\\DEPI-GP\\Backend\\JustTech\\JustTech.Core\\Entities\\Certificate.cs",
+              "RelativeToolTip": "JustTech.Core\\Entities\\Certificate.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-22T22:13:20.776Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Material.cs",
+              "DocumentMoniker": "D:\\Backend\\DEPI\\Graduation-Project\\JustTeack\\DEPI-GP\\Backend\\JustTech\\JustTech.Core\\Entities\\Material.cs",
+              "RelativeDocumentMoniker": "JustTech.Core\\Entities\\Material.cs",
+              "ToolTip": "D:\\Backend\\DEPI\\Graduation-Project\\JustTeack\\DEPI-GP\\Backend\\JustTech\\JustTech.Core\\Entities\\Material.cs",
+              "RelativeToolTip": "JustTech.Core\\Entities\\Material.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-22T21:55:47.342Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "AppDbContext.cs",
+              "DocumentMoniker": "D:\\Backend\\DEPI\\Graduation-Project\\JustTeack\\DEPI-GP\\Backend\\JustTech\\JustTech.Infrastructure\\Data\\AppDbContext.cs",
+              "RelativeDocumentMoniker": "JustTech.Infrastructure\\Data\\AppDbContext.cs",
+              "ToolTip": "D:\\Backend\\DEPI\\Graduation-Project\\JustTeack\\DEPI-GP\\Backend\\JustTech\\JustTech.Infrastructure\\Data\\AppDbContext.cs",
+              "RelativeToolTip": "JustTech.Infrastructure\\Data\\AppDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-22T22:52:09.821Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\Backend\\DEPI\\Graduation-Project\\JustTeack\\DEPI-GP\\Backend\\JustTech\\JustTech\\appsettings.json",
+              "RelativeDocumentMoniker": "JustTech\\appsettings.json",
+              "ToolTip": "D:\\Backend\\DEPI\\Graduation-Project\\JustTeack\\DEPI-GP\\Backend\\JustTech\\JustTech\\appsettings.json",
+              "RelativeToolTip": "JustTech\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-04-22T23:07:14.642Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Backend\\DEPI\\Graduation-Project\\JustTeack\\DEPI-GP\\Backend\\JustTech\\JustTech\\Program.cs",
+              "RelativeDocumentMoniker": "JustTech\\Program.cs",
+              "ToolTip": "D:\\Backend\\DEPI\\Graduation-Project\\JustTeack\\DEPI-GP\\Backend\\JustTech\\JustTech\\Program.cs",
+              "RelativeToolTip": "JustTech\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAABVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-22T23:10:53.931Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Business Logic/JustTech.Business.csproj" />
+  <Project Path="JustTech.Core/JustTech.Core.csproj" />
+  <Project Path="JustTech.Infrastructure/JustTech.Infrastructure.csproj" />
+  <Project Path="JustTech/JustTech.csproj" />
+</Solution>
