@@ -1,4 +1,9 @@
+using Business.Logic.Services;
+using JustTech.Business.MappingProfiles;
+using JustTech.Business.Services;
+using JustTech.Core.Interfaces;
 using JustTech.Infrastructure.Data;
+using JustTech.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,8 +11,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-//builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -15,13 +18,21 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString")));
 
+// Register Repositories
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<ICourseRepository,CourseRepository>();
+
+// Register UnitOfWork
+builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
+
+// Register Services
+builder.Services.AddScoped<ICourseService,CourseService>();
+
+// AutoMapper
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment())
-//{
-//    app.MapOpenApi();
-//}
+
 
 app.UseSwagger();
 app.UseSwaggerUI();

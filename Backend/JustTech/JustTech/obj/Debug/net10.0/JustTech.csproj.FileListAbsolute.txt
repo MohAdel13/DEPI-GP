@@ -167,3 +167,4 @@ D:\Backend\DEPI\Graduation-Project\JustTeack\DEPI-GP\Backend\JustTech\JustTech\b
 D:\Backend\DEPI\Graduation-Project\JustTeack\DEPI-GP\Backend\JustTech\JustTech\bin\Debug\net10.0\tr\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
 D:\Backend\DEPI\Graduation-Project\JustTeack\DEPI-GP\Backend\JustTech\JustTech\bin\Debug\net10.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
 D:\Backend\DEPI\Graduation-Project\JustTeack\DEPI-GP\Backend\JustTech\JustTech\bin\Debug\net10.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+D:\Backend\DEPI\Graduation-Project\JustTeack\DEPI-GP\Backend\JustTech\JustTech\bin\Debug\net10.0\AutoMapper.dll

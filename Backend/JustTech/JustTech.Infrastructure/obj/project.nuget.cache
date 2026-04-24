@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "W+flC8Hr5i8=",
+  "dgSpecHash": "U02JgTvVJtQ=",
   "success": true,
   "projectFilePath": "D:\\Backend\\DEPI\\Graduation-Project\\JustTeack\\DEPI-GP\\Backend\\JustTech\\JustTech.Infrastructure\\JustTech.Infrastructure.csproj",
   "expectedPackageFiles": [
@@ -62,5 +62,15 @@
     "C:\\Users\\abdul\\.nuget\\packages\\system.security.cryptography.pkcs\\9.0.4\\system.security.cryptography.pkcs.9.0.4.nupkg.sha512",
     "C:\\Users\\abdul\\.nuget\\packages\\system.security.cryptography.protecteddata\\9.0.4\\system.security.cryptography.protecteddata.9.0.4.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1900",
+      "level": "Warning",
+      "message": "Error occurred while getting package vulnerability data: Unable to load the service index for source https://api.nuget.org/v3/index.json.",
+      "projectPath": "D:\\Backend\\DEPI\\Graduation-Project\\JustTeack\\DEPI-GP\\Backend\\JustTech\\JustTech.Infrastructure\\JustTech.Infrastructure.csproj",
+      "warningLevel": 1,
+      "filePath": "D:\\Backend\\DEPI\\Graduation-Project\\JustTeack\\DEPI-GP\\Backend\\JustTech\\JustTech.Infrastructure\\JustTech.Infrastructure.csproj",
+      "targetGraphs": []
+    }
+  ]
 }

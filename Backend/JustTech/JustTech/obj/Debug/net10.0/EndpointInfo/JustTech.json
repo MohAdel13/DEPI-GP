@@ -5,41 +5,127 @@
     "version": "1.0"
   },
   "paths": {
-    "/WeatherForecast": {
+    "/api/Courses": {
       "get": {
         "tags": [
-          "WeatherForecast"
+          "Courses"
         ],
-        "operationId": "GetWeatherForecast",
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WeatherForecast"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WeatherForecast"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WeatherForecast"
-                  }
-                }
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Courses"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCourseDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCourseDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCourseDto"
               }
             }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Courses/{id}": {
+      "get": {
+        "tags": [
+          "Courses"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Courses"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCourseDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCourseDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCourseDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Courses"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -47,23 +133,36 @@
   },
   "components": {
     "schemas": {
-      "WeatherForecast": {
+      "CreateCourseDto": {
         "type": "object",
         "properties": {
-          "date": {
+          "name": {
             "type": "string",
-            "format": "date"
+            "nullable": true
           },
-          "temperatureC": {
-            "type": "integer",
-            "format": "int32"
+          "description": {
+            "type": "string",
+            "nullable": true
           },
-          "temperatureF": {
-            "type": "integer",
-            "format": "int32",
-            "readOnly": true
+          "coursePlan": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateCourseDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
           },
-          "summary": {
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "coursePlan": {
             "type": "string",
             "nullable": true
           }
@@ -74,7 +173,7 @@
   },
   "tags": [
     {
-      "name": "WeatherForecast"
+      "name": "Courses"
     }
   ]
 }

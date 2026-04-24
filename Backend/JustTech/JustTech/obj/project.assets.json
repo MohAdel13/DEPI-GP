@@ -2,6 +2,19 @@
   "version": 3,
   "targets": {
     "net10.0": {
+      "AutoMapper/13.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/AutoMapper.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/AutoMapper.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Azure.Core/1.47.1": {
         "type": "package",
         "dependencies": {
@@ -1139,6 +1152,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
+          "AutoMapper": "13.0.1",
           "JustTech.Core": "1.0.0"
         },
         "compile": {
@@ -1176,6 +1190,21 @@
     }
   },
   "libraries": {
+    "AutoMapper/13.0.1": {
+      "sha512": "/Fx1SbJ16qS7dU4i604Sle+U9VLX+WSNVJggk6MupKVkYvvBm4XqYaeFuf67diHefHKHs50uQIS2YEDFhPCakQ==",
+      "type": "package",
+      "path": "automapper/13.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "automapper.13.0.1.nupkg.sha512",
+        "automapper.nuspec",
+        "icon.png",
+        "lib/net6.0/AutoMapper.dll",
+        "lib/net6.0/AutoMapper.xml"
+      ]
+    },
     "Azure.Core/1.47.1": {
       "sha512": "oPcncSsDHuxB8SC522z47xbp2+ttkcKv2YZ90KXhRKN0YQd2+7l1UURT9EBzUNEXtkLZUOAB5xbByMTrYRh3yA==",
       "type": "package",
@@ -3622,6 +3651,7 @@
       },
       "frameworks": {
         "net10.0": {
+          "framework": "net10.0",
           "targetAlias": "net10.0",
           "projectReferences": {
             "D:\\Backend\\DEPI\\Graduation-Project\\JustTeack\\DEPI-GP\\Backend\\JustTech\\Business Logic\\JustTech.Business.csproj": {
@@ -3650,6 +3680,7 @@
     },
     "frameworks": {
       "net10.0": {
+        "framework": "net10.0",
         "targetAlias": "net10.0",
         "dependencies": {
           "Microsoft.AspNetCore.OpenApi": {
@@ -3690,7 +3721,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.202/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
@@ -4107,5 +4138,17 @@
         }
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1903",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'AutoMapper' 13.0.1 has a known high severity vulnerability, https://github.com/advisories/GHSA-rvv3-g6hj-g44x",
+      "libraryId": "AutoMapper",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    }
+  ]
 }
