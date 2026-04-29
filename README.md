@@ -20,11 +20,12 @@
 
 ## 👥 Team Members (pentaRae)
 
-*To be added soon...*
-
-| Name | Role | GitHub |
-|------|------|--------|
-| TBD | TBD | TBD |
+| Name | Role |
+|------|------|
+| Abdullah Khaled Abou Eissa | Backend Developer |
+| Mohamed Adel | Database Administrator |
+| Mira | Backend Developer |
+| Nardeen | Frontend Developer |
 
 ---
 
@@ -81,3 +82,59 @@ Example KPIs for reference:
 ## 📁 Project Files
 
 *Link to project files will be added here soon...*
+
+---
+
+## 🛠️ Tech Stack
+
+### Backend
+- **Framework**: ASP.NET Core Web API (.NET 10)
+- **Architecture**: Clean Architecture (Core, Business, Infrastructure)
+- **Authentication**: JWT (JSON Web Tokens)
+- **Database**: SQL Server (planned)
+- **ORM**: Entity Framework Core (planned)
+
+### Frontend
+- **Technologies**: HTML5, CSS3, JavaScript (Vanilla)
+- **Responsive Design**: Yes
+
+### Tools & Version Control
+- **Version Control**: Git & GitHub
+- **API Testing**: Swagger/Postman
+
+---
+
+## 📂 Repository Structure
+
+
+JustTech/
+├── Backend/
+│ └── JustTech/
+│ ├── JustTech.Core/ # Entities & Interfaces
+│ ├── Business Logic/ # Services & DTOs
+│ ├── JustTech.Infrastructure/ # Repositories
+│ └── JustTech/ # API Controllers
+├── Frontend/
+│ ├── index.html
+│ ├── login.html
+│ ├── signup.html
+│ ├── style.css
+│ ├── auth.css
+│ └── script.js
+└── README.md
+
+
+
+---
+
+## 🚀 How to Run the Project
+
+### Backend (API)
+1. Open solution in Visual Studio 2022+
+2. Set `JustTech` as startup project
+3. Run `dotnet restore`
+4. Run `dotnet run` or press F5
+
+### Frontend
+1. Open `Frontend/index.html` in any browser
+2. Or use Live Server extension in VS Code
