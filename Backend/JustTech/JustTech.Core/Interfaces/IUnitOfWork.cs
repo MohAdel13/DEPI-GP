@@ -4,6 +4,7 @@
     {
         //gives access to course data operations through a single entry point
         ICourseRepository Courses { get; }
+        IStudentRepository Students { get; }
 
         // commits all pending changes to database in one transaction
         Task<int> SaveChangesAsync();
