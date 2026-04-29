@@ -106,22 +106,23 @@ Example KPIs for reference:
 
 ## 📂 Repository Structure
 
-**Backend (ASP.NET Core API)**
-- `Backend/JustTech/JustTech.Core/` - Entities & Interfaces
-- `Backend/JustTech/Business Logic/` - Services & DTOs
-- `Backend/JustTech/JustTech.Infrastructure/` - Repositories
-- `Backend/JustTech/JustTech/` - API Controllers
-
-**Frontend (Static Files)**
-- `Frontend/index.html` - Home page
-- `Frontend/login.html` - Login page
-- `Frontend/signup.html` - Registration page
-- `Frontend/style.css` - Main styles
-- `Frontend/auth.css` - Authentication styles
-- `Frontend/script.js` - Frontend logic
-
-**Root**
-- `README.md` - Project documentation
+```
+DEPI-GP/
+├── Backend/
+│   └── JustTech/
+│       ├── JustTech.Core/           # Entities & Interfaces
+│       ├── Business Logic/          # Services & DTOs
+│       ├── JustTech.Infrastructure/ # Repositories
+│       └── JustTech/                # API Controllers
+├── Frontend/
+│   ├── index.html
+│   ├── login.html
+│   ├── signup.html
+│   ├── style.css
+│   ├── auth.css
+│   └── script.js
+└── README.md
+```
 
 ---
 
