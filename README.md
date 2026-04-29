@@ -106,24 +106,22 @@ Example KPIs for reference:
 
 ## 📂 Repository Structure
 
+**Backend (ASP.NET Core API)**
+- `Backend/JustTech/JustTech.Core/` - Entities & Interfaces
+- `Backend/JustTech/Business Logic/` - Services & DTOs
+- `Backend/JustTech/JustTech.Infrastructure/` - Repositories
+- `Backend/JustTech/JustTech/` - API Controllers
 
-JustTech/
-├── Backend/
-│ └── JustTech/
-│ ├── JustTech.Core/ # Entities & Interfaces
-│ ├── Business Logic/ # Services & DTOs
-│ ├── JustTech.Infrastructure/ # Repositories
-│ └── JustTech/ # API Controllers
-├── Frontend/
-│ ├── index.html
-│ ├── login.html
-│ ├── signup.html
-│ ├── style.css
-│ ├── auth.css
-│ └── script.js
-└── README.md
+**Frontend (Static Files)**
+- `Frontend/index.html` - Home page
+- `Frontend/login.html` - Login page
+- `Frontend/signup.html` - Registration page
+- `Frontend/style.css` - Main styles
+- `Frontend/auth.css` - Authentication styles
+- `Frontend/script.js` - Frontend logic
 
-
+**Root**
+- `README.md` - Project documentation
 
 ---
 
@@ -138,3 +136,12 @@ JustTech/
 ### Frontend
 1. Open `Frontend/index.html` in any browser
 2. Or use Live Server extension in VS Code
+
+---
+
+## 🔒 Branch Protection Rules (Recommended)
+
+To prevent accidental data loss (like force pushes), the repository owner should enable:
+- Block force pushes on `main` branch
+- Require pull requests before merging
+- Include administrators in all rules
