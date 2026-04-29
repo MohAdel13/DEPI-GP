@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>JustTech</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div class="app-wrapper">
+    <!-- SIDEBAR / NAVIGATION -->
+    <aside class="sidebar" id="mainSidebar">
+      <div class="logo-area">
+        <div class="logo-icon"><i class="fas fa-code"></i></div>
+        <div class="logo-text">
+          <span class="brand-bold">JustTech</span>
+          <span class="brand-light"></span>
+        </div>
+      </div>
+      <nav class="nav-menu">
+        <ul class="nav-list">
+          <li class="nav-item active" data-nav="dashboard"><a href="#" class="nav-link" id="navDashboard"><i
+                class="fa fa-home"></i><span>Home</span></a></li>
+          <li class="nav-item" data-nav="lectures"><a href="#" class="nav-link" id="navLectures"><i
+                class="fas fa-chalkboard-teacher"></i><span>Lectures</span></a></li>
+          <li class="nav-item" data-nav="courses"><a href="#" class="nav-link" id="navCourses"><i
+                class="fas fa-book-open"></i><span>Enrolled Courses</span></a></li>
+          <li class="nav-item" data-nav="progress"><a href="#" class="nav-link" id="navProgress"><i
+                class="fas fa-user-graduate"></i><span>My Progress</span></a></li>
+          <li class="nav-item" data-nav="tickets"><a href="#" class="nav-link" id="navTickets"><i
+                class="fas fa-ticket-alt"></i><span>Tickets</span></a></li>
+          <li class="nav-item" data-nav="profile"><a href="#" class="nav-link" id="navProfile"><i
+                class="fas fa-user-circle"></i><span>Profile</span></a></li>
+        </ul>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="user-mini" id="settingsNav"><i class="fa fa-gear"></i><span>Settings</span></div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="main-content">
+
+      <div class="top-bar">
+        <button class="mobile-menu-toggle" id="mobileToggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        <div class="page-title-area">
+          <h2 id="dynamicPageTitle">Home</h2>
+        </div>
+        <div class="header-actions">
+          <span class="notification-bell"><i class="far fa-bell"></i></span>
+          <div class="avatar-wrapper">
+            <div class="avatar-small"><span>JD</span></div>
+            <div class="avatar-dropdown" id="avatarDropdown">
+              <a href="#" id="settingsBtn"><i class="fas fa-user-cog"></i> Settings</a>
+              <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <!-- ========== DASHBOARD VIEW ========== -->
+      <div id="dashboardView" class="view-pane active-view">
+        <div class="hero-card">
+          <div class="hero-left">
+            <div class="badge-php">PHP Course</div>
+            <h1>Current course: <span class="highlight">BackEnd PHP</span></h1>
+            <div class="student-tagline"><i class="fas fa-trophy"></i> JustTech </div>
+          </div>
+          
+        </div>
+        <div class="stats-grid">
+          
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-calendar-check"></i></div>
+            <div class="stat-info">
+              <h3>Attendance</h3>
+              <div class="stat-value">90%</div>
+              <p>Excellent record</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-tasks"></i></div>
+            <div class="stat-info">
+              <h3>Task Avg</h3>
+              <div class="stat-value">95.16%</div>
+              <p>Consistency</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-star"></i></div>
+            <div class="stat-info">
+              <h3>Avg Score</h3>
+              <div class="stat-value">95.94%</div>
+              <p>+ Bonus 0%</p>
+            </div>
+          </div>
+        </div>
+        <div class="section-card">
+          <div class="card-header">
+            <h3><i class="fas fa-chart-bar"></i> Lectures Degree Progress</h3><span class="pill">Last 11 lectures</span>
+          </div>
+          <div class="bar-chart-container">
+            <div class="chart-bars">
+              <div class="bar-item" data-lecture="Lecture 1" data-value="85">
+                <div class="bar-fill" style="height: 85%;"></div><span>L1</span>
+              </div>
+              <div class="bar-item" data-lecture="Lecture 4" data-value="78">
+                <div class="bar-fill" style="height: 78%;"></div><span>L4</span>
+              </div>
+              <div class="bar-item" data-lecture="Lecture 7" data-value="92">
+                <div class="bar-fill" style="height: 92%;"></div><span>L7</span>
+              </div>
+              <div class="bar-item" data-lecture="Lecture 10" data-value="88">
+                <div class="bar-fill" style="height: 88%;"></div><span>L10</span>
+              </div>
+              <div class="bar-item" data-lecture="Lecture 13" data-value="96">
+                <div class="bar-fill" style="height: 96%;"></div><span>L13</span>
+              </div>
+              <div class="bar-item" data-lecture="Lecture 16" data-value="94">
+                <div class="bar-fill" style="height: 94%;"></div><span>L16</span>
+              </div>
+              <div class="bar-item" data-lecture="Lecture 19" data-value="91">
+                <div class="bar-fill" style="height: 91%;"></div><span>L19</span>
+              </div>
+              <div class="bar-item" data-lecture="Lecture 22" data-value="89">
+                <div class="bar-fill" style="height: 89%;"></div><span>L22</span>
+              </div>
+              <div class="bar-item" data-lecture="Lecture 25" data-value="97">
+                <div class="bar-fill" style="height: 97%;"></div><span>L25</span>
+              </div>
+              <div class="bar-item" data-lecture="Lecture 28" data-value="93">
+                <div class="bar-fill" style="height: 93%;"></div><span>L28</span>
+              </div>
+              <div class="bar-item" data-lecture="Lecture 31" data-value="99">
+                <div class="bar-fill" style="height: 99%;"></div><span>L31</span>
+              </div>
+            </div>
+          </div>
+          <div class="lecture-note"><i class="fas fa-chart-simple"></i> Lecture degree trend: continuous improvement
+          </div>
+        </div>
+      </div>
+
+
+<!-- ========== LECTURES VIEW ========== -->
+<div id="lecturesView" class="view-pane">
+  <div class="section-card">
+    <div class="card-header">
+      <h3><i class="fas fa-book-open"></i> Lectures</h3>
+      <span class="pill">PHP Course · 26 Lectures</span>
+    </div>
+    <div class="lectures-gallery">
+      <!-- Lecture 1 -->
+      <div class="lecture-card">
+        <div class="lecture-icon"><i class="fas fa-play-circle"></i></div>
+        <div class="lecture-number">Lecture 01</div>
+        <div class="lecture-title">Introduction to PHP</div>
+        <div class="lecture-progress">
+          <div class="progress-bar-bg">
+            <div class="progress-fill" style="width:85%"></div>
+          </div>
+          <span class="progress-percent">85%</span>
+        </div>
+      </div>
+      <!-- Lecture 2 -->
+      <div class="lecture-card">
+        <div class="lecture-icon"><i class="fas fa-play-circle"></i></div>
+        <div class="lecture-number">Lecture 02</div>
+        <div class="lecture-title">Variables & Data Types</div>
+        <div class="lecture-progress">
+          <div class="progress-bar-bg">
+            <div class="progress-fill" style="width:70%"></div>
+          </div>
+          <span class="progress-percent">70%</span>
+        </div>
+      </div>
+      <!-- Lecture 3 -->
+      <div class="lecture-card">
+        <div class="lecture-icon"><i class="fas fa-play-circle"></i></div>
+        <div class="lecture-number">Lecture 03</div>
+        <div class="lecture-title">Operators in PHP</div>
+        <div class="lecture-progress">
+          <div class="progress-bar-bg">
+            <div class="progress-fill" style="width:90%"></div>
+          </div>
+          <span class="progress-percent">90%</span>
+        </div>
+      </div>
+      <!-- Lecture 4 -->
+      <div class="lecture-card">
+        <div class="lecture-icon"><i class="fas fa-play-circle"></i></div>
+        <div class="lecture-number">Lecture 04</div>
+        <div class="lecture-title">Conditional Statements</div>
+        <div class="lecture-progress">
+          <div class="progress-bar-bg">
+            <div class="progress-fill" style="width:78%"></div>
+          </div>
+          <span class="progress-percent">78%</span>
+        </div>
+      </div>
+      <!-- Lecture 5 -->
+      <div class="lecture-card">
+        <div class="lecture-icon"><i class="fas fa-play-circle"></i></div>
+        <div class="lecture-number">Lecture 05</div>
+        <div class="lecture-title">Loops (for, while, foreach)</div>
+        <div class="lecture-progress">
+          <div class="progress-bar-bg">
+            <div class="progress-fill" style="width:82%"></div>
+          </div>
+          <span class="progress-percent">82%</span>
+        </div>
+      </div>
+      <!-- Lecture 6 -->
+      <div class="lecture-card">
+        <div class="lecture-icon"><i class="fas fa-play-circle"></i></div>
+        <div class="lecture-number">Lecture 06</div>
+        <div class="lecture-title">Functions in PHP</div>
+        <div class="lecture-progress">
+          <div class="progress-bar-bg">
+            <div class="progress-fill" style="width:65%"></div>
+          </div>
+          <span class="progress-percent">65%</span>
+        </div>
+      </div>
+      <!-- Lecture 7 -->
+      <div class="lecture-card">
+        <div class="lecture-icon"><i class="fas fa-play-circle"></i></div>
+        <div class="lecture-number">Lecture 07</div>
+        <div class="lecture-title">Arrays & Array Functions</div>
+        <div class="lecture-progress">
+          <div class="progress-bar-bg">
+            <div class="progress-fill" style="width:92%"></div>
+          </div>
+          <span class="progress-percent">92%</span>
+        </div>
+      </div>
+      <!-- Lecture 8 -->
+      <div class="lecture-card">
+        <div class="lecture-icon"><i class="fas fa-play-circle"></i></div>
+        <div class="lecture-number">Lecture 08</div>
+        <div class="lecture-title">Superglobals ($_GET, $_POST)</div>
+        <div class="lecture-progress">
+          <div class="progress-bar-bg">
+            <div class="progress-fill" style="width:88%"></div>
+          </div>
+          <span class="progress-percent">88%</span>
+        </div>
+      </div>
+      <!-- Lecture 9 -->
+      <div class="lecture-card">
+        <div class="lecture-icon"><i class="fas fa-play-circle"></i></div>
+        <div class="lecture-number">Lecture 09</div>
+        <div class="lecture-title">Form Handling</div>
+        <div class="lecture-progress">
+          <div class="progress-bar-bg">
+            <div class="progress-fill" style="width:76%"></div>
+          </div>
+          <span class="progress-percent">76%</span>
+        </div>
+      </div>
+      <!-- Lecture 10 -->
+      <div class="lecture-card">
+        <div class="lecture-icon"><i class="fas fa-play-circle"></i></div>
+        <div class="lecture-number">Lecture 10</div>
+        <div class="lecture-title">Cookies & Sessions</div>
+        <div class="lecture-progress">
+          <div class="progress-bar-bg">
+            <div class="progress-fill" style="width:88%"></div>
+          </div>
+          <span class="progress-percent">88%</span>
+        </div>
+      </div>
+      <!-- Lecture 11 -->
+      <div class="lecture-card">
+        <div class="lecture-icon"><i class="fas fa-play-circle"></i></div>
+        <div class="lecture-number">Lecture 11</div>
+        <div class="lecture-title">File Handling</div>
+        <div class="lecture-progress">
+          <div class="progress-bar-bg">
+            <div class="progress-fill" style="width:60%"></div>
+          </div>
+          <span class="progress-percent">60%</span>
+        </div>
+      </div>
+      <!-- Lecture 12 -->
+      <div class="lecture-card">
+        <div class="lecture-icon"><i class="fas fa-play-circle"></i></div>
+        <div class="lecture-number">Lecture 12</div>
+        <div class="lecture-title">Error Handling</div>
+        <div class="lecture-progress">
+          <div class="progress-bar-bg">
+            <div class="progress-fill" style="width:94%"></div>
+          </div>
+          <span class="progress-percent">94%</span>
+        </div>
+      </div>
+      <!-- Lecture 13 -->
+      <div class="lecture-card">
+        <div class="lecture-icon"><i class="fas fa-play-circle"></i></div>
+        <div class="lecture-number">Lecture 13</div>
+        <div class="lecture-title">OOP Basics</div>
+        <div class="lecture-progress">
+          <div class="progress-bar-bg">
+            <div class="progress-fill" style="width:96%"></div>
+          </div>
+          <span class="progress-percent">96%</span>
+        </div>
+      </div>
+      <!-- Lecture 14 -->
+      <div class="lecture-card">
+        <div class="lecture-icon"><i class="fas fa-play-circle"></i></div>
+        <div class="lecture-number">Lecture 14</div>
+        <div class="lecture-title">Classes & Objects</div>
+        <div class="lecture-progress">
+          <div class="progress-bar-bg">
+            <div class="progress-fill" style="width:84%"></div>
+          </div>
+          <span class="progress-percent">84%</span>
+        </div>
+      </div>
+      <!-- Lecture 15 -->
+      <div class="lecture-card">
+        <div class="lecture-icon"><i class="fas fa-play-circle"></i></div>
+        <div class="lecture-number">Lecture 15</div>
+        <div class="lecture-title">Inheritance & Polymorphism</div>
+        <div class="lecture-progress">
+          <div class="progress-bar-bg">
+            <div class="progress-fill" style="width:79%"></div>
+          </div>
+          <span class="progress-percent">79%</span>
+        </div>
+      </div>
+      <!-- Lecture 16 -->
+      <div class="lecture-card">
+        <div class="lecture-icon"><i class="fas fa-play-circle"></i></div>
+        <div class="lecture-number">Lecture 16</div>
+        <div class="lecture-title">Database Connection (MySQLi)</div>
+        <div class="lecture-progress">
+          <div class="progress-bar-bg">
+            <div class="progress-fill" style="width:94%"></div>
+          </div>
+          <span class="progress-percent">94%</span>
+        </div>
+      </div>
+      <!-- Lecture 17 -->
+      <div class="lecture-card">
+        <div class="lecture-icon"><i class="fas fa-play-circle"></i></div>
+        <div class="lecture-number">Lecture 17</div>
+        <div class="lecture-title">CRUD Operations</div>
+        <div class="lecture-progress">
+          <div class="progress-bar-bg">
+            <div class="progress-fill" style="width:91%"></div>
+          </div>
+          <span class="progress-percent">91%</span>
+        </div>
+      </div>
+      <!-- Lecture 18 -->
+      <div class="lecture-card">
+        <div class="lecture-icon"><i class="fas fa-play-circle"></i></div>
+        <div class="lecture-number">Lecture 18</div>
+        <div class="lecture-title">Prepared Statements</div>
+        <div class="lecture-progress">
+          <div class="progress-bar-bg">
+            <div class="progress-fill" style="width:73%"></div>
+          </div>
+          <span class="progress-percent">73%</span>
+        </div>
+      </div>
+      <!-- Lecture 19 -->
+      <div class="lecture-card">
+        <div class="lecture-icon"><i class="fas fa-play-circle"></i></div>
+        <div class="lecture-number">Lecture 19</div>
+        <div class="lecture-title">PDO Extension</div>
+        <div class="lecture-progress">
+          <div class="progress-bar-bg">
+            <div class="progress-fill" style="width:91%"></div>
+          </div>
+          <span class="progress-percent">91%</span>
+        </div>
+      </div>
+      <!-- Lecture 20 -->
+      <div class="lecture-card">
+        <div class="lecture-icon"><i class="fas fa-play-circle"></i></div>
+        <div class="lecture-number">Lecture 20</div>
+        <div class="lecture-title">Authentication System</div>
+        <div class="lecture-progress">
+          <div class="progress-bar-bg">
+            <div class="progress-fill" style="width:87%"></div>
+          </div>
+          <span class="progress-percent">87%</span>
+        </div>
+      </div>
+      <!-- Lecture 21 -->
+      <div class="lecture-card">
+        <div class="lecture-icon"><i class="fas fa-play-circle"></i></div>
+        <div class="lecture-number">Lecture 21</div>
+        <div class="lecture-title">Password Hashing</div>
+        <div class="lecture-progress">
+          <div class="progress-bar-bg">
+            <div class="progress-fill" style="width:77%"></div>
+          </div>
+          <span class="progress-percent">77%</span>
+        </div>
+      </div>
+      <!-- Lecture 22 -->
+      <div class="lecture-card">
+        <div class="lecture-icon"><i class="fas fa-play-circle"></i></div>
+        <div class="lecture-number">Lecture 22</div>
+        <div class="lecture-title">AJAX with PHP</div>
+        <div class="lecture-progress">
+          <div class="progress-bar-bg">
+            <div class="progress-fill" style="width:89%"></div>
+          </div>
+          <span class="progress-percent">89%</span>
+        </div>
+      </div>
+      <!-- Lecture 23 -->
+      <div class="lecture-card">
+        <div class="lecture-icon"><i class="fas fa-play-circle"></i></div>
+        <div class="lecture-number">Lecture 23</div>
+        <div class="lecture-title">JSON & APIs</div>
+        <div class="lecture-progress">
+          <div class="progress-bar-bg">
+            <div class="progress-fill" style="width:68%"></div>
+          </div>
+          <span class="progress-percent">68%</span>
+        </div>
+      </div>
+      <!-- Lecture 24 -->
+      <div class="lecture-card">
+        <div class="lecture-icon"><i class="fas fa-play-circle"></i></div>
+        <div class="lecture-number">Lecture 24</div>
+        <div class="lecture-title">MVC Pattern</div>
+        <div class="lecture-progress">
+          <div class="progress-bar-bg">
+            <div class="progress-fill" style="width:95%"></div>
+          </div>
+          <span class="progress-percent">95%</span>
+        </div>
+      </div>
+      <!-- Lecture 25 -->
+      <div class="lecture-card">
+        <div class="lecture-icon"><i class="fas fa-play-circle"></i></div>
+        <div class="lecture-number">Lecture 25</div>
+        <div class="lecture-title">Frameworks Overview (Laravel)</div>
+        <div class="lecture-progress">
+          <div class="progress-bar-bg">
+            <div class="progress-fill" style="width:97%"></div>
+          </div>
+          <span class="progress-percent">97%</span>
+        </div>
+      </div>
+  
+      <!-- Lecture 31 -->
+      <div class="lecture-card">
+        <div class="lecture-icon"><i class="fas fa-trophy"></i></div>
+        <div class="lecture-number">Project</div>
+        <div class="lecture-title">Final Project</div>
+        <div class="lecture-progress">
+          <div class="progress-bar-bg">
+            <div class="progress-fill" style="width:99%"></div>
+          </div>
+          <span class="progress-percent">99%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+      <!-- ========== MY PROGRESS & STATS COMBINED ========== -->
+      <div id="progressView" class="view-pane">
+        <!-- My Progress Section -->
+        <div class="section-card">
+          <div class="card-header">
+            <h3><i class="fas fa-chart-line"></i> Your Progress · PHP</h3>
+            <span class="pill">Personal dashboard</span>
+          </div>
+          <div class="progress-individual">
+            <div class="progress-metric">
+              <div class="metric-label">Overall Completion</div>
+              <div class="metric-value">90%</div>
+              <div class="progress-bar-global">
+                <div class="global-fill" style="width:90%"></div>
+              </div>
+            </div>
+            <div class="split-metrics">
+              <div class="split-item"><span>Assignments done</span><strong> 30/31</strong></div>
+              <div class="split-item"><span>Quizzes avg</span><strong> 94%</strong></div>
+              <div class="split-item"><span>Attendance rate</span><strong> 93.55%</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Round Stats Section -->
+        <div class="stats-full-card">
+          <div class="card-header">
+            <h3><i class="fas fa-chart-pie"></i> Round Stats</h3>
+            <span class="pill">Current round</span>
+          </div>
+          <div class="stat-circle-container">
+            <div class="stat-circle-item">
+              <div class="circle-percent">90%</div>
+              <span><i class="fas fa-user-check"></i> Attendance</span>
+            </div>
+            <div class="stat-circle-item">
+              <div class="circle-percent">85%</div>
+              <span><i class="fas fa-file-alt"></i> Task Avg</span>
+            </div>
+            <div class="stat-circle-item">
+              <div class="circle-percent">91.3%</div>
+              <span><i class="fas fa-chart-simple"></i> Avg Score</span>
+            </div>
+
+          </div>
+          <div class="stats-details">
+            <p><i class="fas fa-chart-line"></i> Round consistency: <strong>Excellent performance</strong></p>
+            <div class="stats-badge-group">
+              <span class="badge-stat">🔥 90% Attendance</span>
+              <span class="badge-stat">📊 85% Tasks</span>
+              <span class="badge-stat">🏆 91.3% Overall</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Remove or hide the old statsView div -->
+      <div id="statsView" class="view-pane" style="display:none;"></div>
+
+
+
+
+
+      <!-- ========== TICKETS VIEW ========== -->
+      <div id="ticketsView" class="view-pane">
+        <div class="tickets-main-container">
+          <div class="tickets-header-section">
+            <h1 class="tickets-main-title"><i class="fas fa-ticket-alt"></i> Tickets</h1>
+            <div class="ticket-filters">
+              <button class="filter-btn active-filter" data-filter="all">All</button>
+              <button class="filter-btn" data-filter="pending">Pending</button>
+              <button class="filter-btn" data-filter="open">Open</button>
+              <button class="filter-btn" data-filter="in-progress">In Progress</button>
+              <button class="filter-btn" data-filter="closed">Closed</button>
+            </div>
+          </div>
+
+          <!-- Tickets List Section -->
+          <div class="tickets-list-area" id="ticketsListArea">
+            <div class="no-tickets-message" id="noTicketsMsg">
+              <i class="fas fa-inbox"></i>
+              <h3>No Tickets</h3>
+              <p>You haven't created any support tickets yet.</p>
+            </div>
+            <div id="ticketsDynamicList" class="tickets-dynamic-grid"></div>
+          </div>
+
+          <!-- New Ticket Form -->
+          <div class="new-ticket-card">
+            <h3><i class="fas fa-plus-circle"></i> New Ticket</h3>
+            <div class="form-group">
+              <label>Subject</label>
+              <input type="text" id="ticketSubject" placeholder="e.g., Lecture access issue" class="ticket-input">
+            </div>
+            <div class="form-group">
+              <label>Description</label>
+              <textarea id="ticketDesc" rows="3" placeholder="Describe your problem in detail..."
+                class="ticket-textarea"></textarea>
+            </div>
+            <button id="sendTicketBtn" class="send-ticket-btn"><i class="fas fa-paper-plane"></i> Send</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== ENROLLED COURSES VIEW (NEW) ========== -->
+      <div id="coursesView" class="view-pane">
+        <div class="enrolled-header">
+          <h2><i class="fas fa-graduation-cap"></i> Enrolled Courses</h2>
+          <p>Your active learning journey</p>
+        </div>
+        <div class="courses-grid-single">
+          <div class="course-master-card">
+            <div class="course-badge-top"><span class="course-status active-status">Active</span><span
+                class="course-mode"><i class="fas fa-globe"></i> Online</span></div>
+            <div class="course-title-section">
+              <h3>PHP 331</h3>
+              <p class="course-sub">BackEnd PHP · Advanced Track</p>
+            </div>
+            <div class="course-stats-mini">
+              <div class="course-stat-item"><span class="stat-number">93.55%</span><span class="stat-label">Attendance
+                  Rate</span></div>
+              <div class="course-stat-item"><span class="stat-number">98.33%</span><span class="stat-label">Task Degree
+                  Rate</span></div>
+            </div>
+            <div class="course-actions">
+              <button class="course-btn outline-btn"><i class="fas fa-calendar-alt"></i> View Course Plan</button>
+              <button class="course-btn solid-btn"><i class="fas fa-info-circle"></i> View Details</button>
+            </div>
+          </div>
+          <!-- additional demo course to match design richness (optional but stays consistent) -->
+          <div class="course-master-card secondary-card">
+            <div class="course-badge-top"><span class="course-status active-status">Active</span><span
+                class="course-mode"><i class="fas fa-globe"></i> Online</span></div>
+            <div class="course-title-section">
+              <h3>JavaScript Advanced</h3>
+              <p class="course-sub">FullStack Integration</p>
+            </div>
+            <div class="course-stats-mini">
+              <div class="course-stat-item"><span class="stat-number">87.2%</span><span class="stat-label">Attendance
+                  Rate</span></div>
+              <div class="course-stat-item"><span class="stat-number">91.5%</span><span class="stat-label">Task
+                  Degree</span></div>
+            </div>
+            <div class="course-actions"><button class="course-btn outline-btn"><i class="fas fa-calendar-alt"></i> View
+                Plan</button><button class="course-btn solid-btn"><i class="fas fa-info-circle"></i> Details</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== PROFILE VIEW (NEW) ========== -->
+      <div id="profileView" class="view-pane">
+        <div class="profile-container">
+          <div class="profile-cover-card">
+            <div class="profile-avatar-large"><i class="fas fa-user-astronaut"></i></div>
+            <div class="profile-name-title">
+              <h2>John Doe</h2>
+              <p>JohnDoe123@gmail.com</p>
+            </div>
+          </div>
+          <div class="profile-form-card">
+            <h3><i class="fas fa-user-edit"></i> Personal Data</h3>
+            <div class="form-2col">
+              <div class="input-field"><label>Name</label><input type="text" value="John Doe" class="profile-input">
+              </div>
+              <div class="input-field"><label>Email</label><input type="email" value="JohnDoe123@gmail.com"
+                  class="profile-input"></div>
+              <div class="input-field"><label>Phone</label><input type="tel" placeholder="+20 123 456 789"
+                  class="profile-input"></div>
+              <div class="input-field"><label>Birthdate</label><input type="date" class="profile-input"></div>
+              <div class="input-field"><label>Country</label><input type="text" placeholder="Egypt"
+                  class="profile-input"></div>
+              <div class="input-field"><label>City</label><input type="text" value="Cairo" class="profile-input"></div>
+              <div class="input-field"><label>College</label><input type="text" placeholder="Computer Science"
+                  class="profile-input"></div>
+              <div class="input-field">
+                <label>Profession</label>
+                <select class="profile-input">
+                  <option value="Student">Student</option>
+                  <option value="Graduate">Graduate</option>
+                </select>
+              </div>
+
+            </div>
+            <div class="save-btn-wrap"><button class="save-profile-btn"><i class="fas fa-save"></i> Save</button></div>
+          </div>
+        </div>
+      </div>
+
+
+
+<!-- ========== SETTINGS VIEW ========== -->
+<div id="settingsView" class="view-pane">
+  <div class="settings-container">
+    
+    <!-- Change Email Section -->
+    <div class="settings-card">
+      <h3><i class="fas fa-envelope"></i> Change Email Address</h3>
+      <div class="email-preview">
+        Current email: <strong id="currentEmail">JohnDoe123@gmail.com</strong>
+      </div>
+      <div class="settings-group">
+        <label>New Email Address</label>
+        <input type="email" id="newEmail" class="settings-input" placeholder="Enter new email">
+      </div>
+      <div class="settings-group">
+        <label>Confirm Password</label>
+        <input type="password" id="emailPassword" class="settings-input" placeholder="Enter your password to confirm">
+      </div>
+      <button class="settings-btn" id="updateEmailBtn"><i class="fas fa-save"></i> Update Email</button>
+    </div>
+
+    <!-- Change Password Section -->
+    <div class="settings-card">
+      <h3><i class="fas fa-lock"></i> Change Password</h3>
+      <div class="settings-group">
+        <label>Current Password</label>
+        <input type="password" id="currentPassword" class="settings-input" placeholder="Enter current password">
+      </div>
+      <div class="settings-group">
+        <label>New Password</label>
+        <input type="password" id="newPassword" class="settings-input" placeholder="Enter new password">
+        <div class="password-requirements">Minimum 8 characters, at least 1 letter and 1 number</div>
+      </div>
+      <div class="settings-group">
+        <label>Confirm New Password</label>
+        <input type="password" id="confirmPassword" class="settings-input" placeholder="Confirm new password">
+      </div>
+      <button class="settings-btn" id="updatePasswordBtn"><i class="fas fa-key"></i> Update Password</button>
+    </div>
+
+    <!-- Logout Section (separate, not in danger zone) -->
+    <div class="settings-card">
+      <h3><i class="fas fa-sign-out-alt"></i> Session</h3>
+      <div class="settings-group">
+        <button class="settings-btn" id="logoutSettingsBtn" style="background: #6c5ce7;"><i class="fas fa-sign-out-alt"></i> Logout</button>
+      </div>
+    </div>
+
+    <!-- Danger Zone (Delete Account only) -->
+    <div class="settings-card danger-zone">
+      <h3><i class="fas fa-exclamation-triangle"></i> This process is permanent </h3>
+      <div class="settings-group" style="display: flex; justify-content: flex-end;">
+        <button class="settings-btn danger-btn" id="deleteAccountBtn" style="background: transparent; border: 2px solid #dc2626; color: #dc2626;"><i class="fas fa-trash-alt"></i> Delete Account</button>
+      </div>
+      <div class="warning-text"><i class="fas fa-info-circle"></i> Deleting your account is permanent and cannot be undone.</div>
+    </div>
+    
+  </div>
+</div>
+
+<!-- Delete Account Confirmation Modal -->
+<div id="deleteModal" class="modal">
+  <div class="modal-content">
+    <h4><i class="fas fa-exclamation-triangle" style="color: #dc2626;"></i> Delete Account?</h4>
+    <p>Are you sure you want to delete your account? This action is permanent and all your data will be lost.</p>
+    <div class="modal-buttons">
+      <button class="modal-btn cancel" id="cancelDeleteBtn">Cancel</button>
+      <button class="modal-btn confirm" id="confirmDeleteBtn">Yes, Delete</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+    </main>
+  </div>
+
+
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
