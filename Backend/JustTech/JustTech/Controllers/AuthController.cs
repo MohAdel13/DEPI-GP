@@ -1,7 +1,8 @@
 ﻿using JustTech.Business.Services;
 using JustTech.Core.DTOs;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace JustTech.Controllers
 {
@@ -49,6 +50,28 @@ namespace JustTech.Controllers
             catch (Exception ex)
             {
                 return BadRequest(new { Message = ex.Message });
+            }
+        }
+
+
+        [HttpPost("change-password")]
+        [Authorize]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto changePasswordDto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
+            {
+                // Get student Id
+                var studentId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+
+                var result = await _authService.ChangePasswordAsync(studentId, changePasswordDto);
+                return Ok(new { message = "Password Changed successfully" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
             }
         }
     }

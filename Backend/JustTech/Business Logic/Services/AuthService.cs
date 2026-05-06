@@ -118,5 +118,24 @@ namespace JustTech.Business.Services
                 TokenExpiration = DateTime.UtcNow.AddHours(24)
             };
         }
+
+        public async Task<bool> ChangePasswordAsync(int studentId, ChangePasswordDto changePasswordDto)
+        {
+            var student = await _unitOfWork.Students.GetByIdAsync(studentId);
+            if (student == null)
+                throw new Exception("Student not found");
+
+            // verify current password
+            if (!VerifyPassword(changePasswordDto.CurrentPassword, student.Password))
+                throw new Exception("Current Password is incorrect");
+
+            // Hash new Password
+            student.Password = HashPassword(changePasswordDto.NewPassword);
+
+            _unitOfWork.Students.Update(student);
+            await _unitOfWork.SaveChangesAsync();
+
+            return true;
+        }
     }
 }
