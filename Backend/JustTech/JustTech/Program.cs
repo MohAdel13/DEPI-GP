@@ -54,15 +54,18 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString
 // Register Repositories
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<ICourseRepository,CourseRepository>();
+builder.Services.AddScoped<IRoundRepository, RoundRepository>();
+builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+
 
 // Register UnitOfWork
 builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
 
 // Register Services
 builder.Services.AddScoped<ICourseService,CourseService>();
+builder.Services.AddScoped<IAuthService, AuthService>(); // Add IAuthService registration before var app = builder.Build()
+builder.Services.AddScoped<IRoundService, RoundService>();
 
-// Add IAuthService registration before var app = builder.Build()
-builder.Services.AddScoped<IAuthService, AuthService>();
 
 // AutoMapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

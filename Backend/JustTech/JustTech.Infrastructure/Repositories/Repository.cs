@@ -2,9 +2,6 @@
 using JustTech.Core.Interfaces;
 using JustTech.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace JustTech.Infrastructure.Repositories
 {
@@ -38,7 +35,7 @@ namespace JustTech.Infrastructure.Repositories
         public Task Update(T entity)
         {
             entity.UpdatedAt = DateTime.UtcNow;
-           _dbSet.Update(entity);
+            _dbSet.Update(entity);
             return Task.CompletedTask;
         }
 
@@ -54,8 +51,8 @@ namespace JustTech.Infrastructure.Repositories
             return await _dbSet.AnyAsync(e => e.Id == id && e.DeletedAt == null);
         }
 
-      
 
-       
+
+
     }
 }

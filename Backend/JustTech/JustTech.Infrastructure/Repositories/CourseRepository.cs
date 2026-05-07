@@ -11,12 +11,10 @@ namespace JustTech.Infrastructure.Repositories
 {
     public class CourseRepository : Repository<Course>, ICourseRepository
     {
-        private readonly AppDbContext _context;
+        
 
         public CourseRepository(AppDbContext context) : base (context)
-        {   
-            _context = context;
-        }
+        {}
         public async Task<IEnumerable<Course>> GetAllCoursesAsync()
         {
             return await _context.Courses.Where(c => c.DeletedAt == null).ToListAsync();

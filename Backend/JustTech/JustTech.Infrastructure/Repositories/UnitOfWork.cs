@@ -9,12 +9,15 @@ namespace JustTech.Infrastructure.Repositories
         private readonly AppDbContext _context;
         private ICourseRepository _courseRepository;
         private IStudentRepository _studentRepository;
+        private IRoundRepository _roundRepository;
         public UnitOfWork(AppDbContext context)
         {
             _context = context;
         }
         public ICourseRepository Courses => _courseRepository ??= new CourseRepository(_context);
         public IStudentRepository Students => _studentRepository ??= new StudentRepository(_context);
+
+        public IRoundRepository Rounds => _roundRepository ??= new RoundRepository(_context);
 
         /*
          What => _courseRepository ??= new CourseRepository(_context) does:
