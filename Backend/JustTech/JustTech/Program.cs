@@ -56,7 +56,7 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<ICourseRepository,CourseRepository>();
 builder.Services.AddScoped<IRoundRepository, RoundRepository>();
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
-
+builder.Services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
 
 // Register UnitOfWork
 builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
@@ -65,7 +65,7 @@ builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
 builder.Services.AddScoped<ICourseService,CourseService>();
 builder.Services.AddScoped<IAuthService, AuthService>(); // Add IAuthService registration before var app = builder.Build()
 builder.Services.AddScoped<IRoundService, RoundService>();
-
+builder.Services.AddScoped<IEnrollmentService, EnrollmentService>();
 
 // AutoMapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

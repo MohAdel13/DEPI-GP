@@ -127,6 +127,117 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "JustTech.Controllers.EnrollmentsController",
+    "Method": "GetAll",
+    "RelativePath": "api/Enrollments",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "JustTech.Controllers.EnrollmentsController",
+    "Method": "Enroll",
+    "RelativePath": "api/Enrollments",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createDto",
+        "Type": "JustTech.Core.DTOs.CreateEnrollmentDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "JustTech.Controllers.EnrollmentsController",
+    "Method": "GetById",
+    "RelativePath": "api/Enrollments/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "JustTech.Controllers.EnrollmentsController",
+    "Method": "Delete",
+    "RelativePath": "api/Enrollments/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "JustTech.Controllers.EnrollmentsController",
+    "Method": "UpdateStatus",
+    "RelativePath": "api/Enrollments/{id}/status",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "updateDto",
+        "Type": "JustTech.Core.DTOs.UpdateEnrollmentStatusDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "JustTech.Controllers.EnrollmentsController",
+    "Method": "GetByRoundId",
+    "RelativePath": "api/Enrollments/round/{roundId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "roundId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "JustTech.Controllers.EnrollmentsController",
+    "Method": "GetByStudentId",
+    "RelativePath": "api/Enrollments/student/{studentId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "studentId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "JustTech.Controllers.RoundsController",
     "Method": "GetAll",
     "RelativePath": "api/Rounds",
