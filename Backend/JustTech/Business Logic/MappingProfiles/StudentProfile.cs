@@ -8,8 +8,14 @@ namespace JustTech.Business.MappingProfiles
     {
         public StudentProfile()
         {
+            // Auth Mapping
             CreateMap<StudentRegisterDto, Student>();
             CreateMap<Student, StudentAuthResponseDto>();
+
+            // CRUD mapping
+            CreateMap<Student, StudentDto>();
+            CreateMap<CreateStudentDto, Student>();
+            CreateMap<UpdateStudentDto, Student>();
         }
     }
 }

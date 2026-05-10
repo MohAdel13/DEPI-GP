@@ -10,9 +10,27 @@ namespace JustTech.Infrastructure.Repositories
         public StudentRepository(AppDbContext context) : base(context)
         {
         }
+
         async Task<Student?> IStudentRepository.GetByEmailAsync(string email)
         {
             return await _context.Students.FirstOrDefaultAsync(s => s.Email == email && s.DeletedAt == null);
         }
+        public async Task<IEnumerable<Student>> GetStudentsByStatusAsync(string status)
+        {
+            return await _context.Students
+                .Where(s => s.StudentStatus == status && s.DeletedAt == null)
+                .ToListAsync();
+        }
+
+
+        public async Task<IEnumerable<Student>> GetStudentsByCityAsync(string city)
+        {
+            return await _context.Students
+                .Where(s => s.City == city && s.DeletedAt == null)
+                .ToListAsync();
+        }
+
+       
+        
     }
 }
