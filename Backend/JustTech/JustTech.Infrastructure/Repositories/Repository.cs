@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace JustTech.Infrastructure.Repositories
 {
-    public class Repository<T> : IRepository<T> where T : BaseEntity
+    public class Repository<T> : Core.Interfaces.IRepository<T> where T : BaseEntity
     {
 
         protected readonly AppDbContext _context;

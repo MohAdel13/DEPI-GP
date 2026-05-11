@@ -13,13 +13,13 @@ namespace JustTech.Business.Services
         public EnrollmentService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
-            _mapper = mapper;
+            _mapper = mapper;   
         }
 
         public async Task<IEnumerable<EnrollmentDto>> GetAllAsync()
         {
             var enrollments = await _unitOfWork.Enrollments.GetAllAsync();
-            return _mapper.Map <IEnumerable<EnrollmentDto>>(enrollments);
+            return _mapper.Map<IEnumerable<EnrollmentDto>>(enrollments);
         }
 
         public async Task<EnrollmentDto> GetByIdAsync(int id)

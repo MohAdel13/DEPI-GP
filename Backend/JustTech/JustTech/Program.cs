@@ -52,12 +52,12 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString")));
 
 // Register Repositories
-builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped(typeof(JustTech.Core.Interfaces.IRepository<>), typeof(JustTech.Infrastructure.Repositories.Repository<>));
 builder.Services.AddScoped<ICourseRepository,CourseRepository>();
 builder.Services.AddScoped<IRoundRepository, RoundRepository>();
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
-
+builder.Services.AddScoped<IInstructorRepository, InstructorRepository>();
 
 // Register UnitOfWork
 builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
@@ -68,6 +68,7 @@ builder.Services.AddScoped<IAuthService, AuthService>(); // Add IAuthService reg
 builder.Services.AddScoped<IRoundService, RoundService>();
 builder.Services.AddScoped<IEnrollmentService, EnrollmentService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.AddScoped<IInstructorService, InstructorService>();
 // AutoMapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 var app = builder.Build();
