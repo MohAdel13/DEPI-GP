@@ -13,6 +13,7 @@ namespace JustTech.Infrastructure.Repositories
         private IEnrollmentRepository _enrollmentRepository;
         private IInstructorRepository _instructorRepository;
         private ILectureRepository _lectureRepository;
+        private IMaterialRepository _materialRepository;
         public UnitOfWork(AppDbContext context)
         {
             _context = context;
@@ -25,6 +26,7 @@ namespace JustTech.Infrastructure.Repositories
         public IInstructorRepository Instructors => _instructorRepository ??= new InstructorRepository(_context);
 
         public ILectureRepository Lectures => _lectureRepository ??= new LectureRepository(_context);
+        public IMaterialRepository Materials =>  _materialRepository ??= new MaterialRepository(_context);
 
         /*
          What => _courseRepository ??= new CourseRepository(_context) does:

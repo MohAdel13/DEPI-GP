@@ -9,6 +9,7 @@
         IEnrollmentRepository Enrollments { get; }
         IInstructorRepository Instructors { get; }
         ILectureRepository Lectures { get; }
+        IMaterialRepository Materials { get; }
 
         // commits all pending changes to database in one transaction
         Task<int> SaveChangesAsync();
