@@ -1635,6 +1635,251 @@
           }
         }
       }
+    },
+    "/api/Submissions": {
+      "get": {
+        "tags": [
+          "Submissions"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Submissions"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSubmissionDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSubmissionDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSubmissionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Submissions/{id}": {
+      "get": {
+        "tags": [
+          "Submissions"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Submissions"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSubmissionDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSubmissionDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSubmissionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Submissions"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Submissions/assignment/{assignmentId}": {
+      "get": {
+        "tags": [
+          "Submissions"
+        ],
+        "parameters": [
+          {
+            "name": "assignmentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Submissions/student/{studentId}": {
+      "get": {
+        "tags": [
+          "Submissions"
+        ],
+        "parameters": [
+          {
+            "name": "studentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Submissions/assignment/{assignmentId}/student/{studentId}": {
+      "get": {
+        "tags": [
+          "Submissions"
+        ],
+        "parameters": [
+          {
+            "name": "assignmentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "studentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Submissions/{id}/grade": {
+      "patch": {
+        "tags": [
+          "Submissions"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GradeSubmissionDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GradeSubmissionDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/GradeSubmissionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1881,6 +2126,34 @@
             "type": "string",
             "format": "date-time",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateSubmissionDto": {
+        "type": "object",
+        "properties": {
+          "assignmentId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "studentId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "answerUrl": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GradeSubmissionDto": {
+        "type": "object",
+        "properties": {
+          "grade": {
+            "type": "number",
+            "format": "double"
           }
         },
         "additionalProperties": false
@@ -2140,6 +2413,16 @@
         },
         "additionalProperties": false
       },
+      "UpdateSubmissionDto": {
+        "type": "object",
+        "properties": {
+          "answerUrl": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "WatchLectureDto": {
         "type": "object",
         "properties": {
@@ -2186,6 +2469,9 @@
     },
     {
       "name": "Students"
+    },
+    {
+      "name": "Submissions"
     }
   ]
 }

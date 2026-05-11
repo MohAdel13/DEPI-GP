@@ -62,7 +62,7 @@ builder.Services.AddScoped<ILectureRepository, LectureRepository>();
 builder.Services.AddScoped<IMaterialRepository, MaterialRepository>();
 builder.Services.AddScoped<IProgressRepository, ProgressRepository>();
 builder.Services.AddScoped<IAssignmentRepository, AssignmentRepository>();
-
+builder.Services.AddScoped<ISubmissionRepository, SubmissionRepository>();
 
 
 // Register UnitOfWork
@@ -79,6 +79,7 @@ builder.Services.AddScoped<ILectureService, LectureService>();
 builder.Services.AddScoped<IMaterialService, MaterialService>();
 builder.Services.AddScoped<IProgressService, ProgressService>();
 builder.Services.AddScoped<IAssignmentService, AssignmentService>();
+builder.Services.AddScoped<ISubmissionService, SubmissionService>();
 
 // AutoMapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

@@ -12,6 +12,7 @@
         IMaterialRepository Materials { get; }
         IProgressRepository Progresses { get; }
         IAssignmentRepository Assignments { get; }
+        ISubmissionRepository Submissions { get; }
 
         // commits all pending changes to database in one transaction
         Task<int> SaveChangesAsync();

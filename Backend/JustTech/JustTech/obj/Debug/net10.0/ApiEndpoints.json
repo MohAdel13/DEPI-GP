@@ -1039,5 +1039,158 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "JustTech.Controllers.SubmissionsController",
+    "Method": "GetAll",
+    "RelativePath": "api/Submissions",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "JustTech.Controllers.SubmissionsController",
+    "Method": "CreateOrUpdate",
+    "RelativePath": "api/Submissions",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createDto",
+        "Type": "JustTech.Core.DTOs.CreateSubmissionDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "JustTech.Controllers.SubmissionsController",
+    "Method": "GetById",
+    "RelativePath": "api/Submissions/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "JustTech.Controllers.SubmissionsController",
+    "Method": "Update",
+    "RelativePath": "api/Submissions/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "updateDto",
+        "Type": "JustTech.Core.DTOs.UpdateSubmissionDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "JustTech.Controllers.SubmissionsController",
+    "Method": "Delete",
+    "RelativePath": "api/Submissions/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "JustTech.Controllers.SubmissionsController",
+    "Method": "Grade",
+    "RelativePath": "api/Submissions/{id}/grade",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "gradeDto",
+        "Type": "JustTech.Core.DTOs.GradeSubmissionDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "JustTech.Controllers.SubmissionsController",
+    "Method": "GetByAssignmentId",
+    "RelativePath": "api/Submissions/assignment/{assignmentId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "assignmentId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "JustTech.Controllers.SubmissionsController",
+    "Method": "GetByAssignmentAndStudent",
+    "RelativePath": "api/Submissions/assignment/{assignmentId}/student/{studentId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "assignmentId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "studentId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "JustTech.Controllers.SubmissionsController",
+    "Method": "GetByStudentId",
+    "RelativePath": "api/Submissions/student/{studentId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "studentId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]
