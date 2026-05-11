@@ -19,6 +19,7 @@ namespace JustTech.Infrastructure.Data
         public DbSet<Assignment> Assignments { get; set; }
         public DbSet<Submission> Submissions { get; set; }
         public DbSet<Certificate> Certificates { get; set; }
+        public object Progress { get; internal set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
