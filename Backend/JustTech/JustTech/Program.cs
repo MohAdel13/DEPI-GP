@@ -1,5 +1,4 @@
 using Business.Logic.Services;
-using JustTech.Business.MappingProfiles;
 using JustTech.Business.Services;
 using JustTech.Core.Interfaces;
 using JustTech.Infrastructure.Data;
@@ -53,7 +52,7 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString
 
 // Register Repositories
 builder.Services.AddScoped(typeof(JustTech.Core.Interfaces.IRepository<>), typeof(JustTech.Infrastructure.Repositories.Repository<>));
-builder.Services.AddScoped<ICourseRepository,CourseRepository>();
+builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<IRoundRepository, RoundRepository>();
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
@@ -63,13 +62,14 @@ builder.Services.AddScoped<IMaterialRepository, MaterialRepository>();
 builder.Services.AddScoped<IProgressRepository, ProgressRepository>();
 builder.Services.AddScoped<IAssignmentRepository, AssignmentRepository>();
 builder.Services.AddScoped<ISubmissionRepository, SubmissionRepository>();
+builder.Services.AddScoped<ICertificateRepository, CertificateRepository>();
 
 
 // Register UnitOfWork
-builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 // Register Services
-builder.Services.AddScoped<ICourseService,CourseService>();
+builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<IAuthService, AuthService>(); // Add IAuthService registration before var app = builder.Build()
 builder.Services.AddScoped<IRoundService, RoundService>();
 builder.Services.AddScoped<IEnrollmentService, EnrollmentService>();
@@ -80,6 +80,8 @@ builder.Services.AddScoped<IMaterialService, MaterialService>();
 builder.Services.AddScoped<IProgressService, ProgressService>();
 builder.Services.AddScoped<IAssignmentService, AssignmentService>();
 builder.Services.AddScoped<ISubmissionService, SubmissionService>();
+builder.Services.AddScoped<ICertificateService, CertificateService>();
+
 
 // AutoMapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
