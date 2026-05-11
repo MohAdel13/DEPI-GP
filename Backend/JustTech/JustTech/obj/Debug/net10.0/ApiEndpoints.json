@@ -1,5 +1,100 @@
 [
   {
+    "ContainingType": "JustTech.Controllers.AssignmentsController",
+    "Method": "GetAll",
+    "RelativePath": "api/Assignments",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "JustTech.Controllers.AssignmentsController",
+    "Method": "Create",
+    "RelativePath": "api/Assignments",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createDto",
+        "Type": "JustTech.Core.DTOs.CreateAssignmentDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "JustTech.Controllers.AssignmentsController",
+    "Method": "GetById",
+    "RelativePath": "api/Assignments/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "JustTech.Controllers.AssignmentsController",
+    "Method": "Update",
+    "RelativePath": "api/Assignments/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "updateDto",
+        "Type": "JustTech.Core.DTOs.UpdateAssignmentDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "JustTech.Controllers.AssignmentsController",
+    "Method": "Delete",
+    "RelativePath": "api/Assignments/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "JustTech.Controllers.AssignmentsController",
+    "Method": "GetByRoundId",
+    "RelativePath": "api/Assignments/round/{roundId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "roundId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "JustTech.Controllers.AuthController",
     "Method": "ChangePassword",
     "RelativePath": "api/Auth/change-password",
