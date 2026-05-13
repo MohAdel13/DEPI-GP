@@ -21,22 +21,16 @@ namespace JustTech.Business.Services
             return _mapper.Map<IEnumerable<ProgressDto>>(progresses);
         }
 
-        public async Task<ProgressDto> GetByIdAsync(int id)
+        public async Task<ProgressDto?> GetByIdAsync(int id)
         {
             var progress = await _unitOfWork.Progresses.GetByIdAsync(id);
-            if (progress == null)
-                throw new Exception($"Progress with ID {id} not found");
-
-            return _mapper.Map<ProgressDto>(progress);
+            return progress == null ? null : _mapper.Map<ProgressDto>(progress);
         }
 
-        public async Task<ProgressDto> GetProgressByStudentAndLectureAsync(int studentId, int lectureId)
+        public async Task<ProgressDto?> GetProgressByStudentAndLectureAsync(int studentId, int lectureId)
         {
             var progress = await _unitOfWork.Progresses.GetProgressByStudentAndLectureAsync(studentId, lectureId);
-            if (progress == null)
-                throw new Exception($"Progress not found for Student {studentId} and Lecture {lectureId}");
-
-            return _mapper.Map<ProgressDto>(progress);
+            return progress == null ? null : _mapper.Map<ProgressDto>(progress);
         }
 
         public async Task<IEnumerable<ProgressDto>> GetProgressByStudentIdAsync(int studentId)
@@ -51,31 +45,26 @@ namespace JustTech.Business.Services
             return _mapper.Map<IEnumerable<ProgressDto>>(progresses);
         }
 
-        public async Task<ProgressDto> CreateOrUpdateProgressAsync(CreateProgressDto createDto)
+        public async Task<ProgressDto?> CreateOrUpdateProgressAsync(CreateProgressDto createDto)
         {
-            // Check if student exists
             var student = await _unitOfWork.Students.GetByIdAsync(createDto.StudentId);
             if (student == null)
-                throw new Exception($"Student with ID {createDto.StudentId} not found");
+                return null;
 
-            // Check if lecture exists
             var lecture = await _unitOfWork.Lectures.GetByIdAsync(createDto.LectureId);
             if (lecture == null)
-                throw new Exception($"Lecture with ID {createDto.LectureId} not found");
+                return null;
 
-            // Check if progress already exists
             var existingProgress = await _unitOfWork.Progresses.GetProgressByStudentAndLectureAsync(createDto.StudentId, createDto.LectureId);
 
             if (existingProgress != null)
-            { // Update last watched timestamp
+            {
                 existingProgress.LastWatchedAt = DateTime.UtcNow;
                 _unitOfWork.Progresses.Update(existingProgress);
                 await _unitOfWork.SaveChangesAsync();
-
                 return _mapper.Map<ProgressDto>(existingProgress);
             }
 
-            // Create new progress
             var progress = new JustTech.Core.Entities.Progress
             {
                 StudentId = createDto.StudentId,
@@ -83,19 +72,27 @@ namespace JustTech.Business.Services
                 IsCompleted = false,
                 LastWatchedAt = DateTime.UtcNow
             };
+
             var created = await _unitOfWork.Progresses.AddAsync(progress);
             await _unitOfWork.SaveChangesAsync();
 
             return _mapper.Map<ProgressDto>(created);
         }
 
-        public async Task<ProgressDto> MarkLectureCompletedAsync(int studentId, int lectureId)
+        public async Task<ProgressDto?> MarkLectureCompletedAsync(int studentId, int lectureId)
         {
+            var student = await _unitOfWork.Students.GetByIdAsync(studentId);
+            if (student == null)
+                return null;
+
+            var lecture = await _unitOfWork.Lectures.GetByIdAsync(lectureId);
+            if (lecture == null)
+                return null;
+
             var progress = await _unitOfWork.Progresses.GetProgressByStudentAndLectureAsync(studentId, lectureId);
 
             if (progress == null)
             {
-                // Create new progress with completed status
                 progress = new JustTech.Core.Entities.Progress
                 {
                     StudentId = studentId,
@@ -108,7 +105,7 @@ namespace JustTech.Business.Services
                 await _unitOfWork.SaveChangesAsync();
                 return _mapper.Map<ProgressDto>(created);
             }
-            // Update existing progress
+
             progress.IsCompleted = true;
             progress.CompletedAt = DateTime.UtcNow;
             progress.LastWatchedAt = DateTime.UtcNow;
@@ -117,11 +114,11 @@ namespace JustTech.Business.Services
 
             return _mapper.Map<ProgressDto>(progress);
         }
-        public async Task<ProgressDto> UpdateProgressAsync(int id, UpdateProgressDto updateDto)
+        public async Task<ProgressDto?> UpdateProgressAsync(int id, UpdateProgressDto updateDto)
         {
             var progress = await _unitOfWork.Progresses.GetByIdAsync(id);
             if (progress == null)
-                throw new Exception($"Progress with ID {id} not found");
+                return null;
 
             progress.IsCompleted = updateDto.IsCompleted;
             if (updateDto.IsCompleted)
@@ -132,14 +129,15 @@ namespace JustTech.Business.Services
 
             return _mapper.Map<ProgressDto>(progress);
         }
-        public async Task DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
             var progress = await _unitOfWork.Progresses.GetByIdAsync(id);
             if (progress == null)
-                throw new Exception($"Progress with ID {id} not found");
+                return false;
 
             _unitOfWork.Progresses.Delete(progress);
             await _unitOfWork.SaveChangesAsync();
+            return true;
         }
         public async Task<int> GetCompletedLecturesCountAsync(int studentId)
         {
