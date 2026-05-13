@@ -21,13 +21,10 @@ namespace JustTech.Business.Services
             var instructors = await _unitOfWork.Instructors.GetAllAsync();
             return _mapper.Map<IEnumerable<InstructorDto>>(instructors);
         }
-        public async Task<InstructorDto> GetByIdAsync(int id)
+        public async Task<InstructorDto?> GetByIdAsync(int id)
         {
             var instructor = await _unitOfWork.Instructors.GetByIdAsync(id);
-            if (instructor == null)
-                throw new Exception($"Instructor with ID {id} not found");
-
-            return _mapper.Map<InstructorDto>(instructor);
+            return instructor == null ? null : _mapper.Map<InstructorDto>(instructor);
         }
 
         public async Task<InstructorDto> CreateAsync(CreateInstructorDto createDto)
@@ -45,11 +42,11 @@ namespace JustTech.Business.Services
 
             return _mapper.Map<InstructorDto>(created);
         }
-        public async Task<InstructorDto> UpdateAsync(int id, UpdateInstructorDto updateDto)
+        public async Task<InstructorDto?> UpdateAsync(int id, UpdateInstructorDto updateDto)
         {
             var instructor = await _unitOfWork.Instructors.GetByIdAsync(id);
             if (instructor == null)
-                throw new Exception($"Instructor with ID {id} not found");
+                return null;
 
             _mapper.Map(updateDto, instructor);
             _unitOfWork.Instructors.Update(instructor);
@@ -60,25 +57,23 @@ namespace JustTech.Business.Services
 
 
 
-        public async Task DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
             var instructor = await _unitOfWork.Instructors.GetByIdAsync(id);
             if (instructor == null)
-                throw new Exception($"Instructor with ID {id} not found");
+                return false;
 
             _unitOfWork.Instructors.Delete(instructor);
             await _unitOfWork.SaveChangesAsync();
+            return true;
         }
 
 
 
-        public async Task<InstructorDto> GetByEmailAsync(string email)
+        public async Task<InstructorDto?> GetByEmailAsync(string email)
         {
             var instructor = await _unitOfWork.Instructors.GetByEmailAsync(email);
-            if (instructor == null)
-                throw new Exception($"Instructor with email {email} not found");
-
-            return _mapper.Map<InstructorDto>(instructor);
+            return instructor == null ? null : _mapper.Map<InstructorDto>(instructor);
         }
 
         public async Task<IEnumerable<InstructorDto>> GetInstructorsByProfessionAsync(string profession)
