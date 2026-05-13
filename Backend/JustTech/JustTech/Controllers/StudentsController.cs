@@ -28,6 +28,9 @@ namespace JustTech.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             var student = await _studentService.GetByIdAsync(id);
+            if (student == null)
+                return NotFound(new { message = $"Student with ID {id} not found" });
+
             return Ok(student);
         }
 
@@ -35,6 +38,9 @@ namespace JustTech.Controllers
         public async Task<IActionResult> GetByStatus(string status)
         {
             var students = await _studentService.GetStudentsByStatusAsync(status);
+            if (!students.Any())
+                return NotFound(new { message = $"No students found with status '{status}'" });
+
             return Ok(students);
         }
 
@@ -42,6 +48,9 @@ namespace JustTech.Controllers
         public async Task<IActionResult> GetByCity(string city)
         {
             var students = await _studentService.GetStudentsByCityAsync(city);
+            if (!students.Any())
+                return NotFound(new { message = $"No students found in city '{city}'" });
+
             return Ok(students);
         }
 
@@ -57,17 +66,19 @@ namespace JustTech.Controllers
         public async Task<IActionResult> Update(int id, [FromBody] UpdateStudentDto updateDto)
         {
             var student = await _studentService.UpdateAsync(id, updateDto);
+            if (student == null)
+                return NotFound(new { message = $"Student with ID {id} not found" });
+
             return Ok(student);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var student = await _studentService.GetByIdAsync(id);
-            if (student == null)
-                return NotFound($"Student with ID {id} not found");
+            var deleted = await _studentService.DeleteAsync(id);
+            if (!deleted)
+                return NotFound(new { message = $"Student with ID {id} not found" });
 
-            await _studentService.DeleteAsync(id);
             return NoContent();
         }
     }

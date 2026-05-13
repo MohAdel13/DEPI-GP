@@ -22,10 +22,10 @@ namespace JustTech.Business.Services
             return _mapper.Map<IEnumerable<StudentDto>>(students);
         }
 
-        public async Task<StudentDto> GetByIdAsync(int id)
+        public async Task<StudentDto?> GetByIdAsync(int id)
         {
             var student = await _unitOfWork.Students.GetByIdAsync(id);
-            return _mapper.Map<StudentDto>(student);
+            return student == null ? null : _mapper.Map<StudentDto>(student);
         }
 
         public async Task<StudentDto> CreateAsync(CreateStudentDto createDto)
@@ -44,11 +44,11 @@ namespace JustTech.Business.Services
             return _mapper.Map<StudentDto>(created);
         }
 
-        public async Task<StudentDto> UpdateAsync(int id, UpdateStudentDto updateDto)
+        public async Task<StudentDto?> UpdateAsync(int id, UpdateStudentDto updateDto)
         {
             var student = await _unitOfWork.Students.GetByIdAsync(id);
             if (student == null)
-                throw new Exception($"Student With this ID {id} not found");
+                return null;
 
             _mapper.Map(updateDto, student);
             _unitOfWork.Students.Update(student);
@@ -57,14 +57,15 @@ namespace JustTech.Business.Services
             return _mapper.Map<StudentDto>(student);
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
             var student = await _unitOfWork.Students.GetByIdAsync(id);
             if (student == null)
-                throw new Exception($"Student With This ID {id} not found");
+                return false;
 
             _unitOfWork.Students.Delete(student);
             await _unitOfWork.SaveChangesAsync();
+            return true;
         }
 
         public async Task<IEnumerable<StudentDto>> GetStudentsByStatusAsync(string status)
