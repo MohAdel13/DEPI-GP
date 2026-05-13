@@ -21,27 +21,23 @@ namespace JustTech.Business.Services
             var lectures = await _unitOfWork.Lectures.GetAllAsync();
             return _mapper.Map<IEnumerable<LectureDto>>(lectures);
         }
-        public async Task<LectureDto> GetByIdAsync(int id)
+        public async Task<LectureDto?> GetByIdAsync(int id)
         {
             var lecture = await _unitOfWork.Lectures.GetByIdAsync(id);
-            if (lecture == null)
-                throw new Exception($"Lecture with ID {id} not found");
-
-            return _mapper.Map<LectureDto>(lecture);
+            return lecture == null ? null : _mapper.Map<LectureDto>(lecture);
         }
 
         public async Task<IEnumerable<LectureDto>> GetLecturesByRoundIdAsync(int roundId)
         {
             var round = await _unitOfWork.Rounds.GetByIdAsync(roundId);
             if (round == null)
-                throw new Exception($"Round with ID {roundId} not found");
+                return new List<LectureDto>();
 
             var lectures = await _unitOfWork.Lectures.GetLecturesByRoundIdAsync(roundId);
             return _mapper.Map<IEnumerable<LectureDto>>(lectures);
         }
         public async Task<LectureDto> CreateAsync(CreateLectureDto createDto)
         {
-            // Check if round exists
             var round = await _unitOfWork.Rounds.GetByIdAsync(createDto.RoundId);
             if (round == null)
                 throw new Exception($"Round with ID {createDto.RoundId} not found");
@@ -52,11 +48,11 @@ namespace JustTech.Business.Services
 
             return _mapper.Map<LectureDto>(created);
         }
-        public async Task<LectureDto> UpdateAsync(int id, UpdateLectureDto updateDto)
+        public async Task<LectureDto?> UpdateAsync(int id, UpdateLectureDto updateDto)
         {
             var lecture = await _unitOfWork.Lectures.GetByIdAsync(id);
             if (lecture == null)
-                throw new Exception($"Lecture with ID {id} not found");
+                return null;
 
             _mapper.Map(updateDto, lecture);
             _unitOfWork.Lectures.Update(lecture);
@@ -64,14 +60,15 @@ namespace JustTech.Business.Services
 
             return _mapper.Map<LectureDto>(lecture);
         }
-        public async Task DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
             var lecture = await _unitOfWork.Lectures.GetByIdAsync(id);
             if (lecture == null)
-                throw new Exception($"Lecture with ID {id} not found");
+                return false;
 
             _unitOfWork.Lectures.Delete(lecture);
             await _unitOfWork.SaveChangesAsync();
+            return true;
         }
 
     }
