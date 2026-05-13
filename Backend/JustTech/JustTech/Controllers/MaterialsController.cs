@@ -27,6 +27,9 @@ namespace JustTech.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             var material = await _materialService.GetByIdAsync(id);
+            if (material == null)
+                return NotFound(new { message = $"Material with ID {id} not found" });
+
             return Ok(material);
         }
 
@@ -34,6 +37,9 @@ namespace JustTech.Controllers
         public async Task<IActionResult> GetByLectureId(int lectureId)
         {
             var materials = await _materialService.GetMaterialsByLectureIdAsync(lectureId);
+            if (!materials.Any())
+                return NotFound(new { message = $"No materials found for Lecture with ID {lectureId}" });
+
             return Ok(materials);
         }
 
@@ -41,6 +47,9 @@ namespace JustTech.Controllers
         public async Task<IActionResult> Create([FromBody] CreateMaterialDto createDto)
         {
             var material = await _materialService.CreateAsync(createDto);
+            if (material == null)
+                return BadRequest(new { message = "Lecture not found" });
+
             return CreatedAtAction(nameof(GetById), new { id = material.Id }, material);
         }
 
@@ -48,17 +57,19 @@ namespace JustTech.Controllers
         public async Task<IActionResult> Update(int id, [FromBody] UpdateMaterialDto updateDto)
         {
             var material = await _materialService.UpdateAsync(id, updateDto);
+            if (material == null)
+                return NotFound(new { message = $"Material with ID {id} not found" });
+
             return Ok(material);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var material = await _materialService.GetByIdAsync(id);
-            if (material == null)
-                return NotFound($"Material with ID {id} not found");
+            var deleted = await _materialService.DeleteAsync(id);
+            if (!deleted)
+                return NotFound(new { message = $"Material with ID {id} not found" });
 
-            await _materialService.DeleteAsync(id);
             return NoContent();
         }
     }

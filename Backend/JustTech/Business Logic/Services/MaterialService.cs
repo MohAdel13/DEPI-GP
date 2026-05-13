@@ -24,20 +24,17 @@ namespace JustTech.Business.Services
             var materials = await _unitOfWork.Materials.GetAllAsync();
             return _mapper.Map<IEnumerable<MaterialDto>>(materials);
         }
-        public async Task<MaterialDto> GetByIdAsync(int id)
+        public async Task<MaterialDto?> GetByIdAsync(int id)
         {
             var material = await _unitOfWork.Materials.GetByIdAsync(id);
-            if (material == null)
-                throw new Exception($"Material with ID {id} not found");
-
-            return _mapper.Map<MaterialDto>(material);
+            return material == null ? null : _mapper.Map<MaterialDto>(material);
         }
 
         public async Task<IEnumerable<MaterialDto>> GetMaterialsByLectureIdAsync(int lectureId)
         {
             var lecture = await _unitOfWork.Lectures.GetByIdAsync(lectureId);
             if (lecture == null)
-                throw new Exception($"Lecture with ID {lectureId} not found");
+                return new List<MaterialDto>();
 
             var materials = await _unitOfWork.Materials.GetMaterialsByLectureIdAsync(lectureId);
             return _mapper.Map<IEnumerable<MaterialDto>>(materials);
@@ -45,7 +42,6 @@ namespace JustTech.Business.Services
 
         public async Task<MaterialDto> CreateAsync(CreateMaterialDto createDto)
         {
-            // Check if lecture exists
             var lecture = await _unitOfWork.Lectures.GetByIdAsync(createDto.LectureId);
             if (lecture == null)
                 throw new Exception($"Lecture with ID {createDto.LectureId} not found");
@@ -57,11 +53,11 @@ namespace JustTech.Business.Services
             return _mapper.Map<MaterialDto>(created);
         }
 
-        public async Task<MaterialDto> UpdateAsync(int id, UpdateMaterialDto updateDto)
+        public async Task<MaterialDto?> UpdateAsync(int id, UpdateMaterialDto updateDto)
         {
             var material = await _unitOfWork.Materials.GetByIdAsync(id);
             if (material == null)
-                throw new Exception($"Material with ID {id} not found");
+                return null;
 
             _mapper.Map(updateDto, material);
             _unitOfWork.Materials.Update(material);
@@ -70,14 +66,15 @@ namespace JustTech.Business.Services
             return _mapper.Map<MaterialDto>(material);
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
             var material = await _unitOfWork.Materials.GetByIdAsync(id);
             if (material == null)
-                throw new Exception($"Material with ID {id} not found");
+                return false;
 
             _unitOfWork.Materials.Delete(material);
             await _unitOfWork.SaveChangesAsync();
+            return true;
         }
 
 
