@@ -22,35 +22,27 @@ namespace JustTech.Business.Services
             return _mapper.Map<IEnumerable<EnrollmentDto>>(enrollments);
         }
 
-        public async Task<EnrollmentDto> GetByIdAsync(int id)
+        public async Task<EnrollmentDto?> GetByIdAsync(int id)
         {
             var enrollment = await _unitOfWork.Enrollments.GetByIdAsync(id);
-            if (enrollment == null)
-                throw new Exception($"Enrollment with ID {id} not found");
-
-            return _mapper.Map<EnrollmentDto>(enrollment);
+            return enrollment == null ? null : _mapper.Map<EnrollmentDto>(enrollment);
         }
-        public async Task<EnrollmentDto> EnrollStudentAsync(CreateEnrollmentDto createDto)
+        public async Task<EnrollmentDto?> EnrollStudentAsync(CreateEnrollmentDto createDto)
         {
-            // Check if student exist
             var student = await _unitOfWork.Students.GetByIdAsync(createDto.StudentId);
             if (student == null)
-                throw new Exception($"Student with ID {createDto.StudentId} not found");
+                return null;
 
-            // Check round exist
             var round = await _unitOfWork.Rounds.GetByIdAsync(createDto.RoundId);
             if (round == null)
-                throw new Exception($"Round with ID {createDto.RoundId} not found");
+                return null;
 
-            // Check if already enrolled
-            var alreadyEnrolled = await _unitOfWork.Enrollments
-                .IsStudentEnrolledAsync(createDto.StudentId, createDto.RoundId);
+            var alreadyEnrolled = await _unitOfWork.Enrollments.IsStudentEnrolledAsync(createDto.StudentId, createDto.RoundId);
             if (alreadyEnrolled)
-                throw new Exception("Student is already enrolled in this round");
+                return null;
 
-            // Check if round is active for enrollment
-            if (round.Status != "is progress")
-                throw new Exception($"Can't Enroll in round with status: {round.Status}");
+            if (round.Status != "in progress")
+                return null;
 
             var enrollment = _mapper.Map<Enrollment>(createDto);
             enrollment.Status = "active";
@@ -59,17 +51,15 @@ namespace JustTech.Business.Services
             var created = await _unitOfWork.Enrollments.AddAsync(enrollment);
             await _unitOfWork.SaveChangesAsync();
 
-
             return _mapper.Map<EnrollmentDto>(created);
-
         }
 
 
-        public async Task<EnrollmentDto> UpdateEnrollmentStatusAsync(int id, UpdateEnrollmentStatusDto updateDto)
+        public async Task<EnrollmentDto?> UpdateEnrollmentStatusAsync(int id, UpdateEnrollmentStatusDto updateDto)
         {
             var enrollment = await _unitOfWork.Enrollments.GetByIdAsync(id);
             if (enrollment == null)
-                throw new Exception($"Enrollment with ID {id} not found");
+                return null;
 
             enrollment.Status = updateDto.Status;
             _unitOfWork.Enrollments.Update(enrollment);
@@ -79,14 +69,15 @@ namespace JustTech.Business.Services
         }
 
 
-        public async Task DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            var enrollemnt = await _unitOfWork.Enrollments.GetByIdAsync(id);
-            if (enrollemnt == null)
-                throw new Exception($"Enrollment with ID {id} not found");
+            var enrollment = await _unitOfWork.Enrollments.GetByIdAsync(id);
+            if (enrollment == null)
+                return false;
 
-            _unitOfWork.Enrollments.Delete(enrollemnt);
+            _unitOfWork.Enrollments.Delete(enrollment);
             await _unitOfWork.SaveChangesAsync();
+            return true;
         }
 
         public async Task<IEnumerable<EnrollmentDto>> GetEnrollmentsByStudentIdAsync(int studentId)

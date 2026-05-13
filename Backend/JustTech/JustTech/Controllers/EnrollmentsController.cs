@@ -26,6 +26,8 @@ namespace JustTech.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             var enrollment = await _enrollmentService.GetByIdAsync(id);
+            if (enrollment == null)
+                return NotFound(new { message = $"Enrollment with ID {id} not found" });
 
             return Ok(enrollment);
         }
@@ -34,6 +36,9 @@ namespace JustTech.Controllers
         public async Task<IActionResult> GetByStudentId(int studentId)
         {
             var enrollments = await _enrollmentService.GetEnrollmentsByStudentIdAsync(studentId);
+            if (!enrollments.Any())
+                return NotFound(new { message = $"No enrollments found for Student with ID {studentId}" });
+
             return Ok(enrollments);
         }
 
@@ -41,6 +46,9 @@ namespace JustTech.Controllers
         public async Task<IActionResult> GetByRoundId(int roundId)
         {
             var enrollments = await _enrollmentService.GetEnrollmentsByRoundIdAsync(roundId);
+            if (!enrollments.Any())
+                return NotFound(new { message = $"No enrollments found for Round with ID {roundId}" });
+
             return Ok(enrollments);
         }
 
@@ -48,6 +56,9 @@ namespace JustTech.Controllers
         public async Task<IActionResult> Enroll([FromBody] CreateEnrollmentDto createDto)
         {
             var enrollment = await _enrollmentService.EnrollStudentAsync(createDto);
+            if (enrollment == null)
+                return BadRequest(new { message = "Enrollment failed. Student/Round not found, already enrolled, or round not active" });
+
             return CreatedAtAction(nameof(GetById), new { id = enrollment.Id }, enrollment);
         }
 
@@ -55,17 +66,19 @@ namespace JustTech.Controllers
         public async Task<IActionResult> UpdateStatus(int id, [FromBody] UpdateEnrollmentStatusDto updateDto)
         {
             var enrollment = await _enrollmentService.UpdateEnrollmentStatusAsync(id, updateDto);
+            if (enrollment == null)
+                return NotFound(new { message = $"Enrollment with ID {id} not found" });
+
             return Ok(enrollment);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var enrollment = await _enrollmentService.GetByIdAsync(id);
-            if (enrollment == null)
-                return NotFound($"Enrollment with ID {id} not found");
+            var deleted = await _enrollmentService.DeleteAsync(id);
+            if (!deleted)
+                return NotFound(new { message = $"Enrollment with ID {id} not found" });
 
-            await _enrollmentService.DeleteAsync(id);
             return NoContent();
         }
 
