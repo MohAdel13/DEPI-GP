@@ -25,13 +25,10 @@ namespace JustTech.Business.Services
             return _mapper.Map<IEnumerable<CourseDto>>(courses);
         }
 
-        public async Task<CourseDto> GetByIdAsync(int id)
+        public async Task<CourseDto?> GetByIdAsync(int id)
         {
             var course = await _unitOfWork.Courses.GetByIdAsync(id);
-            if (course == null)
-                throw new Exception($"Course With Id {id} not found");
-
-            return _mapper.Map<CourseDto>(course);
+            return course == null ? null : _mapper.Map<CourseDto>(course);
         }
 
 
@@ -44,32 +41,33 @@ namespace JustTech.Business.Services
 
             return _mapper.Map<CourseDto>(created);
         }
-        public async Task<CourseDto> UpdateAsync(int id, UpdateCourseDto courseDto)
+        public async Task<CourseDto?> UpdateAsync(int id, UpdateCourseDto updateDto)
         {
             var course = await _unitOfWork.Courses.GetByIdAsync(id);
             if (course == null)
-                throw new Exception($"Course with ID {id} not Found");
+                return null;
 
-            _mapper.Map(courseDto, course);
+            _mapper.Map(updateDto, course);
             _unitOfWork.Courses.Update(course);
             await _unitOfWork.SaveChangesAsync();
 
             return _mapper.Map<CourseDto>(course);
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
             var course = await _unitOfWork.Courses.GetByIdAsync(id);
             if (course == null)
-                throw new Exception($"Course with Id {id} not Found");
+                return false;
 
             _unitOfWork.Courses.Delete(course);
             await _unitOfWork.SaveChangesAsync();
+            return true;
         }
+    
 
-        
 
-       
+
     }
 }
 

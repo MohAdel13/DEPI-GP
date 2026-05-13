@@ -26,6 +26,9 @@ namespace JustTech.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             var course = await _courseService.GetByIdAsync(id);
+            if (course == null)
+                return NotFound(new { message = $"Course with ID {id} not found" });
+
             return Ok(course);
         }
 
@@ -38,20 +41,22 @@ namespace JustTech.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] UpdateCourseDto updateCourseDto)
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateCourseDto updateDto)
         {
-            var course = await _courseService.UpdateAsync(id, updateCourseDto);
+            var course = await _courseService.UpdateAsync(id, updateDto);
+            if (course == null)
+                return NotFound(new { message = $"Course with ID {id} not found" });
+
             return Ok(course);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var course = await _courseService.GetByIdAsync(id);
-            if (course == null)
-                return NotFound($"Course with Id {id} not found");
+            var deleted = await _courseService.DeleteAsync(id);
+            if (!deleted)
+                return NotFound(new { message = $"Course with ID {id} not found" });
 
-            await _courseService.DeleteAsync(id);
             return NoContent();
         }
     }
