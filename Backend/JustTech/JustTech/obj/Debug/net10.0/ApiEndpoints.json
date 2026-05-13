@@ -1015,27 +1015,6 @@
   },
   {
     "ContainingType": "JustTech.Controllers.RoundsController",
-    "Method": "Update",
-    "RelativePath": "api/Rounds",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "updateDto",
-        "Type": "JustTech.Core.DTOs.UpdateRoundDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "JustTech.Controllers.RoundsController",
     "Method": "GetById",
     "RelativePath": "api/Rounds/{id}",
     "HttpMethod": "GET",
@@ -1045,6 +1024,27 @@
       {
         "Name": "id",
         "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "JustTech.Controllers.RoundsController",
+    "Method": "Update",
+    "RelativePath": "api/Rounds/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "updateDto",
+        "Type": "JustTech.Core.DTOs.UpdateRoundDto",
         "IsRequired": true
       }
     ],
