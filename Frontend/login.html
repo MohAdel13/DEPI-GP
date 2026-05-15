@@ -100,11 +100,12 @@
     });
 
     // Handle login
-    document.getElementById('loginForm').addEventListener('submit', (e) => {
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = document.getElementById('loginEmail').value;
       const password = document.getElementById('loginPassword').value;
       const remember = document.getElementById('rememberMe').checked;
+      const submitBtn = e.target.querySelector('button[type="submit"]');
 
       // Simple validation
       if (!email || !password) {
@@ -112,15 +113,72 @@
         return;
       }
 
-      // Store user info (demo purposes - in real app, this would be a backend call)
-      localStorage.setItem('isLoggedIn', 'true');
-      localStorage.setItem('userEmail', email);
-      if (remember) {
-        localStorage.setItem('rememberedEmail', email);
-      }
+      const originalBtnText = submitBtn.innerHTML;
+      submitBtn.innerHTML = 'Signing In... <i class="fas fa-spinner fa-spin"></i>';
+      submitBtn.disabled = true;
 
-      // Redirect to dashboard
-      window.location.href = 'index.html';
+      try {
+        const response = await fetch('http://justtech.runasp.net/api/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email, password })
+        });
+
+        let data;
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.indexOf("application/json") !== -1) {
+          data = await response.json();
+        } else {
+          data = await response.text();
+        }
+
+        if (response.ok) {
+          // On successful login
+          if (data && data.token) {
+            localStorage.setItem('token', data.token);
+            // Store user config if returned
+            if (data.id) localStorage.setItem('userId', data.id);
+            if (data.name) localStorage.setItem('userName', data.name);
+            if (data.email) localStorage.setItem('userEmail', data.email);
+            
+            localStorage.setItem('isLoggedIn', 'true');
+          } else {
+            // fallback if token isn't wrapped in an object or if API format differs
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('userEmail', email);
+          }
+          
+          if (remember) {
+            localStorage.setItem('rememberedEmail', email);
+          } else {
+            localStorage.removeItem('rememberedEmail');
+          }
+
+          // Redirect to dashboard
+          window.location.href = 'index.html';
+        } else {
+          // Handle error (e.g. 401)
+          console.error("Login error:", data);
+          let errorMessage = 'Invalid email or password';
+          
+          if (typeof data === 'string' && data) {
+            errorMessage = data;
+          } else if (data) {
+            if (data.message) errorMessage = data.message;
+            else if (data.title) errorMessage = data.title;
+          }
+          
+          alert(errorMessage);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Network error. Please try again later.');
+      } finally {
+        submitBtn.innerHTML = originalBtnText;
+        submitBtn.disabled = false;
+      }
     });
 
     // Check for remembered email
