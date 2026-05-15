@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("JustTech.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3db9dbba43a779f1945eac6c9a2ce7eadc343377")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+890d3d4ace309500a762449854da3f7ca6794a3d")]
 [assembly: System.Reflection.AssemblyProductAttribute("JustTech.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("JustTech.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

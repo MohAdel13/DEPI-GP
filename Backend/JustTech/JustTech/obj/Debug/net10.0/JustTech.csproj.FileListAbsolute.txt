@@ -162,10 +162,10 @@ D:\Backend\DEPI\Graduation-Project\JustTeack\DEPI-GP\Backend\JustTech\JustTech\o
 D:\Backend\DEPI\Graduation-Project\JustTeack\DEPI-GP\Backend\JustTech\JustTech\obj\Debug\net10.0\staticwebassets.development.json
 D:\Backend\DEPI\Graduation-Project\JustTeack\DEPI-GP\Backend\JustTech\JustTech\obj\Debug\net10.0\staticwebassets.build.endpoints.json
 D:\Backend\DEPI\Graduation-Project\JustTeack\DEPI-GP\Backend\JustTech\JustTech\obj\Debug\net10.0\swae.build.ex.cache
-D:\Backend\DEPI\Graduation-Project\JustTeack\DEPI-GP\Backend\JustTech\JustTech\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
 D:\Backend\DEPI\Graduation-Project\JustTeack\DEPI-GP\Backend\JustTech\JustTech\obj\Debug\net10.0\JustTech.csproj.Up2Date
 D:\Backend\DEPI\Graduation-Project\JustTeack\DEPI-GP\Backend\JustTech\JustTech\obj\Debug\net10.0\JustTech.dll
 D:\Backend\DEPI\Graduation-Project\JustTeack\DEPI-GP\Backend\JustTech\JustTech\obj\Debug\net10.0\refint\JustTech.dll
 D:\Backend\DEPI\Graduation-Project\JustTeack\DEPI-GP\Backend\JustTech\JustTech\obj\Debug\net10.0\JustTech.pdb
 D:\Backend\DEPI\Graduation-Project\JustTeack\DEPI-GP\Backend\JustTech\JustTech\obj\Debug\net10.0\JustTech.genruntimeconfig.cache
 D:\Backend\DEPI\Graduation-Project\JustTeack\DEPI-GP\Backend\JustTech\JustTech\obj\Debug\net10.0\ref\JustTech.dll
+D:\Backend\DEPI\Graduation-Project\JustTeack\DEPI-GP\Backend\JustTech\JustTech\bin\Debug\net10.0\dotnet-tools.json

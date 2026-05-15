@@ -147,13 +147,15 @@
     });
 
     // Handle signup
-    document.getElementById('signupForm').addEventListener('submit', (e) => {
+    document.getElementById('signupForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const name = document.getElementById('fullName').value;
       const email = document.getElementById('signupEmail').value;
       const password = document.getElementById('signupPassword').value;
       const confirm = document.getElementById('confirmPassword').value;
+      const phone = document.getElementById('phone').value;
       const terms = document.getElementById('termsCheckbox').checked;
+      const submitBtn = e.target.querySelector('button[type="submit"]');
 
       if (!name || !email || !password || !confirm) {
         alert('Please fill in all required fields');
@@ -175,13 +177,85 @@
         return;
       }
 
-      // Store user info (demo purposes)
-      localStorage.setItem('isLoggedIn', 'true');
-      localStorage.setItem('userName', name);
-      localStorage.setItem('userEmail', email);
+      const originalBtnText = submitBtn.innerHTML;
+      submitBtn.innerHTML = 'Creating Account... <i class="fas fa-spinner fa-spin"></i>';
+      submitBtn.disabled = true;
 
-      // Redirect to dashboard
-      window.location.href = 'index.html';
+      try {
+        const payload = {
+          name: name,
+          email: email,
+          password: password
+        };
+        
+        if (phone) {
+          payload.phone = phone;
+        }
+
+        const response = await fetch('http://justtech.runasp.net/api/auth/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        // The response might be JSON or text depending on the API's error handling
+        let data;
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.indexOf("application/json") !== -1) {
+          data = await response.json();
+        } else {
+          data = await response.text();
+        }
+
+        if (response.ok) {
+          // On successful registration
+          if (data && data.token) {
+            localStorage.setItem('token', data.token);
+            // Optionally store other details if needed throughout the app
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('userName', data.name || name);
+            localStorage.setItem('userEmail', data.email || email);
+          }
+          // Redirect to index.html
+          window.location.href = 'index.html';
+        } else {
+          // Handle error
+          console.error("Registration error:", data);
+          let errorMessage = 'Registration failed. Please try again.';
+          
+          if (typeof data === 'string' && data) {
+            errorMessage = data;
+          } else if (data) {
+            // Check common API error properties
+            if (data.message) errorMessage = data.message;
+            else if (data.title) errorMessage = data.title;
+            
+            // Check for validation errors object
+            if (data.errors) {
+              const errorMessages = [];
+              for (const key in data.errors) {
+                // If it's an array of messages
+                if (Array.isArray(data.errors[key])) {
+                  errorMessages.push(data.errors[key].join(', '));
+                } else {
+                  errorMessages.push(data.errors[key]);
+                }
+              }
+              if (errorMessages.length > 0) errorMessage = errorMessages.join('\n');
+            }
+          }
+          
+          alert(errorMessage);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Network error. Please try again later.');
+      } finally {
+        submitBtn.innerHTML = originalBtnText;
+        submitBtn.disabled = false;
+      }
     });
   </script>
 </body>
