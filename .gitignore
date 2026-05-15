@@ -1,1 +1,12 @@
 .vs/
+
+**/bin/
+**/obj/
+**/Release/
+**/Debug/
+**/PublishProfiles/
+*.user
+*.dll
+*.exe
+*.pdb
+*.cache
