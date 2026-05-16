@@ -557,10 +557,18 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
           </div>
         </div>
         <div class="course-actions">
-          <button class="course-btn solid-btn">Enter Classroom</button>
+          <button class="course-btn solid-btn enter-classroom-btn" data-round-id="${enr.roundId}">Enter Classroom</button>
         </div>
       </div>
     `).join('');
+
+    // Attach event listeners for Classroom button
+    document.querySelectorAll('.enter-classroom-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const roundId = this.getAttribute('data-round-id');
+        window.location.href = `course-content.html?roundId=${roundId}`;
+      });
+    });
   }
 
   async function loadStudentProfile() {
@@ -658,5 +666,8 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
 
   initTickets();
   initCourses();
-  setActiveView('dashboard');
+  // Handle URL parameters for initial view (e.g., ?view=courses)
+  const urlParams = new URLSearchParams(window.location.search);
+  const initialView = urlParams.get('view') || 'dashboard';
+  setActiveView(initialView);
 })();

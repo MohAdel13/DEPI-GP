@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>JustTech - Course Content</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .content-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 32px;
+    }
+
+    .course-header-card {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      color: white;
+      padding: 40px;
+      border-radius: 24px;
+      margin-bottom: 32px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .course-header-card h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .course-header-card p {
+      opacity: 0.8;
+      font-size: 1.1rem;
+    }
+
+    .progress-section {
+      background: white;
+      padding: 24px;
+      border-radius: 20px;
+      margin-bottom: 32px;
+      border: 1px solid #eef2ff;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .progress-bar-container {
+      width: 100%;
+      height: 12px;
+      background: #f1f5f9;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #3b82f6, #2563eb);
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+
+    .lectures-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .lecture-item {
+      background: white;
+      padding: 20px 24px;
+      border-radius: 18px;
+      border: 1px solid #eef2ff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.2s;
+    }
+
+    .lecture-item:hover {
+      border-color: #3b82f6;
+      transform: translateX(4px);
+    }
+
+    .lecture-info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .lecture-icon-box {
+      width: 48px;
+      height: 48px;
+      background: #eff6ff;
+      color: #3b82f6;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .lecture-details h4 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1e293b;
+    }
+
+    .lecture-details p {
+      font-size: 0.85rem;
+      color: #64748b;
+    }
+
+    .complete-btn {
+      background: #f1f5f9;
+      color: #475569;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .complete-btn.done {
+      background: #dcfce7;
+      color: #15803d;
+      cursor: default;
+    }
+
+    .complete-btn:not(.done):hover {
+      background: #3b82f6;
+      color: white;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #3b82f6;
+      text-decoration: none;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+
+    /* Video Player Styles */
+    .video-player-section {
+      background: #000;
+      border-radius: 24px;
+      overflow: hidden;
+      margin-bottom: 32px;
+      aspect-ratio: 16 / 9;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      display: none; /* Hidden until a video is loaded */
+      position: relative;
+    }
+
+    .video-player-section iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .no-video-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #94a3b8;
+      height: 100%;
+      gap: 12px;
+    }
+
+    .lecture-title-link {
+      cursor: pointer;
+      color: #1e293b;
+      transition: color 0.2s;
+    }
+
+    .lecture-title-link:hover {
+      color: #3b82f6;
+      text-decoration: underline;
+    }
+
+    .active-lecture {
+      border-color: #3b82f6 !important;
+      background: #f0f7ff !important;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app-wrapper">
+    <!-- SIDEBAR / NAVIGATION -->
+    <aside class="sidebar" id="mainSidebar">
+      <div class="logo-area">
+        <div class="logo-icon"><i class="fas fa-code"></i></div>
+        <div class="logo-text">
+          <span class="brand-bold">JustTech</span>
+          <span class="brand-light"></span>
+        </div>
+      </div>
+      <nav class="nav-menu">
+        <ul class="nav-list">
+          <li class="nav-item" data-nav="dashboard"><a href="index.html" class="nav-link" id="navDashboard"><i
+                class="fa fa-home"></i><span>Home</span></a></li>
+          <li class="nav-item" data-nav="lectures"><a href="index.html?view=lectures" class="nav-link" id="navLectures"><i
+                class="fas fa-chalkboard-teacher"></i><span>Lectures</span></a></li>
+          <li class="nav-item active" data-nav="courses"><a href="index.html?view=courses" class="nav-link" id="navCourses"><i
+                class="fas fa-book-open"></i><span>Enrolled Courses</span></a></li>
+          <li class="nav-item" data-nav="progress"><a href="index.html?view=progress" class="nav-link" id="navProgress"><i
+                class="fas fa-user-graduate"></i><span>My Progress</span></a></li>
+          <li class="nav-item" data-nav="tickets"><a href="index.html?view=tickets" class="nav-link" id="navTickets"><i
+                class="fas fa-ticket-alt"></i><span>Tickets</span></a></li>
+          <li class="nav-item" data-nav="profile"><a href="index.html?view=profile" class="nav-link" id="navProfile"><i
+                class="fas fa-user-circle"></i><span>Profile</span></a></li>
+        </ul>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="user-mini" id="settingsNav"><a href="index.html?view=settings" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 12px;"><i class="fa fa-gear"></i><span>Settings</span></a></div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <div class="content-container">
+        <a href="index.html?view=courses" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Enrolled Courses</a>
+
+        <div id="courseHeader" class="course-header-card">
+          <h1 id="courseTitle">Loading Course...</h1>
+          <p id="roundTitle">Please wait while we fetch your content</p>
+        </div>
+
+        <div class="progress-section">
+          <div class="progress-header">
+            <span>Course Progress</span>
+            <span id="progressText">0%</span>
+          </div>
+          <div class="progress-bar-container">
+            <div id="progressBar" class="progress-fill"></div>
+          </div>
+          <p id="progressStats" style="margin-top: 10px; font-size: 0.85rem; color: #64748b;">0/0 lectures completed</p>
+        </div>
+
+        <!-- Video Player Section -->
+        <div id="videoSection" class="video-player-section">
+          <div id="playerWrapper" style="width: 100%; height: 100%;">
+            <div class="no-video-placeholder">
+              <i class="fas fa-play-circle fa-3x"></i>
+              <p>Select a lecture to start watching</p>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="margin-bottom: 20px; font-weight: 800; color: #0f172a;">Course Content</h3>
+        <div id="lecturesList" class="lectures-list">
+          <!-- Lectures will be injected here -->
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const roundId = urlParams.get('roundId');
+    const studentId = localStorage.getItem('userId');
+    const token = localStorage.getItem('token');
+
+    if (!roundId || !studentId || !token) {
+      window.location.href = 'index.html';
+    }
+
+    async function init() {
+      await fetchRoundInfo();
+      await fetchLectures();
+      // updateProgress is called within fetchLectures to stay in sync
+    }
+
+    async function fetchRoundInfo() {
+      try {
+        const response = await fetch(`http://justtech.runasp.net/api/rounds/${roundId}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (response.ok) {
+          const round = await response.json();
+          document.getElementById('courseTitle').innerText = round.courseName || 'Course';
+          document.getElementById('roundTitle').innerText = round.name || 'Round Details';
+        }
+      } catch (err) { console.error(err); }
+    }
+
+    async function fetchLectures() {
+      const container = document.getElementById('lecturesList');
+      try {
+        const [lecturesRes, progressRes] = await Promise.all([
+          fetch(`http://justtech.runasp.net/api/lectures/round/${roundId}`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+          }),
+          fetch(`http://justtech.runasp.net/api/progress/student/${studentId}`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+          })
+        ]);
+
+        if (lecturesRes.ok && progressRes.ok) {
+          const lectures = await lecturesRes.json();
+          const progressData = await progressRes.json();
+          
+          // progressData is expected to be an array of objects containing lectureId
+          const completedLectureIds = progressData.map(p => p.lectureId);
+          
+          renderLectures(lectures, completedLectureIds);
+          updateProgressStats(completedLectureIds.length, lectures.length);
+        }
+      } catch (err) { console.error(err); }
+    }
+
+    async function updateProgressStats(completedCount, totalCount) {
+      // Calculate percentage
+      const progress = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
+      
+      document.getElementById('progressBar').style.width = progress + '%';
+      document.getElementById('progressText').innerText = progress + '%';
+      document.getElementById('progressStats').innerText = `${completedCount}/${totalCount} lectures completed`;
+    }
+
+    async function updateProgress() {
+      // Re-fetch everything to ensure UI is in sync with server state
+      await fetchLectures();
+    }
+
+    function renderLectures(lectures, completedLectureIds = []) {
+      const container = document.getElementById('lecturesList');
+      if (!lectures || lectures.length === 0) {
+        container.innerHTML = '<p>No lectures available for this round.</p>';
+        return;
+      }
+
+      container.innerHTML = lectures.map((lecture, index) => {
+        const isCompleted = completedLectureIds.includes(lecture.id);
+        return `
+          <div class="lecture-item ${isCompleted ? 'completed-item' : ''}" id="lecture-item-${lecture.id}">
+            <div class="lecture-info">
+              <div class="lecture-icon-box">
+                <i class="fas ${isCompleted ? 'fa-check-circle' : 'fa-play'}" style="${isCompleted ? 'color: #10b981;' : ''}"></i>
+              </div>
+              <div class="lecture-details">
+                <h4 class="lecture-title-link" onclick="loadVideo(${lecture.id}, this)">Lecture ${index + 1}: ${lecture.title}</h4>
+                <p>${lecture.description || 'Watch this lecture to progress'}</p>
+              </div>
+            </div>
+            <button class="complete-btn ${isCompleted ? 'done' : ''}" 
+                    ${isCompleted ? 'disabled' : ''} 
+                    onclick="markComplete(${lecture.id}, this)">
+              ${isCompleted ? 'Completed' : 'Mark as Completed'}
+            </button>
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function loadVideo(lectureId, element) {
+      const playerWrapper = document.getElementById('playerWrapper');
+      const videoSection = document.getElementById('videoSection');
+      
+      // Highlight active lecture
+      document.querySelectorAll('.lecture-item').forEach(item => item.classList.remove('active-lecture'));
+      element.closest('.lecture-item').classList.add('active-lecture');
+
+      videoSection.style.display = 'block';
+      playerWrapper.innerHTML = '<div class="no-video-placeholder"><i class="fas fa-spinner fa-spin fa-3x"></i><p>Loading video...</p></div>';
+
+      try {
+        const response = await fetch(`http://justtech.runasp.net/api/materials/lecture/${lectureId}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (response.ok) {
+          const materials = await response.json();
+          const videoMaterial = materials.find(m => m.type === 'video' || m.url.includes('youtube.com') || m.url.includes('youtu.be'));
+
+          if (videoMaterial) {
+            const videoId = extractYoutubeId(videoMaterial.url);
+            if (videoId) {
+              playerWrapper.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+              // Scroll to video
+              videoSection.scrollIntoView({ behavior: 'smooth' });
+            } else {
+              playerWrapper.innerHTML = `<div class="no-video-placeholder"><i class="fas fa-exclamation-circle fa-3x"></i><p>Invalid video URL</p></div>`;
+            }
+          } else {
+            playerWrapper.innerHTML = `<div class="no-video-placeholder"><i class="fas fa-video-slash fa-3x"></i><p>No video available for this lecture</p></div>`;
+          }
+        }
+      } catch (err) {
+        playerWrapper.innerHTML = `<div class="no-video-placeholder"><i class="fas fa-wifi fa-3x"></i><p>Error loading video</p></div>`;
+      }
+    }
+
+    function extractYoutubeId(url) {
+      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+      const match = url.match(regExp);
+      return (match && match[2].length === 11) ? match[2] : null;
+    }
+
+    async function markComplete(lectureId, btn) {
+      if (btn.classList.contains('done')) return;
+
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+      try {
+        const response = await fetch('http://justtech.runasp.net/api/progress', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            studentId: parseInt(studentId),
+            lectureId: lectureId,
+            watchedAt: new Date().toISOString()
+          })
+        });
+
+        if (response.ok) {
+          btn.classList.add('done');
+          btn.innerText = 'Completed';
+          updateProgress();
+        } else {
+          alert('Failed to mark as completed. You might have already completed it.');
+          btn.disabled = false;
+          btn.innerText = 'Mark as Completed';
+        }
+      } catch (err) {
+        alert('Network error.');
+        btn.disabled = false;
+        btn.innerText = 'Mark as Completed';
+      }
+    }
+
+    init();
+  </script>
+</body>
+
+</html>
