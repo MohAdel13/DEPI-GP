@@ -361,7 +361,7 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
 
     // 1. Check Cache First
     const cachedCourses = sessionStorage.getItem('cached_courses');
-    const cachedEnrollments = sessionStorage.getItem('cached_enrollment_names');
+    const cachedEnrollments = sessionStorage.getItem('cached_enrollment_ids');
     
     if (cachedCourses && cachedEnrollments) {
       console.log("Loading courses from cache...");
@@ -370,34 +370,47 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
       // 2. Show Skeleton UI if no cache
       showSkeletonUI(container);
     }
-
     try {
+      console.log('DEBUG: Fetching data for studentId:', studentId);
+      console.log('DEBUG: Token present:', !!token);
+
       const [coursesRes, enrollmentsRes] = await Promise.all([
         fetch('http://justtech.runasp.net/api/courses', {
           headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
         }),
         fetch(`http://justtech.runasp.net/api/enrollments/student/${studentId}`, {
           headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
-        }).catch(() => ({ ok: false }))
+        }).then(res => {
+          console.log('DEBUG: Enrollment API Status:', res.status);
+          return res;
+        }).catch(err => {
+          console.error('DEBUG: Enrollment API Fetch Error:', err);
+          return { ok: false };
+        })
       ]);
 
       if (coursesRes.ok) {
         const courses = await coursesRes.json();
-        let enrolledCourseNames = [];
+        let enrolledCourseIds = [];
         if (enrollmentsRes.ok) {
           const enrollments = await enrollmentsRes.json();
-          enrolledCourseNames = enrollments.map(enr => enr.courseName);
+          console.log('DEBUG: Enrollments received:', enrollments);
+          enrolledCourseIds = enrollments.map(enr => {
+            console.log(`DEBUG: Mapping enrollment for ${enr.courseName}: courseId=${enr.courseId}, roundId=${enr.roundId}`);
+            return enr.courseId;
+          });
+          console.log('DEBUG: Final enrolledCourseIds list:', enrolledCourseIds);
         }
 
         // 3. Update Cache
         sessionStorage.setItem('cached_courses', JSON.stringify(courses));
-        sessionStorage.setItem('cached_enrollment_names', JSON.stringify(enrolledCourseNames));
+        sessionStorage.setItem('cached_enrollment_ids', JSON.stringify(enrolledCourseIds));
 
         // 4. Render Fresh Data (chunked)
         if (!courses || courses.length === 0) {
           container.innerHTML = '<div class="no-courses" style="grid-column: 1/-1; text-align: center; padding: 40px; color: #64748b;">No courses available at the moment.</div>';
         } else {
-          displayCourses(courses, enrolledCourseNames, false);
+          displayCourses(courses, enrolledCourseIds, false);
         }
       } else if (coursesRes.status === 401) {
         localStorage.removeItem('token');
@@ -431,21 +444,11 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
     `).join('');
   }
 
-  function displayCourses(courses, enrolledCourseNames, isFromCache) {
+  function displayCourses(courses, enrolledCourseIds, isFromCache) {
     const container = document.getElementById('dashboardCoursesContainer');
     if (!container) return;
 
-    // If it's a background update and data is identical, skip re-render
-    if (!isFromCache) {
-      const currentCards = container.querySelectorAll('.course-card');
-      if (currentCards.length === courses.length && !container.querySelector('.skeleton-card')) {
-        // Simple heuristic: if counts match and it's already rendered, skip
-        return; 
-      }
-      container.innerHTML = ''; 
-    } else {
-      container.innerHTML = '';
-    }
+    container.innerHTML = '';
 
     // 2. Chunk the Rendering (Batching)
     const CHUNK_SIZE = 4;
@@ -454,7 +457,8 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
     function renderNextBatch() {
       const batch = courses.slice(index, index + CHUNK_SIZE);
       const html = batch.map(course => {
-        const isEnrolled = enrolledCourseNames.includes(course.name);
+        const isEnrolled = enrolledCourseIds.map(Number).includes(Number(course.id));
+        console.log(`DEBUG: Rendering course "${course.name}" (id=${course.id}) — Enrolled: ${isEnrolled}`);
         return `
           <div class="course-card" data-id="${course.id}">
             <div class="course-card-header">
@@ -489,7 +493,7 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
           });
         }
         card.querySelector('.view-course-btn').addEventListener('click', function() {
-          showCourseDetails(card.getAttribute('data-id'), enrolledCourseNames);
+          showCourseDetails(card.getAttribute('data-id'), enrolledCourseIds);
         });
       });
 
@@ -503,7 +507,7 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
     renderNextBatch();
   }
 
-  async function showCourseDetails(courseId, enrolledCourseNames) {
+  async function showCourseDetails(courseId, enrolledCourseIds) {
     const token = localStorage.getItem('token');
     const modal = document.getElementById('courseDetailsModal');
     if (!token || !modal) return;
@@ -515,7 +519,7 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
 
       if (response.ok) {
         const course = await response.json();
-        const isEnrolled = enrolledCourseNames.includes(course.name);
+        const isEnrolled = enrolledCourseIds.includes(course.id);
 
         document.getElementById('modalCourseName').innerText = course.name;
         document.getElementById('modalCourseDesc').innerText = course.description || 'No description available.';
@@ -641,8 +645,7 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
           <span class="course-mode"><i class="fas fa-clock"></i> Enrolled on ${new Date(enr.enrolledAt).toLocaleDateString()}</span>
         </div>
         <div class="course-title-section">
-          <h3>${escapeHtml(enr.courseName)}</h3>
-          <p class="course-sub">${escapeHtml(enr.roundName)}</p>
+          <h3>${escapeHtml(enr.roundName)}</h3>
         </div>
         <div class="course-stats-mini">
           <div class="course-stat-item">
@@ -824,8 +827,7 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
                 <span class="course-mode"><i class="fas fa-calendar"></i> Enrolled: ${new Date(enr.enrolledAt).toLocaleDateString()}</span>
               </div>
               <div class="course-title-section">
-                <h3>${escapeHtml(enr.courseName)}</h3>
-                <p class="course-sub">${escapeHtml(enr.roundName)}</p>
+                <h3>${escapeHtml(enr.roundName)}</h3>
               </div>
               <div class="progress-individual" style="padding: 0;">
                 <div class="progress-metric">

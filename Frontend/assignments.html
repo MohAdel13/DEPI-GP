@@ -356,90 +356,141 @@
     async function fetchAssignments() {
       const container = document.getElementById('assignmentsList');
       try {
-        // Fetch assignments for the round
-        const assignmentsResponse = await fetch(`http://justtech.runasp.net/api/assignments/round/${roundId}`, {
+        // 1. Fetch all enrollments for the student
+        const enrollmentsResponse = await fetch(`http://justtech.runasp.net/api/enrollments/student/${studentId}`, {
           headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
         });
 
-        // Fetch student submissions to check status
+        if (!enrollmentsResponse.ok) {
+          throw new Error('Failed to fetch enrollments');
+        }
+        const enrollments = await enrollmentsResponse.json();
+
+        // 2. Fetch student submissions to check status
         const submissionsResponse = await fetch(`http://justtech.runasp.net/api/submissions/student/${studentId}`, {
           headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
         });
+        const submissions = submissionsResponse.ok ? await submissionsResponse.json() : [];
+        const submittedIds = new Set(submissions.map(sub => sub.assignmentId));
 
-        if (assignmentsResponse.ok) {
-          const assignments = await assignmentsResponse.json();
-          
-          // Update title with count
-          document.getElementById('courseTitle').innerText = `Assignments (${assignments.length}) - ${roundName}`;
-
-          let submittedIds = new Set();
-          
-          if (submissionsResponse.ok) {
-            const submissions = await submissionsResponse.json();
-            submissions.forEach(sub => {
-              if (sub.status === 'submitted' || sub.submittedAt) {
-                submittedIds.add(sub.assignmentId);
-              }
-            });
+        // 3. Fetch assignments for each round in parallel
+        const assignmentPromises = enrollments.map(async (enr) => {
+          const res = await fetch(`http://justtech.runasp.net/api/assignments/round/${enr.roundId}`, {
+            headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
+          });
+          if (res.ok) {
+            const data = await res.json();
+            return {
+              roundName: enr.roundName || `Round ${enr.roundId}`,
+              courseName: enr.courseName || 'Course',
+              assignments: data
+            };
           }
-          
-          renderAssignments(assignments, submittedIds);
-        } else {
-          container.innerHTML = '<div class="loading-container"><i class="fas fa-exclamation-circle fa-3x" style="color: #ef4444;"></i><p style="margin-top: 15px;">Failed to load assignments.</p></div>';
-        }
+          return null;
+        });
+
+        const roundsData = (await Promise.all(assignmentPromises)).filter(r => r && r.assignments.length > 0);
+        
+        renderGroupedAssignments(roundsData, submittedIds);
       } catch (err) { 
         console.error('Error fetching assignments:', err);
         container.innerHTML = '<div class="loading-container"><i class="fas fa-wifi fa-3x" style="color: #ef4444;"></i><p style="margin-top: 15px;">Network error. Please try again.</p></div>';
       }
     }
 
-    function renderAssignments(assignments, submittedIds = new Set()) {
+    function renderGroupedAssignments(roundsData, submittedIds) {
       const container = document.getElementById('assignmentsList');
-      if (!assignments || assignments.length === 0) {
-        container.innerHTML = '<div class="loading-container"><i class="fas fa-clipboard-list fa-3x"></i><p style="margin-top: 15px;">No assignments yet for this course.</p></div>';
+      if (!roundsData || roundsData.length === 0) {
+        container.innerHTML = '<div class="loading-container"><i class="fas fa-clipboard-list fa-3x"></i><p style="margin-top: 15px;">No assignments found for your enrolled courses.</p></div>';
         return;
       }
 
       container.innerHTML = '';
-      assignments.forEach(asn => {
-        const dueDate = new Date(asn.dueDate);
-        const isOverdue = dueDate < new Date();
-        const isSubmitted = submittedIds.has(asn.id);
-        const status = isSubmitted ? 'Submitted' : 'Pending'; 
-        const statusClass = isSubmitted ? 'status-submitted' : 'status-pending';
+      roundsData.forEach((round, index) => {
+        const roundSection = document.createElement('div');
+        roundSection.className = 'round-group-section';
+        roundSection.style.marginBottom = '16px';
+        roundSection.style.gridColumn = '1 / -1';
 
-        const card = document.createElement('div');
-        card.className = 'assignment-card';
-        card.innerHTML = `
-          <div class="assignment-header">
-            <div class="assignment-title">${escapeHtml(asn.title)}</div>
-            <span class="status-badge ${statusClass}">${status}</span>
+        roundSection.innerHTML = `
+          <div class="round-header" onclick="toggleSection(this)" style="background: white; padding: 20px 24px; border-radius: 16px; border: 1px solid #e2e8f0; cursor: pointer; display: flex; align-items: center; justify-content: space-between; transition: all 0.2s; user-select: none;">
+            <div style="display: flex; align-items: center; gap: 16px;">
+              <span class="toggle-icon" style="color: #3b82f6; font-size: 1.2rem; width: 24px;">▶</span>
+              <h2 style="font-size: 1.25rem; font-weight: 700; color: #1e293b; margin: 0;">${round.roundName}</h2>
+              <span style="background: #eef2ff; color: #3b82f6; padding: 4px 12px; border-radius: 40px; font-size: 0.8rem; font-weight: 600;">${round.assignments.length} assignments</span>
+            </div>
+            <i class="fas fa-chevron-right" style="color: #cbd5e1; font-size: 0.9rem;"></i>
           </div>
-          <p class="assignment-desc">${escapeHtml(asn.description) || 'No description provided.'}</p>
-          <div class="assignment-footer">
-            <div class="due-date" style="${isOverdue && !isSubmitted ? 'color: #ef4444;' : 'color: #64748b;'}">
-              <i class="far fa-clock"></i> Due: ${dueDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+          <div class="round-content" style="display: none; padding-top: 24px;">
+            <div class="assignments-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px;">
             </div>
           </div>
         `;
 
-        const footer = card.querySelector('.assignment-footer');
-        if (!isSubmitted) {
-          const btn = document.createElement('button');
-          btn.className = 'button-submit';
-          btn.id = `submit-btn-${asn.id}`;
-          btn.innerText = 'Submit';
-          btn.onclick = () => openSubmitModal(asn.id, asn.title, asn.description);
-          footer.appendChild(btn);
-        } else {
-          const btn = document.createElement('button');
-          btn.className = 'button-submitted';
-          btn.disabled = true;
-          btn.innerHTML = '<i class="fas fa-check"></i> Submitted';
-          footer.appendChild(btn);
-        }
-        container.appendChild(card);
+        const grid = roundSection.querySelector('.assignments-grid');
+        
+        round.assignments.forEach(asn => {
+          const dueDate = new Date(asn.dueDate);
+          const isOverdue = dueDate < new Date();
+          const isSubmitted = submittedIds.has(asn.id);
+          const status = isSubmitted ? 'Submitted' : 'Pending'; 
+          const statusClass = isSubmitted ? 'status-submitted' : 'status-pending';
+
+          const card = document.createElement('div');
+          card.className = 'assignment-card';
+          card.innerHTML = `
+            <div class="assignment-header">
+              <div class="assignment-title">${escapeHtml(asn.title)}</div>
+              <span class="status-badge ${statusClass}">${status}</span>
+            </div>
+            <p class="assignment-desc">${escapeHtml(asn.description) || 'No description provided.'}</p>
+            <div class="assignment-footer">
+              <div class="due-date" style="${isOverdue && !isSubmitted ? 'color: #ef4444;' : 'color: #64748b;'}">
+                <i class="far fa-clock"></i> Due: ${dueDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+              </div>
+            </div>
+          `;
+
+          const footer = card.querySelector('.assignment-footer');
+          if (!isSubmitted) {
+            const btn = document.createElement('button');
+            btn.className = 'button-submit';
+            btn.id = `submit-btn-${asn.id}`;
+            btn.innerText = 'Submit';
+            btn.onclick = () => openSubmitModal(asn.id, asn.title, asn.description);
+            footer.appendChild(btn);
+          } else {
+            const btn = document.createElement('button');
+            btn.className = 'button-submitted';
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-check"></i> Submitted';
+            footer.appendChild(btn);
+          }
+          grid.appendChild(card);
+        });
+
+        container.appendChild(roundSection);
       });
+    }
+
+    function toggleSection(header) {
+      const content = header.nextElementSibling;
+      const icon = header.querySelector('.toggle-icon');
+      const arrow = header.querySelector('.fa-chevron-right');
+      
+      if (content.style.display === 'none') {
+        content.style.display = 'block';
+        icon.textContent = '▼';
+        header.style.borderColor = '#3b82f6';
+        header.style.background = '#f8fafc';
+        if (arrow) arrow.style.transform = 'rotate(90deg)';
+      } else {
+        content.style.display = 'none';
+        icon.textContent = '▶';
+        header.style.borderColor = '#e2e8f0';
+        header.style.background = 'white';
+        if (arrow) arrow.style.transform = 'rotate(0deg)';
+      }
     }
 
     function openSubmitModal(id, title, desc) {
