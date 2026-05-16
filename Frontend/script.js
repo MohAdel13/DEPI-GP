@@ -40,7 +40,10 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
       titleText = "Enrolled Courses";
       loadUserEnrollments();
     }
-    else if(viewId === 'profile') titleText = "Profile";
+    else if(viewId === 'profile') {
+      titleText = "Profile";
+      loadStudentProfile();
+    }
     else if(viewId === 'settings') titleText = "Settings";
     if(dynamicTitle) dynamicTitle.innerText = titleText;
     
@@ -223,33 +226,13 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
     }, 3000);
   }
   
-  // Update Email
-  document.getElementById('updateEmailBtn')?.addEventListener('click', () => {
-    const newEmail = document.getElementById('newEmail')?.value.trim();
-    const password = document.getElementById('emailPassword')?.value;
-    if (!newEmail || !password) {
-      alert('Please fill all fields');
-      return;
-    }
-    if (!newEmail.includes('@')) {
-      alert('Please enter a valid email address');
-      return;
-    }
-    if (password === 'password123') {
-      document.getElementById('currentEmail').innerText = newEmail;
-      document.getElementById('newEmail').value = '';
-      document.getElementById('emailPassword').value = '';
-      showSuccess('Email updated successfully!');
-    } else {
-      alert('Incorrect password');
-    }
-  });
-  
   // Update Password
-  document.getElementById('updatePasswordBtn')?.addEventListener('click', () => {
+  document.getElementById('updatePasswordBtn')?.addEventListener('click', async () => {
     const currentPwd = document.getElementById('currentPassword')?.value;
     const newPwd = document.getElementById('newPassword')?.value;
     const confirmPwd = document.getElementById('confirmPassword')?.value;
+    const token = localStorage.getItem('token');
+    const updateBtn = document.getElementById('updatePasswordBtn');
     
     if (!currentPwd || !newPwd || !confirmPwd) {
       alert('Please fill all password fields');
@@ -259,17 +242,50 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
       alert('New passwords do not match');
       return;
     }
-    if (newPwd.length < 8) {
-      alert('Password must be at least 8 characters');
+    if (newPwd.length < 6) {
+      alert('Password must be at least 6 characters');
       return;
     }
-    if (currentPwd === 'password123') {
-      document.getElementById('currentPassword').value = '';
-      document.getElementById('newPassword').value = '';
-      document.getElementById('confirmPassword').value = '';
-      showSuccess('Password changed successfully!');
-    } else {
-      alert('Current password is incorrect');
+
+    if (!token) {
+      alert('Session expired. Please login again.');
+      window.location.href = 'login.html';
+      return;
+    }
+
+    updateBtn.disabled = true;
+    updateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';
+
+    try {
+      const response = await fetch('http://justtech.runasp.net/api/auth/change-password', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          currentPassword: currentPwd,
+          newPassword: newPwd,
+          confirmNewPassword: confirmPwd
+        })
+      });
+
+      if (response.ok) {
+        showSuccess('Password changed successfully!');
+        document.getElementById('currentPassword').value = '';
+        document.getElementById('newPassword').value = '';
+        document.getElementById('confirmPassword').value = '';
+      } else {
+        const errorData = await response.json().catch(() => ({}));
+        alert(errorData.message || 'Failed to change password. Please check your current password.');
+      }
+    } catch (error) {
+      console.error('Password change error:', error);
+      alert('Network error. Please try again.');
+    } finally {
+      updateBtn.disabled = false;
+      updateBtn.innerHTML = '<i class="fas fa-key"></i> Update Password';
     }
   });
   
@@ -490,6 +506,86 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
       </div>
     `).join('');
   }
+
+  async function loadStudentProfile() {
+    const token = localStorage.getItem('token');
+    const studentId = localStorage.getItem('userId');
+    
+    if (!token || !studentId) return;
+
+    try {
+      const response = await fetch(`http://justtech.runasp.net/api/students/${studentId}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+
+      if (response.ok) {
+        const student = await response.json();
+        // Fill form fields
+        document.getElementById('profileName').value = student.name || '';
+        document.getElementById('profileEmail').value = student.email || '';
+        document.getElementById('profilePhone').value = student.phoneNumber || '';
+        document.getElementById('profileBirthdate').value = student.birthDate ? student.birthDate.split('T')[0] : '';
+        document.getElementById('profileCountry').value = student.country || '';
+        document.getElementById('profileCity').value = student.city || '';
+        document.getElementById('profileCollege').value = student.college || '';
+        document.getElementById('profileProfession').value = student.profession || '';
+        
+        // Fill display fields
+        document.getElementById('profileDisplayName').innerText = student.name || 'Student';
+        document.getElementById('profileDisplayEmail').innerText = student.email || '';
+      }
+    } catch (error) {
+      console.error('Error loading profile:', error);
+    }
+  }
+
+  async function updateStudentProfile() {
+    const token = localStorage.getItem('token');
+    const studentId = localStorage.getItem('userId');
+    const saveBtn = document.getElementById('saveProfileBtn');
+    
+    if (!token || !studentId) return;
+
+    const studentData = {
+      name: document.getElementById('profileName').value,
+      phoneNumber: document.getElementById('profilePhone').value,
+      birthDate: document.getElementById('profileBirthdate').value,
+      country: document.getElementById('profileCountry').value,
+      city: document.getElementById('profileCity').value,
+      college: document.getElementById('profileCollege').value,
+      profession: document.getElementById('profileProfession').value
+    };
+
+    saveBtn.disabled = true;
+    saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+    try {
+      const response = await fetch(`http://justtech.runasp.net/api/students/${studentId}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(studentData)
+      });
+
+      if (response.ok) {
+        showSuccess('Profile updated successfully');
+        loadStudentProfile(); // Refresh display
+      } else {
+        const error = await response.json().catch(() => ({}));
+        alert(error.message || 'Failed to update profile');
+      }
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      alert('Network error while updating profile');
+    } finally {
+      saveBtn.disabled = false;
+      saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Changes';
+    }
+  }
+
+  document.getElementById('saveProfileBtn')?.addEventListener('click', updateStudentProfile);
 
   function initTickets() { 
     if(document.getElementById('ticketsView')) renderTickets('all'); 

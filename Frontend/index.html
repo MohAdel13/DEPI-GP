@@ -525,7 +525,6 @@
           </div>
         </div>
       </div>
-    </div>
 
       <!-- ========== PROFILE VIEW (NEW) ========== -->
       <div id="profileView" class="view-pane">
@@ -533,35 +532,49 @@
           <div class="profile-cover-card">
             <div class="profile-avatar-large"><i class="fas fa-user-astronaut"></i></div>
             <div class="profile-name-title">
-              <h2>John Doe</h2>
-              <p>JohnDoe123@gmail.com</p>
+              <h2 id="profileDisplayName">Loading...</h2>
+              <p id="profileDisplayEmail"></p>
             </div>
           </div>
           <div class="profile-form-card">
             <h3><i class="fas fa-user-edit"></i> Personal Data</h3>
             <div class="form-2col">
-              <div class="input-field"><label>Name</label><input type="text" value="John Doe" class="profile-input">
+              <div class="input-field">
+                <label>Name</label>
+                <input type="text" id="profileName" class="profile-input">
               </div>
-              <div class="input-field"><label>Email</label><input type="email" value="JohnDoe123@gmail.com"
-                  class="profile-input"></div>
-              <div class="input-field"><label>Phone</label><input type="tel" placeholder="+20 123 456 789"
-                  class="profile-input"></div>
-              <div class="input-field"><label>Birthdate</label><input type="date" class="profile-input"></div>
-              <div class="input-field"><label>Country</label><input type="text" placeholder="Egypt"
-                  class="profile-input"></div>
-              <div class="input-field"><label>City</label><input type="text" value="Cairo" class="profile-input"></div>
-              <div class="input-field"><label>College</label><input type="text" placeholder="Computer Science"
-                  class="profile-input"></div>
+              <div class="input-field">
+                <label>Email (Cannot be changed)</label>
+                <input type="email" id="profileEmail" class="profile-input" readonly style="background: #f1f5f9; cursor: not-allowed;">
+              </div>
+              <div class="input-field">
+                <label>Phone</label>
+                <input type="tel" id="profilePhone" class="profile-input">
+              </div>
+              <div class="input-field">
+                <label>Birthdate</label>
+                <input type="date" id="profileBirthdate" class="profile-input">
+              </div>
+              <div class="input-field">
+                <label>Country</label>
+                <input type="text" id="profileCountry" class="profile-input">
+              </div>
+              <div class="input-field">
+                <label>City</label>
+                <input type="text" id="profileCity" class="profile-input">
+              </div>
+              <div class="input-field">
+                <label>College</label>
+                <input type="text" id="profileCollege" class="profile-input">
+              </div>
               <div class="input-field">
                 <label>Profession</label>
-                <select class="profile-input">
-                  <option value="Student">Student</option>
-                  <option value="Graduate">Graduate</option>
-                </select>
+                <input type="text" id="profileProfession" class="profile-input">
               </div>
-
             </div>
-            <div class="save-btn-wrap"><button class="save-profile-btn"><i class="fas fa-save"></i> Save</button></div>
+            <div class="save-btn-wrap">
+              <button class="save-profile-btn" id="saveProfileBtn"><i class="fas fa-save"></i> Save Changes</button>
+            </div>
           </div>
         </div>
       </div>
@@ -572,22 +585,6 @@
 <div id="settingsView" class="view-pane">
   <div class="settings-container">
     
-    <!-- Change Email Section -->
-    <div class="settings-card">
-      <h3><i class="fas fa-envelope"></i> Change Email Address</h3>
-      <div class="email-preview">
-        Current email: <strong id="currentEmail">JohnDoe123@gmail.com</strong>
-      </div>
-      <div class="settings-group">
-        <label>New Email Address</label>
-        <input type="email" id="newEmail" class="settings-input" placeholder="Enter new email">
-      </div>
-      <div class="settings-group">
-        <label>Confirm Password</label>
-        <input type="password" id="emailPassword" class="settings-input" placeholder="Enter your password to confirm">
-      </div>
-      <button class="settings-btn" id="updateEmailBtn"><i class="fas fa-save"></i> Update Email</button>
-    </div>
 
     <!-- Change Password Section -->
     <div class="settings-card">
@@ -599,7 +596,7 @@
       <div class="settings-group">
         <label>New Password</label>
         <input type="password" id="newPassword" class="settings-input" placeholder="Enter new password">
-        <div class="password-requirements">Minimum 8 characters, at least 1 letter and 1 number</div>
+        <div class="password-requirements">Minimum 6 characters, at least 1 letter and 1 number</div>
       </div>
       <div class="settings-group">
         <label>Confirm New Password</label>

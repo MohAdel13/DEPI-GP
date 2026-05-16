@@ -18,7 +18,7 @@
   
   /* ========== SIDEBAR / NAVIGATION ========== */
   .sidebar {
-    width: 280px;
+    width: 80px; /* Minimized width */
     background: linear-gradient(180deg, #0f172a 0%, #111827 100%);
     color: #e2e8f0;
     display: flex;
@@ -28,8 +28,13 @@
     left: 0;
     height: 100vh;
     z-index: 1000;
-    transition: transform 0.3s ease;
+    transition: width 0.3s ease, transform 0.3s ease;
     box-shadow: 4px 0 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden; /* Hide text overflow */
+  }
+
+  .sidebar:hover {
+    width: 280px; /* Expanded width */
   }
   
   .logo-area {
@@ -57,6 +62,13 @@
   .logo-text {
     display: flex;
     flex-direction: column;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .sidebar:hover .logo-text {
+    opacity: 1;
   }
   
   .brand-bold {
@@ -110,6 +122,17 @@
   .nav-link i {
     width: 24px;
     font-size: 1.2rem;
+    flex-shrink: 0; /* Don't shrink the icon */
+  }
+
+  .nav-link span {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .sidebar:hover .nav-link span {
+    opacity: 1;
   }
   
   .nav-item:hover .nav-link {
@@ -136,6 +159,17 @@
     font-weight: 500;
     color: #cbd5e6;
     cursor: pointer;
+    overflow: hidden;
+  }
+
+  .user-mini span {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .sidebar:hover .user-mini span {
+    opacity: 1;
   }
   
   .user-mini i {
@@ -146,7 +180,7 @@
   /* ========== MAIN CONTENT ========== */
   .main-content {
     flex: 1;
-    margin-left: 280px;
+    margin-left: 80px; /* Matches minimized sidebar */
     background: #f8fafc;
     min-height: 100vh;
     transition: margin-left 0.3s;
@@ -969,7 +1003,24 @@
   /* ========== PROFILE PAGE STYLES ========== */
   .profile-container {
     max-width: 900px;
-    margin: 0 auto;
+    width: 100%;
+    margin: 0 auto; /* Keep it centered horizontally */
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Target profileView specifically to center it within main-content */
+  #profileView {
+    display: none;
+    flex-direction: column;
+    justify-content: flex-start; 
+    align-items: center;
+    min-height: auto;
+    padding: 0 32px 32px 32px; /* Remove top padding, keep sides and bottom */
+  }
+
+  #profileView.active-view {
+    display: flex;
   }
   
   .profile-cover-card {
