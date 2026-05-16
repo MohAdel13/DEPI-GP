@@ -1,5 +1,7 @@
 // Check if user is logged in
+console.log('Dashboard Init - Path:', window.location.pathname, 'Token:', !!localStorage.getItem('token'));
 if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login.html') && !window.location.href.includes('signup.html')) {
+  console.log('No login session found, redirecting to login.html');
   window.location.href = 'login.html';
 }
 
@@ -22,7 +24,33 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
   const mobileToggle = document.getElementById('mobileToggle');
   const sidebar = document.getElementById('mainSidebar');
   
-  function setActiveView(viewId) {
+  async function ensureUserId() {
+    let studentId = localStorage.getItem('userId');
+    const token = localStorage.getItem('token');
+    
+    if (token && !studentId) {
+      console.log("UserId missing but token found. Fetching userId...");
+      try {
+        const response = await fetch('http://justtech.runasp.net/api/students/me', {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (response.ok) {
+          const student = await response.json();
+          localStorage.setItem('userId', student.id);
+          console.log("UserId recovered:", student.id);
+          return student.id;
+        }
+      } catch (err) {
+        console.error("Failed to recover userId:", err);
+      }
+    }
+    return studentId;
+  }
+
+  async function setActiveView(viewId) {
+    // Ensure we have a userId before loading progress or enrollment views
+    await ensureUserId();
+
     Object.values(views).forEach(v => { if(v) v.classList.remove('active-view'); });
     if(views[viewId]) views[viewId].classList.add('active-view');
     
@@ -34,7 +62,10 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
     else if(viewId === 'rankings') titleText = "Round Rank";
     else if(viewId === 'lectures') titleText = "Lectures";
     else if(viewId === 'stats') titleText = "Round Stats";
-    else if(viewId === 'progress') titleText = "My Progress";
+    else if(viewId === 'progress') {
+      titleText = "My Progress";
+      loadStudentProgress(); // Explicitly load when switching to progress view
+    }
     else if(viewId === 'tickets') titleText = "Tickets";
     else if(viewId === 'courses') {
       titleText = "Enrolled Courses";
@@ -321,12 +352,18 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
     const token = localStorage.getItem('token');
     const studentId = localStorage.getItem('userId');
     const container = document.getElementById('dashboardCoursesContainer');
+    if (!container) return;
+
+    // 1. Check Cache First
+    const cachedCourses = sessionStorage.getItem('cached_courses');
+    const cachedEnrollments = sessionStorage.getItem('cached_enrollment_names');
     
-    if (!token) {
-      if (!window.location.href.includes('login.html') && !window.location.href.includes('signup.html')) {
-        window.location.href = 'login.html';
-      }
-      return;
+    if (cachedCourses && cachedEnrollments) {
+      console.log("Loading courses from cache...");
+      displayCourses(JSON.parse(cachedCourses), JSON.parse(cachedEnrollments), true);
+    } else {
+      // 2. Show Skeleton UI if no cache
+      showSkeletonUI(container);
     }
 
     try {
@@ -347,66 +384,110 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
           enrolledCourseNames = enrollments.map(enr => enr.courseName);
         }
 
+        // 3. Update Cache
+        sessionStorage.setItem('cached_courses', JSON.stringify(courses));
+        sessionStorage.setItem('cached_enrollment_names', JSON.stringify(enrolledCourseNames));
+
+        // 4. Render Fresh Data (chunked)
         if (!courses || courses.length === 0) {
-          if (container) container.innerHTML = '<div class="no-courses" style="grid-column: 1/-1; text-align: center; padding: 40px; color: #64748b;">No courses available at the moment.</div>';
+          container.innerHTML = '<div class="no-courses" style="grid-column: 1/-1; text-align: center; padding: 40px; color: #64748b;">No courses available at the moment.</div>';
         } else {
-          displayCourses(courses, enrolledCourseNames);
+          displayCourses(courses, enrolledCourseNames, false);
         }
       } else if (coursesRes.status === 401) {
         localStorage.removeItem('token');
         localStorage.removeItem('isLoggedIn');
         window.location.href = 'login.html';
-      } else {
-        if (container) container.innerHTML = '<div class="error-msg" style="grid-column: 1/-1; text-align: center; padding: 40px; color: #ef4444;">Failed to load courses. Please try again later.</div>';
       }
     } catch (error) {
       console.error('Error loading courses:', error);
-      if (container) container.innerHTML = '<div class="error-msg" style="grid-column: 1/-1; text-align: center; padding: 40px; color: #ef4444;">Network error. Please check your connection.</div>';
     }
   }
 
-  function displayCourses(courses, enrolledCourseNames = []) {
+  function showSkeletonUI(container) {
+    container.innerHTML = Array(4).fill(0).map(() => `
+      <div class="skeleton-card">
+        <div class="skeleton-title"></div>
+        <div class="skeleton-text"></div>
+        <div class="skeleton-text" style="width: 85%"></div>
+        <div class="skeleton-footer">
+          <div class="skeleton-btn"></div>
+          <div class="skeleton-btn"></div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function displayCourses(courses, enrolledCourseNames, isFromCache) {
     const container = document.getElementById('dashboardCoursesContainer');
     if (!container) return;
-    
-    container.innerHTML = courses.map(course => {
-      const isEnrolled = enrolledCourseNames.includes(course.name);
-      return `
-        <div class="course-card" data-id="${course.id}">
-          <div class="course-card-header">
-            <h3>${escapeHtml(course.name)}</h3>
-            <span class="course-badge">Course</span>
-          </div>
-          <p class="course-desc">${escapeHtml(course.description) || 'No description available'}</p>
-          <div class="course-card-footer">
-            <span class="course-plan"><i class="fas fa-calendar-alt"></i> ${escapeHtml(course.coursePlan) || 'Standard Plan'}</span>
-            <div class="course-actions-wrap">
-              <button class="view-course-btn outline-btn">View Details</button>
-              ${isEnrolled 
-                ? `<button class="enroll-course-btn enrolled-btn" disabled>Enrolled</button>`
-                : `<button class="enroll-course-btn solid-btn" data-course-id="${course.id}">Enroll Now</button>`
-              }
+
+    // If it's a background update and data is identical, skip re-render
+    if (!isFromCache) {
+      const currentCards = container.querySelectorAll('.course-card');
+      if (currentCards.length === courses.length && !container.querySelector('.skeleton-card')) {
+        // Simple heuristic: if counts match and it's already rendered, skip
+        return; 
+      }
+      container.innerHTML = ''; 
+    } else {
+      container.innerHTML = '';
+    }
+
+    // 2. Chunk the Rendering (Batching)
+    const CHUNK_SIZE = 4;
+    let index = 0;
+
+    function renderNextBatch() {
+      const batch = courses.slice(index, index + CHUNK_SIZE);
+      const html = batch.map(course => {
+        const isEnrolled = enrolledCourseNames.includes(course.name);
+        return `
+          <div class="course-card" data-id="${course.id}">
+            <div class="course-card-header">
+              <h3>${escapeHtml(course.name)}</h3>
+              <span class="course-badge">Course</span>
+            </div>
+            <p class="course-desc">${escapeHtml(course.description) || 'No description available'}</p>
+            <div class="course-card-footer">
+              <span class="course-plan"><i class="fas fa-calendar-alt"></i> ${escapeHtml(course.coursePlan) || 'Standard Plan'}</span>
+              <div class="course-actions-wrap">
+                <button class="view-course-btn outline-btn">View Details</button>
+                ${isEnrolled 
+                  ? `<button class="enroll-course-btn enrolled-btn" disabled>Enrolled</button>`
+                  : `<button class="enroll-course-btn solid-btn" data-course-id="${course.id}">Enroll Now</button>`
+                }
+              </div>
             </div>
           </div>
-        </div>
-      `;
-    }).join('');
+        `;
+      }).join('');
 
-    document.querySelectorAll('.enroll-course-btn.solid-btn').forEach(btn => {
-      btn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        const courseId = this.getAttribute('data-course-id');
-        enrollCourse(courseId, this);
+      container.insertAdjacentHTML('beforeend', html);
+      
+      // Re-attach event listeners for the new batch
+      const newCards = container.querySelectorAll(`.course-card:nth-last-child(-n+${batch.length})`);
+      newCards.forEach(card => {
+        const enrollBtn = card.querySelector('.enroll-course-btn.solid-btn');
+        if (enrollBtn) {
+          enrollBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            enrollCourse(this.getAttribute('data-course-id'), this);
+          });
+        }
+        card.querySelector('.view-course-btn').addEventListener('click', function() {
+          showCourseDetails(card.getAttribute('data-id'), enrolledCourseNames);
+        });
       });
-    });
 
-    // View Details logic
-    document.querySelectorAll('.view-course-btn').forEach(btn => {
-      btn.addEventListener('click', function() {
-        const courseId = this.closest('.course-card').getAttribute('data-id');
-        showCourseDetails(courseId, enrolledCourseNames);
-      });
-    });
+      index += CHUNK_SIZE;
+      if (index < courses.length) {
+        // Use timeout to let the UI breathe
+        setTimeout(renderNextBatch, 0);
+      }
+    }
+
+    renderNextBatch();
   }
 
   async function showCourseDetails(courseId, enrolledCourseNames) {
@@ -655,19 +736,115 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
     if(document.getElementById('ticketsView')) renderTickets('all'); 
   }
 
-  function initCourses() {
-    if(document.getElementById('dashboardCoursesContainer')) {
-      loadCourses();
-    }
-    if(document.getElementById('coursesContainer')) {
-      loadUserEnrollments();
+  async function loadStudentProgress() {
+    const token = localStorage.getItem('token');
+    // Re-check ID just in case
+    const studentId = await ensureUserId();
+    const listContainer = document.getElementById('progressListContainer');
+    
+    if (!token || !studentId || !listContainer) return;
+
+    console.log("loadStudentProgress starting for studentId:", studentId);
+    try {
+      const response = await fetch(`http://justtech.runasp.net/api/enrollments/student/${studentId}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+
+      console.log("Enrollment response status:", response.status);
+
+      if (response.ok) {
+        const enrollments = await response.json();
+        
+        if (!enrollments || enrollments.length === 0) {
+          listContainer.innerHTML = '<div class="no-courses" style="grid-column: 1/-1; text-align: center; padding: 40px; color: #64748b;">No courses enrolled yet. Browse courses to start learning.</div>';
+          document.getElementById('totalEnrolledCount').innerText = '0';
+          document.getElementById('overallAvgValue').innerText = '0%';
+          document.getElementById('overallAvgBar').style.width = '0%';
+          return;
+        }
+
+        console.log(`Found ${enrollments.length} enrollments. Fetching percentages...`);
+        document.getElementById('totalEnrolledCount').innerText = enrollments.length;
+        document.getElementById('studentJoinDate').innerText = new Date(enrollments[0].enrolledAt).toLocaleDateString();
+
+        const progressPromises = enrollments.map(async (enr) => {
+          try {
+            const controller = new AbortController();
+            const id = setTimeout(() => controller.abort(), 10000); // 10s timeout
+            
+            console.log(`Fetching percentage for round ${enr.roundId}...`);
+            const res = await fetch(`http://justtech.runasp.net/api/progress/student/${studentId}/round/${enr.roundId}/percentage`, {
+              headers: { 'Authorization': `Bearer ${token}` },
+              signal: controller.signal
+            });
+            clearTimeout(id);
+            
+            const data = res.ok ? await res.json() : 0;
+            // Handle if API returns { progressPercentage: X } or just X
+            const percentage = typeof data === 'object' ? data.progressPercentage : data;
+            console.log(`Round ${enr.roundId} backend percentage:`, percentage);
+            return { ...enr, percentage: percentage || 0 };
+          } catch (e) {
+            console.error(`Could not fetch percentage for round ${enr.roundId}:`, e);
+            return { ...enr, percentage: 0 };
+          }
+        });
+
+        const detailedEnrollments = await Promise.all(progressPromises);
+        
+        const totalPercentage = detailedEnrollments.reduce((sum, enr) => sum + enr.percentage, 0);
+        const avgPercentage = detailedEnrollments.length > 0 ? Math.round(totalPercentage / detailedEnrollments.length) : 0;
+        console.log(`Average calculated: ${avgPercentage}% based on ${detailedEnrollments.length} courses.`);
+
+        const avgValEl = document.getElementById('overallAvgValue');
+        const avgBarEl = document.getElementById('overallAvgBar');
+        
+        if (avgValEl) avgValEl.innerText = `${avgPercentage}%`;
+        if (avgBarEl) avgBarEl.style.width = `${avgPercentage}%`;
+
+        listContainer.innerHTML = detailedEnrollments.map(enr => {
+          console.log(`Rendering ${enr.courseName}: ${enr.percentage}%`);
+          return `
+            <div class="course-master-card">
+              <div class="course-badge-top">
+                <span class="course-status active-status">In Progress</span>
+                <span class="course-mode"><i class="fas fa-calendar"></i> Enrolled: ${new Date(enr.enrolledAt).toLocaleDateString()}</span>
+              </div>
+              <div class="course-title-section">
+                <h3>${escapeHtml(enr.courseName)}</h3>
+                <p class="course-sub">${escapeHtml(enr.roundName)}</p>
+              </div>
+              <div class="progress-individual" style="padding: 0;">
+                <div class="progress-metric">
+                  <div class="metric-label">Course Completion</div>
+                  <div class="metric-value" style="font-size: 1.2rem;">${enr.percentage}%</div>
+                  <div class="progress-bar-global">
+                    <div class="global-fill" style="width:${enr.percentage}%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      } else {
+        listContainer.innerHTML = '<div class="error-msg" style="grid-column: 1/-1; text-align: center; padding: 40px; color: #ef4444;">Could not fetch your enrollments. Please check your connection.</div>';
+      }
+    } catch (error) {
+      console.error('Error loading progress:', error);
+      listContainer.innerHTML = '<div class="error-msg" style="grid-column: 1/-1; text-align: center; padding: 40px; color: #ef4444;">Network error while loading progress.</div>';
     }
   }
 
-  initTickets();
-  initCourses();
-  // Handle URL parameters for initial view (e.g., ?view=courses)
-  const urlParams = new URLSearchParams(window.location.search);
-  const initialView = urlParams.get('view') || 'dashboard';
-  setActiveView(initialView);
+  async function init() {
+    await ensureUserId();
+    initTickets();
+    initCourses();
+    loadStudentProgress();
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialView = urlParams.get('view') || 'dashboard';
+    setActiveView(initialView);
+  }
+
+  init();
 })();

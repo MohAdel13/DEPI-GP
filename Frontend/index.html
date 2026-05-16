@@ -26,17 +26,17 @@
       </div>
       <nav class="nav-menu">
         <ul class="nav-list">
-          <li class="nav-item active" data-nav="dashboard"><a href="#" class="nav-link" id="navDashboard"><i
+          <li class="nav-item active" data-nav="dashboard"><a href="index.html" class="nav-link" id="navDashboard"><i
                 class="fa fa-home"></i><span>Home</span></a></li>
-          <li class="nav-item" data-nav="lectures"><a href="#" class="nav-link" id="navLectures"><i
+          <li class="nav-item" data-nav="lectures"><a href="index.html?view=lectures" class="nav-link" id="navLectures"><i
                 class="fas fa-chalkboard-teacher"></i><span>Lectures</span></a></li>
-          <li class="nav-item" data-nav="courses"><a href="my-enrollments.html" class="nav-link" id="navCourses"><i
+          <li class="nav-item" data-nav="courses"><a href="index.html?view=courses" class="nav-link" id="navCourses"><i
                 class="fas fa-book-open"></i><span>Enrolled Courses</span></a></li>
-          <li class="nav-item" data-nav="progress"><a href="#" class="nav-link" id="navProgress"><i
+          <li class="nav-item" data-nav="progress"><a href="index.html?view=progress" class="nav-link" id="navProgress"><i
                 class="fas fa-user-graduate"></i><span>My Progress</span></a></li>
-          <li class="nav-item" data-nav="tickets"><a href="#" class="nav-link" id="navTickets"><i
+          <li class="nav-item" data-nav="tickets"><a href="index.html?view=tickets" class="nav-link" id="navTickets"><i
                 class="fas fa-ticket-alt"></i><span>Tickets</span></a></li>
-          <li class="nav-item" data-nav="profile"><a href="#" class="nav-link" id="navProfile"><i
+          <li class="nav-item" data-nav="profile"><a href="index.html?view=profile" class="nav-link" id="navProfile"><i
                 class="fas fa-user-circle"></i><span>Profile</span></a></li>
         </ul>
       </nav>
@@ -58,8 +58,8 @@
           <div class="avatar-wrapper">
             <div class="avatar-small"><span>JD</span></div>
             <div class="avatar-dropdown" id="avatarDropdown">
-              <a href="#" id="settingsBtn"><i class="fas fa-user-cog"></i> Settings</a>
-              <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+              <a href="index.html?view=settings" id="settingsBtn"><i class="fas fa-user-cog"></i> Settings</a>
+              <a href="login.html" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
             </div>
           </div>
         </div>
@@ -411,56 +411,33 @@
 
       <!-- ========== MY PROGRESS & STATS COMBINED ========== -->
       <div id="progressView" class="view-pane">
-        <!-- My Progress Section -->
+        <!-- Overall Stats Header -->
         <div class="section-card">
           <div class="card-header">
-            <h3><i class="fas fa-chart-line"></i> Your Progress · PHP</h3>
-            <span class="pill">Personal dashboard</span>
+            <h3><i class="fas fa-chart-line"></i> Learning Overview</h3>
+            <span class="pill">Student performance</span>
           </div>
           <div class="progress-individual">
             <div class="progress-metric">
-              <div class="metric-label">Overall Completion</div>
-              <div class="metric-value">90%</div>
+              <div class="metric-label">Average Completion</div>
+              <div id="overallAvgValue" class="metric-value">0%</div>
               <div class="progress-bar-global">
-                <div class="global-fill" style="width:90%"></div>
+                <div id="overallAvgBar" class="global-fill" style="width:0%"></div>
               </div>
             </div>
             <div class="split-metrics">
-              <div class="split-item"><span>Assignments done</span><strong> 30/31</strong></div>
-              <div class="split-item"><span>Quizzes avg</span><strong> 94%</strong></div>
-              <div class="split-item"><span>Attendance rate</span><strong> 93.55%</strong></div>
+              <div class="split-item"><span>Total Courses</span><strong id="totalEnrolledCount">0</strong></div>
+              <div class="split-item"><span>Member Since</span><strong id="studentJoinDate">...</strong></div>
             </div>
           </div>
         </div>
 
-        <!-- Round Stats Section -->
-        <div class="stats-full-card">
-          <div class="card-header">
-            <h3><i class="fas fa-chart-pie"></i> Round Stats</h3>
-            <span class="pill">Current round</span>
-          </div>
-          <div class="stat-circle-container">
-            <div class="stat-circle-item">
-              <div class="circle-percent">90%</div>
-              <span><i class="fas fa-user-check"></i> Attendance</span>
-            </div>
-            <div class="stat-circle-item">
-              <div class="circle-percent">85%</div>
-              <span><i class="fas fa-file-alt"></i> Task Avg</span>
-            </div>
-            <div class="stat-circle-item">
-              <div class="circle-percent">91.3%</div>
-              <span><i class="fas fa-chart-simple"></i> Avg Score</span>
-            </div>
-
-          </div>
-          <div class="stats-details">
-            <p><i class="fas fa-chart-line"></i> Round consistency: <strong>Excellent performance</strong></p>
-            <div class="stats-badge-group">
-              <span class="badge-stat">🔥 90% Attendance</span>
-              <span class="badge-stat">📊 85% Tasks</span>
-              <span class="badge-stat">🏆 91.3% Overall</span>
-            </div>
+        <!-- Course Wise Progress Grid -->
+        <h3 style="margin: 24px 0 16px; font-weight: 700; color: #0f172a;"><i class="fas fa-book"></i> Course Progress</h3>
+        <div id="progressListContainer" class="courses-grid-single">
+          <!-- Dynamic course progress cards will be injected here -->
+          <div class="loading-spinner" style="grid-column: 1/-1; text-align: center; padding: 40px;">
+            <i class="fas fa-spinner fa-spin"></i> Loading your progress...
           </div>
         </div>
       </div>

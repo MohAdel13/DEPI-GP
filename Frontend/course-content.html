@@ -10,6 +10,16 @@
     rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="style.css">
+  <script>
+    // Immediate Auth Check before DOM loads
+    (function() {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        window.location.href = 'login.html';
+      }
+      console.log('Classroom page pre-check: User authenticated, staying put.');
+    })();
+  </script>
   <style>
     .content-container {
       max-width: 1000px;
@@ -270,14 +280,13 @@
   </div>
 
   <script>
+
     const urlParams = new URLSearchParams(window.location.search);
     const roundId = urlParams.get('roundId');
     const studentId = localStorage.getItem('userId');
     const token = localStorage.getItem('token');
 
-    if (!roundId || !studentId || !token) {
-      window.location.href = 'index.html';
-    }
+    console.log('Classroom Main Script - Path:', window.location.pathname, 'RoundId:', roundId);
 
     async function init() {
       await fetchRoundInfo();
@@ -418,7 +427,7 @@
       btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
 
       try {
-        const response = await fetch('http://justtech.runasp.net/api/progress', {
+        const response = await fetch('http://justtech.runasp.net/api/progress/complete', {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -426,8 +435,7 @@
           },
           body: JSON.stringify({
             studentId: parseInt(studentId),
-            lectureId: lectureId,
-            watchedAt: new Date().toISOString()
+            lectureId: lectureId
           })
         });
 
