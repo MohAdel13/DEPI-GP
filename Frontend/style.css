@@ -1615,3 +1615,23 @@
   display: block;
   color: #3b82f6;
 }
+
+.course-actions-wrap {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.course-actions-wrap button {
+  flex: 1;
+  padding: 10px 12px;
+  font-size: 0.8rem;
+}
+
+.enrolled-btn {
+  background: #dcfce7 !important;
+  color: #15803d !important;
+  border: none !important;
+  cursor: default !important;
+  opacity: 1 !important;
+}

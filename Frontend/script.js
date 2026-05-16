@@ -36,7 +36,10 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
     else if(viewId === 'stats') titleText = "Round Stats";
     else if(viewId === 'progress') titleText = "My Progress";
     else if(viewId === 'tickets') titleText = "Tickets";
-    else if(viewId === 'courses') titleText = "Enrolled Courses";
+    else if(viewId === 'courses') {
+      titleText = "Enrolled Courses";
+      loadUserEnrollments();
+    }
     else if(viewId === 'profile') titleText = "Profile";
     else if(viewId === 'settings') titleText = "Settings";
     if(dynamicTitle) dynamicTitle.innerText = titleText;
@@ -300,6 +303,7 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
   
   async function loadCourses() {
     const token = localStorage.getItem('token');
+    const studentId = localStorage.getItem('userId');
     const container = document.getElementById('dashboardCoursesContainer');
     
     if (!token) {
@@ -310,21 +314,29 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
     }
 
     try {
-      const response = await fetch('http://justtech.runasp.net/api/courses', {
-        headers: { 
-          'Authorization': `Bearer ${token}`,
-          'Accept': 'application/json'
-        }
-      });
+      const [coursesRes, enrollmentsRes] = await Promise.all([
+        fetch('http://justtech.runasp.net/api/courses', {
+          headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
+        }),
+        fetch(`http://justtech.runasp.net/api/enrollments/student/${studentId}`, {
+          headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
+        }).catch(() => ({ ok: false }))
+      ]);
 
-      if (response.ok) {
-        const courses = await response.json();
+      if (coursesRes.ok) {
+        const courses = await coursesRes.json();
+        let enrolledCourseNames = [];
+        if (enrollmentsRes.ok) {
+          const enrollments = await enrollmentsRes.json();
+          enrolledCourseNames = enrollments.map(enr => enr.courseName);
+        }
+
         if (!courses || courses.length === 0) {
           if (container) container.innerHTML = '<div class="no-courses" style="grid-column: 1/-1; text-align: center; padding: 40px; color: #64748b;">No courses available at the moment.</div>';
         } else {
-          displayCourses(courses);
+          displayCourses(courses, enrolledCourseNames);
         }
-      } else if (response.status === 401) {
+      } else if (coursesRes.status === 401) {
         localStorage.removeItem('token');
         localStorage.removeItem('isLoggedIn');
         window.location.href = 'login.html';
@@ -337,20 +349,143 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
     }
   }
 
-  function displayCourses(courses) {
+  function displayCourses(courses, enrolledCourseNames = []) {
     const container = document.getElementById('dashboardCoursesContainer');
     if (!container) return;
     
-    container.innerHTML = courses.map(course => `
-      <div class="course-card">
-        <div class="course-card-header">
-          <h3>${escapeHtml(course.name)}</h3>
-          <span class="course-badge">Course</span>
+    container.innerHTML = courses.map(course => {
+      const isEnrolled = enrolledCourseNames.includes(course.name);
+      return `
+        <div class="course-card" data-id="${course.id}">
+          <div class="course-card-header">
+            <h3>${escapeHtml(course.name)}</h3>
+            <span class="course-badge">Course</span>
+          </div>
+          <p class="course-desc">${escapeHtml(course.description) || 'No description available'}</p>
+          <div class="course-card-footer">
+            <span class="course-plan"><i class="fas fa-calendar-alt"></i> ${escapeHtml(course.coursePlan) || 'Standard Plan'}</span>
+            <div class="course-actions-wrap">
+              <button class="view-course-btn outline-btn">View Details</button>
+              ${isEnrolled 
+                ? `<button class="enroll-course-btn enrolled-btn" disabled>Enrolled</button>`
+                : `<button class="enroll-course-btn solid-btn" data-course-id="${course.id}">Enroll Now</button>`
+              }
+            </div>
+          </div>
         </div>
-        <p class="course-desc">${escapeHtml(course.description) || 'No description available'}</p>
-        <div class="course-card-footer">
-          <span class="course-plan"><i class="fas fa-calendar-alt"></i> ${escapeHtml(course.coursePlan) || 'Standard Plan'}</span>
-          <button class="view-course-btn">View Details</button>
+      `;
+    }).join('');
+
+    document.querySelectorAll('.enroll-course-btn.solid-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const courseId = this.getAttribute('data-course-id');
+        enrollCourse(courseId, this);
+      });
+    });
+  }
+
+  async function enrollCourse(courseId, button) {
+    const token = localStorage.getItem('token');
+    const studentId = localStorage.getItem('userId');
+
+    if (!token || !studentId) {
+      alert('Session expired. Please login again.');
+      window.location.href = 'login.html';
+      return;
+    }
+
+    const originalText = button.innerText;
+    button.disabled = true;
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enrolling...';
+
+    try {
+      const response = await fetch('http://justtech.runasp.net/api/enrollments', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          studentId: studentId,
+          roundId: 1 // Fixed as requested
+        })
+      });
+
+      if (response.ok) {
+        showSuccess('Successfully enrolled in the course!');
+        button.innerText = 'Enrolled';
+        button.classList.remove('solid-btn');
+        button.classList.add('enrolled-btn');
+        button.disabled = true;
+      } else {
+        const errorData = await response.json().catch(() => ({}));
+        alert(errorData.message || 'Enrollment failed. Please try again.');
+        button.disabled = false;
+        button.innerText = originalText;
+      }
+    } catch (error) {
+      console.error('Enrollment error:', error);
+      alert('Network error. Please try again.');
+      button.disabled = false;
+      button.innerText = originalText;
+    }
+  }
+
+  async function loadUserEnrollments() {
+    const token = localStorage.getItem('token');
+    const studentId = localStorage.getItem('userId');
+    const container = document.getElementById('coursesContainer');
+    
+    if (!token || !studentId) return;
+
+    try {
+      const response = await fetch(`http://justtech.runasp.net/api/enrollments/student/${studentId}`, {
+        headers: { 
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        const enrollments = await response.json();
+        displayUserEnrollments(enrollments);
+      } else {
+        if (container) container.innerHTML = '<div class="error-msg" style="grid-column: 1/-1; text-align: center; padding: 40px; color: #ef4444;">Failed to load your enrollments.</div>';
+      }
+    } catch (error) {
+      console.error('Error loading enrollments:', error);
+      if (container) container.innerHTML = '<div class="error-msg" style="grid-column: 1/-1; text-align: center; padding: 40px; color: #ef4444;">Network error while fetching enrollments.</div>';
+    }
+  }
+
+  function displayUserEnrollments(enrollments) {
+    const container = document.getElementById('coursesContainer');
+    if (!container) return;
+    
+    if (!enrollments || enrollments.length === 0) {
+      container.innerHTML = '<div class="no-courses" style="grid-column: 1/-1; text-align: center; padding: 40px; color: #64748b;">You are not enrolled in any courses yet.</div>';
+      return;
+    }
+
+    container.innerHTML = enrollments.map(enr => `
+      <div class="course-master-card">
+        <div class="course-badge-top">
+          <span class="course-status active-status">${escapeHtml(enr.status)}</span>
+          <span class="course-mode"><i class="fas fa-clock"></i> Enrolled on ${new Date(enr.enrolledAt).toLocaleDateString()}</span>
+        </div>
+        <div class="course-title-section">
+          <h3>${escapeHtml(enr.courseName)}</h3>
+          <p class="course-sub">${escapeHtml(enr.roundName)}</p>
+        </div>
+        <div class="course-stats-mini">
+          <div class="course-stat-item">
+            <span class="stat-label">Enrollment Date</span>
+            <span class="stat-number" style="font-size: 1rem;">${new Date(enr.enrolledAt).toLocaleDateString()}</span>
+          </div>
+        </div>
+        <div class="course-actions">
+          <button class="course-btn solid-btn">Enter Classroom</button>
         </div>
       </div>
     `).join('');
@@ -363,6 +498,9 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
   function initCourses() {
     if(document.getElementById('dashboardCoursesContainer')) {
       loadCourses();
+    }
+    if(document.getElementById('coursesContainer')) {
+      loadUserEnrollments();
     }
   }
 

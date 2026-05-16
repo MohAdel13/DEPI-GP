@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>JustTech - My Enrollments</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .enrollment-card {
+      background: white;
+      border-radius: 20px;
+      padding: 24px;
+      border: 1px solid #eef2ff;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .enrollment-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    }
+    .status-badge {
+      padding: 4px 12px;
+      border-radius: 40px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      display: inline-block;
+      width: fit-content;
+    }
+    .status-active { background: #dcfce7; color: #15803d; }
+    .status-pending { background: #fef9c3; color: #854d0e; }
+    .enrollment-meta {
+      font-size: 0.85rem;
+      color: #64748b;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app-wrapper">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="logo-area">
+        <div class="logo-icon"><i class="fas fa-code"></i></div>
+        <div class="logo-text">
+          <span class="brand-bold">JustTech</span>
+        </div>
+      </div>
+      <nav class="nav-menu">
+        <ul class="nav-list">
+          <li class="nav-item"><a href="index.html" class="nav-link"><i class="fa fa-home"></i><span>Home</span></a></li>
+          <li class="nav-item active"><a href="my-enrollments.html" class="nav-link"><i class="fas fa-book-open"></i><span>My Enrollments</span></a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+      <div class="top-bar">
+        <div class="page-title-area">
+          <h2>My Enrollments</h2>
+        </div>
+        <div class="header-actions">
+           <a href="index.html" style="text-decoration: none; color: #3b82f6; font-weight: 600;"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+        </div>
+      </div>
+
+      <div class="view-pane active-view">
+        <div class="enrolled-header">
+          <h2><i class="fas fa-graduation-cap"></i> Your Learning Journey</h2>
+          <p>Track your progress across all enrolled rounds</p>
+        </div>
+
+        <div id="enrollmentsList" class="courses-grid">
+          <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i> Fetching your enrollments...
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    async function loadEnrollments() {
+      const token = localStorage.getItem('token');
+      const studentId = localStorage.getItem('userId');
+      const container = document.getElementById('enrollmentsList');
+
+      if (!token || !studentId) {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      try {
+        const response = await fetch(`http://justtech.runasp.net/api/enrollments/student/${studentId}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          renderEnrollments(data);
+        } else {
+          container.innerHTML = '<div class="error-msg">Failed to load enrollments.</div>';
+        }
+      } catch (error) {
+        container.innerHTML = '<div class="error-msg">Network error.</div>';
+      }
+    }
+
+    function renderEnrollments(enrollments) {
+      const container = document.getElementById('enrollmentsList');
+      if (!enrollments || enrollments.length === 0) {
+        container.innerHTML = '<div class="no-courses" style="grid-column: 1/-1;">You are not enrolled in any courses yet.</div>';
+        return;
+      }
+
+      container.innerHTML = enrollments.map(enr => `
+        <div class="enrollment-card">
+          <span class="status-badge status-${enr.status ? enr.status.toLowerCase() : 'active'}">${enr.status || 'Active'}</span>
+          <h3 style="font-size: 1.4rem; font-weight: 700; color: #0f172a;">${enr.courseName}</h3>
+          <p style="color: #64748b; font-weight: 500;">${enr.roundName}</p>
+          <div class="enrollment-meta">
+            <i class="far fa-calendar-alt"></i>
+            <span>Enrolled: ${new Date(enr.enrolledAt).toLocaleDateString()}</span>
+          </div>
+          <button class="view-course-btn" style="margin-top: 10px; width: 100%;">Enter Round</button>
+        </div>
+      `).join('');
+    }
+
+    loadEnrollments();
+  </script>
+</body>
+
+</html>
