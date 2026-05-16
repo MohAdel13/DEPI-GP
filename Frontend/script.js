@@ -349,9 +349,14 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
   });
   
   async function loadCourses() {
+    console.log('loadCourses called - timestamp:', new Date());
     const token = localStorage.getItem('token');
     const studentId = localStorage.getItem('userId');
     const container = document.getElementById('dashboardCoursesContainer');
+    
+    console.log('Token exists:', !!token);
+    console.log('Student ID:', studentId);
+
     if (!container) return;
 
     // 1. Check Cache First
@@ -401,6 +406,14 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
       }
     } catch (error) {
       console.error('Error loading courses:', error);
+      if (container) {
+        container.innerHTML = `
+          <div class="error-msg" style="grid-column: 1/-1; text-align: center; padding: 40px; color: #ef4444;">
+            <i class="fas fa-exclamation-circle" style="font-size: 2rem; margin-bottom: 10px; display: block;"></i>
+            <p>Failed to load courses. Please check your connection and try again.</p>
+            <button onclick="location.reload()" class="outline-btn" style="margin-top: 15px;">Retry</button>
+          </div>`;
+      }
     }
   }
 
@@ -836,14 +849,20 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
   }
 
   async function init() {
-    await ensureUserId();
-    initTickets();
-    initCourses();
-    loadStudentProgress();
-    
-    const urlParams = new URLSearchParams(window.location.search);
-    const initialView = urlParams.get('view') || 'dashboard';
-    setActiveView(initialView);
+    try {
+      console.log('Initializing application...');
+      await ensureUserId();
+      initTickets();
+      // initCourses(); // Removed as it was non-existent and causing crashes
+      loadStudentProgress();
+      
+      const urlParams = new URLSearchParams(window.location.search);
+      const initialView = urlParams.get('view') || 'dashboard';
+      console.log('Setting initial view:', initialView);
+      setActiveView(initialView);
+    } catch (err) {
+      console.error('Initialization failed:', err);
+    }
   }
 
   init();

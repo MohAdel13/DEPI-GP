@@ -226,8 +226,10 @@
                 class="fa fa-home"></i><span>Home</span></a></li>
           <li class="nav-item" data-nav="lectures"><a href="index.html?view=lectures" class="nav-link" id="navLectures"><i
                 class="fas fa-chalkboard-teacher"></i><span>Lectures</span></a></li>
-          <li class="nav-item active" data-nav="courses"><a href="index.html?view=courses" class="nav-link" id="navCourses"><i
+          <li class="nav-item" data-nav="courses"><a href="index.html?view=courses" class="nav-link" id="navCourses"><i
                 class="fas fa-book-open"></i><span>Enrolled Courses</span></a></li>
+          <li class="nav-item" data-nav="assignments"><a href="#" class="nav-link" id="navAssignments"><i
+                class="fas fa-tasks"></i><span>Assignments</span></a></li>
           <li class="nav-item" data-nav="progress"><a href="index.html?view=progress" class="nav-link" id="navProgress"><i
                 class="fas fa-user-graduate"></i><span>My Progress</span></a></li>
           <li class="nav-item" data-nav="tickets"><a href="index.html?view=tickets" class="nav-link" id="navTickets"><i
@@ -291,7 +293,11 @@
     async function init() {
       await fetchRoundInfo();
       await fetchLectures();
-      // updateProgress is called within fetchLectures to stay in sync
+      
+      const assignmentsLink = document.getElementById('navAssignments');
+      if (assignmentsLink) {
+        assignmentsLink.href = `assignments.html?roundId=${roundId}`;
+      }
     }
 
     async function fetchRoundInfo() {

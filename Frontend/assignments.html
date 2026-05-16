@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>JustTech - Assignments</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script>
+    // Immediate Auth Check
+    (function() {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        window.location.href = 'login.html';
+      }
+    })();
+  </script>
+  <style>
+    .content-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 32px;
+    }
+
+    .course-header-card {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      color: white;
+      padding: 40px;
+      border-radius: 24px;
+      margin-bottom: 32px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .assignments-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .assignment-card {
+      background: white;
+      padding: 24px;
+      border-radius: 20px;
+      border: 1px solid #eef2ff;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .assignment-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.05);
+      border-color: #3b82f6;
+    }
+
+    .assignment-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .assignment-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #1e293b;
+    }
+
+    .status-badge {
+      font-size: 0.75rem;
+      padding: 4px 12px;
+      border-radius: 40px;
+      font-weight: 600;
+    }
+
+    .status-pending { background: #fff7ed; color: #9a3412; }
+    .status-submitted { background: #f0fdf4; color: #166534; }
+
+    .assignment-desc {
+      font-size: 0.9rem;
+      color: #64748b;
+      line-height: 1.5;
+    }
+
+    .assignment-footer {
+      margin-top: auto;
+      padding-top: 16px;
+      border-top: 1px solid #f1f5f9;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .due-date {
+      font-size: 0.85rem;
+      color: #ef4444;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #3b82f6;
+      text-decoration: none;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-content {
+      background: white;
+      padding: 32px;
+      border-radius: 24px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    }
+
+    .modal-header h3 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 8px;
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .solid-btn {
+      background: #3b82f6;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .solid-btn:hover { background: #2563eb; }
+    .solid-btn:disabled { background: #94a3b8; cursor: not-allowed; }
+
+    .outline-btn {
+      background: white;
+      color: #475569;
+      border: 1px solid #e2e8f0;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .outline-btn:hover { background: #f8fafc; }
+
+    .input-field {
+      margin-top: 20px;
+    }
+
+    .input-field label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #475569;
+    }
+
+    .input-field input {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .input-field input:focus {
+      border-color: #3b82f6;
+    }
+
+    .loading-container {
+      text-align: center;
+      padding: 60px;
+      color: #64748b;
+      grid-column: 1/-1;
+    }
+
+    /* NEW STANDARD BUTTONS */
+    .button-submit {
+      background-color: #3b82f6; /* Matching existing blue */
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .button-submit:hover {
+      background-color: #2563eb;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+
+    .button-submitted {
+      background-color: #10b981; /* Success green */
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 12px;
+      cursor: default;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0.9;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app-wrapper">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="mainSidebar">
+      <div class="logo-area">
+        <div class="logo-icon"><i class="fas fa-code"></i></div>
+        <div class="logo-text">
+          <span class="brand-bold">JustTech</span>
+          <span class="brand-light"></span>
+        </div>
+      </div>
+      <nav class="nav-menu">
+        <ul class="nav-list">
+          <li class="nav-item"><a href="index.html" class="nav-link"><i class="fa fa-home"></i><span>Home</span></a></li>
+          <li class="nav-item"><a href="index.html?view=lectures" class="nav-link"><i class="fas fa-chalkboard-teacher"></i><span>Lectures</span></a></li>
+          <li class="nav-item"><a href="index.html?view=courses" class="nav-link"><i class="fas fa-book-open"></i><span>Enrolled Courses</span></a></li>
+          <li class="nav-item"><a href="index.html?view=progress" class="nav-link"><i class="fas fa-user-graduate"></i><span>My Progress</span></a></li>
+          <li class="nav-item"><a href="index.html?view=tickets" class="nav-link"><i class="fas fa-ticket-alt"></i><span>Tickets</span></a></li>
+          <li class="nav-item active"><a href="#" class="nav-link"><i class="fas fa-tasks"></i><span>Assignments</span></a></li>
+          <li class="nav-item"><a href="index.html?view=profile" class="nav-link"><i class="fas fa-user-circle"></i><span>Profile</span></a></li>
+        </ul>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="user-mini"><a href="index.html?view=settings" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 12px;"><i class="fa fa-gear"></i><span>Settings</span></a></div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+      <div class="content-container">
+        <a href="index.html?view=courses" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Courses</a>
+
+        <div class="course-header-card">
+          <h1 id="courseTitle">Assignments</h1>
+          <p id="roundTitle">Manage your course tasks</p>
+        </div>
+
+        <div id="assignmentsList" class="assignments-grid">
+          <div class="loading-container">
+            <i class="fas fa-spinner fa-spin fa-3x"></i>
+            <p style="margin-top: 15px;">Fetching your assignments...</p>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- SUBMISSION MODAL -->
+  <div id="submitModal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Submit Assignment</h3>
+        <p id="modalAssignmentTitle" style="color: #3b82f6; font-weight: 700; font-size: 1.1rem;"></p>
+      </div>
+      
+      <div id="modalAssignmentDesc" style="margin: 15px 0; padding: 12px; background: #f8fafc; border-radius: 12px; font-size: 0.9rem; color: #475569; border-left: 4px solid #3b82f6; max-height: 150px; overflow-y: auto;">
+        <!-- Assignment description will go here -->
+      </div>
+      
+      <div class="input-field">
+        <label>Your Answer</label>
+        <textarea id="answerText" placeholder="Type your answer directly here..." rows="5" maxlength="2000" style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #e2e8f0; resize: vertical; font-family: inherit;"></textarea>
+        <div id="charCounter" style="text-align: right; font-size: 0.75rem; color: #94a3b8; margin-top: 4px;">0 / 2000 characters</div>
+      </div>
+      
+      <div class="input-field" style="margin-top: 15px;">
+        <label>Alternative: Submission Link (Google Drive, GitHub, etc.)</label>
+        <input type="url" id="answerUrl" placeholder="https://drive.google.com/..." style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #e2e8f0;">
+      </div>
+
+      <div class="modal-footer">
+        <button class="outline-btn" id="closeSubmitModal">Cancel</button>
+        <button class="solid-btn" id="confirmSubmitBtn">Submit Answer</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    let roundId = urlParams.get('roundId') || 1; // Default to 1 as per example
+    const studentId = localStorage.getItem('userId');
+    const token = localStorage.getItem('token');
+    
+    let currentAssignmentId = null;
+    let roundName = 'Course';
+
+    async function init() {
+      await fetchRoundInfo();
+      await fetchAssignments();
+    }
+
+    async function fetchRoundInfo() {
+      try {
+        const response = await fetch(`http://justtech.runasp.net/api/rounds/${roundId}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (response.ok) {
+          const round = await response.json();
+          roundName = round.courseName || 'Course';
+          document.getElementById('courseTitle').innerText = `Assignments - ${roundName}`;
+          document.getElementById('roundTitle').innerText = round.name || 'Round Details';
+        }
+      } catch (err) { console.error('Error fetching round info:', err); }
+    }
+
+    async function fetchAssignments() {
+      const container = document.getElementById('assignmentsList');
+      try {
+        // Fetch assignments for the round
+        const assignmentsResponse = await fetch(`http://justtech.runasp.net/api/assignments/round/${roundId}`, {
+          headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
+        });
+
+        // Fetch student submissions to check status
+        const submissionsResponse = await fetch(`http://justtech.runasp.net/api/submissions/student/${studentId}`, {
+          headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
+        });
+
+        if (assignmentsResponse.ok) {
+          const assignments = await assignmentsResponse.json();
+          
+          // Update title with count
+          document.getElementById('courseTitle').innerText = `Assignments (${assignments.length}) - ${roundName}`;
+
+          let submittedIds = new Set();
+          
+          if (submissionsResponse.ok) {
+            const submissions = await submissionsResponse.json();
+            submissions.forEach(sub => {
+              if (sub.status === 'submitted' || sub.submittedAt) {
+                submittedIds.add(sub.assignmentId);
+              }
+            });
+          }
+          
+          renderAssignments(assignments, submittedIds);
+        } else {
+          container.innerHTML = '<div class="loading-container"><i class="fas fa-exclamation-circle fa-3x" style="color: #ef4444;"></i><p style="margin-top: 15px;">Failed to load assignments.</p></div>';
+        }
+      } catch (err) { 
+        console.error('Error fetching assignments:', err);
+        container.innerHTML = '<div class="loading-container"><i class="fas fa-wifi fa-3x" style="color: #ef4444;"></i><p style="margin-top: 15px;">Network error. Please try again.</p></div>';
+      }
+    }
+
+    function renderAssignments(assignments, submittedIds = new Set()) {
+      const container = document.getElementById('assignmentsList');
+      if (!assignments || assignments.length === 0) {
+        container.innerHTML = '<div class="loading-container"><i class="fas fa-clipboard-list fa-3x"></i><p style="margin-top: 15px;">No assignments yet for this course.</p></div>';
+        return;
+      }
+
+      container.innerHTML = '';
+      assignments.forEach(asn => {
+        const dueDate = new Date(asn.dueDate);
+        const isOverdue = dueDate < new Date();
+        const isSubmitted = submittedIds.has(asn.id);
+        const status = isSubmitted ? 'Submitted' : 'Pending'; 
+        const statusClass = isSubmitted ? 'status-submitted' : 'status-pending';
+
+        const card = document.createElement('div');
+        card.className = 'assignment-card';
+        card.innerHTML = `
+          <div class="assignment-header">
+            <div class="assignment-title">${escapeHtml(asn.title)}</div>
+            <span class="status-badge ${statusClass}">${status}</span>
+          </div>
+          <p class="assignment-desc">${escapeHtml(asn.description) || 'No description provided.'}</p>
+          <div class="assignment-footer">
+            <div class="due-date" style="${isOverdue && !isSubmitted ? 'color: #ef4444;' : 'color: #64748b;'}">
+              <i class="far fa-clock"></i> Due: ${dueDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+            </div>
+          </div>
+        `;
+
+        const footer = card.querySelector('.assignment-footer');
+        if (!isSubmitted) {
+          const btn = document.createElement('button');
+          btn.className = 'button-submit';
+          btn.id = `submit-btn-${asn.id}`;
+          btn.innerText = 'Submit';
+          btn.onclick = () => openSubmitModal(asn.id, asn.title, asn.description);
+          footer.appendChild(btn);
+        } else {
+          const btn = document.createElement('button');
+          btn.className = 'button-submitted';
+          btn.disabled = true;
+          btn.innerHTML = '<i class="fas fa-check"></i> Submitted';
+          footer.appendChild(btn);
+        }
+        container.appendChild(card);
+      });
+    }
+
+    function openSubmitModal(id, title, desc) {
+      currentAssignmentId = id;
+      document.getElementById('modalAssignmentTitle').innerText = title;
+      document.getElementById('modalAssignmentDesc').innerText = desc || 'No additional instructions provided.';
+      document.getElementById('answerUrl').value = '';
+      document.getElementById('answerText').value = '';
+      document.getElementById('charCounter').innerText = '0 / 2000 characters';
+      document.getElementById('submitModal').style.display = 'flex';
+    }
+
+    // Character counter logic
+    document.getElementById('answerText').addEventListener('input', (e) => {
+      const len = e.target.value.length;
+      document.getElementById('charCounter').innerText = `${len} / 2000 characters`;
+    });
+
+    document.getElementById('closeSubmitModal').addEventListener('click', () => {
+      document.getElementById('submitModal').style.display = 'none';
+    });
+
+    document.getElementById('confirmSubmitBtn').addEventListener('click', async () => {
+      const textAnswer = document.getElementById('answerText').value.trim();
+      const answerUrl = document.getElementById('answerUrl').value.trim();
+      
+      if (!textAnswer && !answerUrl) {
+        alert('Please provide either a text answer or a submission link.');
+        return;
+      }
+
+      if (answerUrl) {
+        try { new URL(answerUrl); } catch (_) {
+          alert('The submission link is invalid. Please enter a full URL (including http:// or https://)');
+          return;
+        }
+      }
+
+      const btn = document.getElementById('confirmSubmitBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+
+      try {
+        const response = await fetch('http://justtech.runasp.net/api/submissions', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            assignmentId: currentAssignmentId,
+            studentId: parseInt(studentId),
+            answerUrl: JSON.stringify({
+              text: textAnswer,
+              url: answerUrl
+            })
+          })
+        });
+
+        if (response.ok) {
+          alert('Assignment submitted successfully!');
+          document.getElementById('submitModal').style.display = 'none';
+          
+          // Immediate UI update for the specific button
+          const targetBtn = document.getElementById(`submit-btn-${currentAssignmentId}`);
+          if (targetBtn) {
+            targetBtn.innerHTML = '<i class="fas fa-check"></i> Submitted';
+            targetBtn.disabled = true;
+            targetBtn.className = 'button-submitted';
+            
+            // Also update the status badge in the same card
+            const badge = targetBtn.closest('.assignment-card').querySelector('.status-badge');
+            if (badge) {
+              badge.innerText = 'Submitted';
+              badge.className = 'status-badge status-submitted';
+            }
+          }
+          
+          // Optionally refresh list after a short delay for data consistency
+          setTimeout(fetchAssignments, 2000); 
+        } else {
+          const err = await response.json().catch(() => ({}));
+          alert(err.message || 'Failed to submit assignment.');
+        }
+      } catch (err) {
+        alert('Network error.');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = 'Submit Answer';
+      }
+    });
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    window.addEventListener('click', (e) => {
+      const modal = document.getElementById('submitModal');
+      if (e.target === modal) modal.style.display = 'none';
+    });
+
+    init();
+  </script>
+</body>
+</html>
