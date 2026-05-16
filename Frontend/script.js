@@ -26,9 +26,9 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
     Object.values(views).forEach(v => { if(v) v.classList.remove('active-view'); });
     if(views[viewId]) views[viewId].classList.add('active-view');
     
-    let titleText = "Dashboard";
+    let titleText = "Home";
     if(viewId === 'dashboard') {
-      titleText = "Dashboard";
+      titleText = "Home";
       loadCourses();
     }
     else if(viewId === 'rankings') titleText = "Round Rank";
@@ -393,12 +393,68 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
     }).join('');
 
     document.querySelectorAll('.enroll-course-btn.solid-btn').forEach(btn => {
-      btn.addEventListener('click', function() {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
         const courseId = this.getAttribute('data-course-id');
         enrollCourse(courseId, this);
       });
     });
+
+    // View Details logic
+    document.querySelectorAll('.view-course-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const courseId = this.closest('.course-card').getAttribute('data-id');
+        showCourseDetails(courseId, enrolledCourseNames);
+      });
+    });
   }
+
+  async function showCourseDetails(courseId, enrolledCourseNames) {
+    const token = localStorage.getItem('token');
+    const modal = document.getElementById('courseDetailsModal');
+    if (!token || !modal) return;
+
+    try {
+      const response = await fetch(`http://justtech.runasp.net/api/courses/${courseId}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+
+      if (response.ok) {
+        const course = await response.json();
+        const isEnrolled = enrolledCourseNames.includes(course.name);
+
+        document.getElementById('modalCourseName').innerText = course.name;
+        document.getElementById('modalCourseDesc').innerText = course.description || 'No description available.';
+        document.getElementById('modalCoursePlan').innerText = course.coursePlan || 'Standard Plan';
+        
+        const footer = document.getElementById('modalCourseFooter');
+        if (isEnrolled) {
+          footer.innerHTML = `<button class="enroll-course-btn enrolled-btn" disabled>Enrolled</button>`;
+        } else {
+          footer.innerHTML = `<button class="enroll-course-btn solid-btn modal-enroll-btn" data-course-id="${course.id}">Enroll Now</button>`;
+          footer.querySelector('.modal-enroll-btn').addEventListener('click', function() {
+            enrollCourse(course.id, this);
+          });
+        }
+
+        modal.style.display = 'flex';
+      }
+    } catch (error) {
+      console.error('Error fetching course details:', error);
+    }
+  }
+
+  // Close modal logic
+  document.getElementById('closeCourseModal')?.addEventListener('click', () => {
+    document.getElementById('courseDetailsModal').style.display = 'none';
+  });
+
+  window.addEventListener('click', (e) => {
+    const modal = document.getElementById('courseDetailsModal');
+    if (e.target === modal) {
+      modal.style.display = 'none';
+    }
+  });
 
   async function enrollCourse(courseId, button) {
     const token = localStorage.getItem('token');

@@ -650,6 +650,29 @@
 
 
 
+<!-- Course Details Modal -->
+<div id="courseDetailsModal" class="modal-overlay">
+  <div class="modal-content course-modal">
+    <div class="modal-header">
+      <h3 id="modalCourseName">Course Details</h3>
+      <button class="close-modal" id="closeCourseModal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-info-item">
+        <label><i class="fas fa-align-left"></i> Description</label>
+        <p id="modalCourseDesc"></p>
+      </div>
+      <div class="modal-info-item">
+        <label><i class="fas fa-calendar-check"></i> Course Plan</label>
+        <p id="modalCoursePlan"></p>
+      </div>
+    </div>
+    <div class="modal-footer" id="modalCourseFooter">
+      <!-- Enroll button will be injected here -->
+    </div>
+  </div>
+</div>
+
 <script src="script.js"></script>
 
 </body>
