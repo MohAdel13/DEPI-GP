@@ -11,6 +11,16 @@ namespace JustTech.Infrastructure.Repositories
         {
         }
 
+
+        public override async Task<Certificate?> GetByIdAsync(int id)
+        {
+            return await _context.Certificates
+                .Include(c => c.Student)
+                .Include(c => c.Round)
+                    .ThenInclude(r => r.Course)
+                .FirstOrDefaultAsync(c => c.Id == id && c.DeletedAt == null);
+        }
+
         public async Task<Certificate?> GetCertificateByStudentAndRoundAsync(int studentId, int roundId)
         {
             return await _context.Certificates

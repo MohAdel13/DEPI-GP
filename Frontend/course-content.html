@@ -230,6 +230,8 @@
                 class="fas fa-book-open"></i><span>Enrolled Courses</span></a></li>
           <li class="nav-item" data-nav="assignments"><a href="#" class="nav-link" id="navAssignments"><i
                 class="fas fa-tasks"></i><span>Assignments</span></a></li>
+          <li class="nav-item" data-nav="certificates"><a href="certificates.html" class="nav-link" id="navCertificates"><i
+                class="fas fa-certificate"></i><span>Certificates</span></a></li>
           <li class="nav-item" data-nav="progress"><a href="index.html?view=progress" class="nav-link" id="navProgress"><i
                 class="fas fa-user-graduate"></i><span>My Progress</span></a></li>
           <li class="nav-item" data-nav="tickets"><a href="index.html?view=tickets" class="nav-link" id="navTickets"><i
@@ -339,12 +341,68 @@
     }
 
     async function updateProgressStats(completedCount, totalCount) {
-      // Calculate percentage
       const progress = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
       
       document.getElementById('progressBar').style.width = progress + '%';
       document.getElementById('progressText').innerText = progress + '%';
       document.getElementById('progressStats').innerText = `${completedCount}/${totalCount} lectures completed`;
+
+      // Auto-generate certificate on 100% completion
+      if (progress === 100 && totalCount > 0) {
+        await generateCertificate();
+      }
+    }
+
+    async function generateCertificate() {
+      try {
+        const response = await fetch('http://justtech.runasp.net/api/certificates/generate', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            studentId: parseInt(studentId),
+            roundId: parseInt(roundId)
+          })
+        });
+
+        if (response.ok) {
+          showCertificateBanner();
+        }
+        // Silently ignore if already generated (e.g., 409 Conflict)
+      } catch (err) {
+        console.error('Certificate generation error:', err);
+      }
+    }
+
+    function showCertificateBanner() {
+      // Avoid showing duplicate banners
+      if (document.getElementById('certBanner')) return;
+
+      const banner = document.createElement('div');
+      banner.id = 'certBanner';
+      banner.style.cssText = `
+        position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: white; padding: 20px 32px; border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(16,185,129,0.4);
+        display: flex; align-items: center; gap: 16px;
+        font-size: 1rem; font-weight: 600; z-index: 9999;
+        animation: slideUp 0.4s ease;
+      `;
+      banner.innerHTML = `
+        <i class="fas fa-certificate" style="font-size: 2rem;"></i>
+        <div>
+          <div style="font-size:1.1rem;">🎉 Congratulations! You've earned a certificate!</div>
+          <a href="certificates.html" style="color: rgba(255,255,255,0.85); font-size: 0.9rem; text-decoration: underline;">View your certificates →</a>
+        </div>
+        <button onclick="this.parentElement.remove()" style="background: none; border: none; color: white; font-size: 1.4rem; cursor: pointer; margin-left: 8px;">✕</button>
+      `;
+      document.body.appendChild(banner);
+
+      // Auto-dismiss after 8 seconds
+      setTimeout(() => banner.remove(), 8000);
     }
 
     async function updateProgress() {

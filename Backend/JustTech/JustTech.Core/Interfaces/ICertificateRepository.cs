@@ -7,6 +7,7 @@ namespace JustTech.Core.Interfaces
 {
     public interface ICertificateRepository : IRepository<Certificate>
     {
+        Task<Certificate?> GetByIdAsync(int id);
         Task<Certificate?> GetCertificateByStudentAndRoundAsync(int studentId, int roundId);
         Task<IEnumerable<Certificate>> GetCertificatesByStudentIdAsync(int studentId);
         Task<IEnumerable<Certificate>> GetCertificatesByRoundIdAsync(int roundId);

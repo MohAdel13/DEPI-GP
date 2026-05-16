@@ -22,7 +22,7 @@ namespace JustTech.Infrastructure.Repositories
             return await _dbSet.Where(e => e.DeletedAt == null).ToListAsync();
         }
 
-        public async Task<T> GetByIdAsync(int id)
+        public virtual async Task<T?> GetByIdAsync(int id)
         {
             return await _dbSet.FirstOrDefaultAsync(e => e.Id == id && e.DeletedAt == null);
         }

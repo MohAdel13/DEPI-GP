@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JustTech - Certificate of Completion</title>
+  <meta name="description" content="Your JustTech course completion certificate.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script>
+    (function() {
+      if (!localStorage.getItem('token')) window.location.href = 'login.html';
+    })();
+  </script>
+  <style>
+    body { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); min-height: 100vh; }
+
+    .cert-page-wrapper {
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; padding: 40px 20px;
+    }
+
+    .cert-actions-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      width: 100%; max-width: 900px; margin-bottom: 24px;
+    }
+
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+      color: white; padding: 10px 18px; border-radius: 12px;
+      font-weight: 600; font-size: 0.9rem; text-decoration: none;
+      transition: all 0.2s; backdrop-filter: blur(8px);
+    }
+    .back-btn:hover { background: rgba(255,255,255,0.18); }
+
+
+    /* ── Certificate Card ── */
+    .certificate {
+      width: 1123px;
+      height: 794px;
+      background: #fff;
+      border-radius: 6px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+      position: relative; overflow: hidden;
+      display: flex; flex-direction: column;
+      box-sizing: border-box;
+      flex-shrink: 0;
+    }
+
+    /* Top navy header band */
+    .cert-header-band {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+      padding: 32px 50px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: relative;
+    }
+    .cert-header-band::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #d4af37, #f5d97e, #d4af37);
+    }
+
+    .cert-brand { display: flex; align-items: center; gap: 14px; }
+    .cert-brand-icon {
+      width: 48px; height: 48px;
+      background: rgba(212,175,55,0.15);
+      border: 2px solid rgba(212,175,55,0.5);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      color: #d4af37; font-size: 1.3rem;
+    }
+    .cert-brand-name {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.7rem; font-weight: 800; color: white;
+    }
+    .cert-brand-sub {
+      font-size: 0.7rem; color: rgba(255,255,255,0.5);
+      letter-spacing: 0.25em; text-transform: uppercase; margin-top: 2px;
+    }
+
+    .cert-header-badge {
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+    }
+    .cert-header-seal {
+      width: 64px; height: 64px;
+      background: linear-gradient(135deg, #d4af37, #b8860b);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-size: 1.6rem;
+      box-shadow: 0 0 0 4px rgba(212,175,55,0.2), 0 0 0 8px rgba(212,175,55,0.08);
+    }
+    .cert-header-badge-text {
+      font-size: 0.6rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: rgba(255,255,255,0.5);
+    }
+
+    /* Body */
+    .cert-body {
+      padding: 44px 60px 36px;
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; position: relative; flex: 1;
+    }
+
+    /* Corner ornaments — real DOM elements, NOT pseudo */
+    .cert-corner {
+      position: absolute;
+      font-size: 1.1rem; color: rgba(212,175,55,0.35);
+      line-height: 1;
+    }
+    .cert-corner-tl { top: 18px; left: 32px; }
+    .cert-corner-tr { top: 18px; right: 32px; }
+    .cert-corner-bl { bottom: 18px; left: 32px; }
+    .cert-corner-br { bottom: 18px; right: 32px; }
+
+    .cert-type-label {
+      font-size: 0.72rem; letter-spacing: 0.35em;
+      text-transform: uppercase; color: #94a3b8;
+      margin-bottom: 6px;
+    }
+
+    .cert-main-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem; font-weight: 700; color: #0f172a;
+      letter-spacing: 0.04em; margin-bottom: 28px;
+    }
+
+    .cert-ornament-line {
+      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 28px; width: 80%;
+    }
+    .cert-ornament-line span {
+      flex: 1; height: 1px;
+      background: linear-gradient(90deg, transparent, #d4af37, transparent);
+    }
+    .cert-ornament-line i { color: #d4af37; font-size: 0.8rem; }
+
+    .cert-awarded-to {
+      font-size: 0.78rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: #64748b; margin-bottom: 10px;
+    }
+
+    .cert-student-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.6rem; font-style: italic;
+      color: #1e40af; margin-bottom: 8px; line-height: 1.15;
+    }
+
+    .cert-name-underline {
+      width: 200px; height: 2px; margin: 0 auto 28px;
+      background: linear-gradient(90deg, transparent, #3b82f6, transparent);
+    }
+
+    .cert-completing-text {
+      font-size: 0.82rem; letter-spacing: 0.12em;
+      text-transform: uppercase; color: #94a3b8; margin-bottom: 10px;
+    }
+
+    .cert-course-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.55rem; font-weight: 700;
+      color: #0f172a; margin-bottom: 36px;
+    }
+
+    /* Footer row */
+    .cert-footer {
+      display: flex; align-items: flex-end;
+      justify-content: space-between; width: 100%;
+      border-top: 1px solid #f1f5f9; padding-top: 24px;
+    }
+
+    .cert-sig { text-align: center; }
+    .cert-sig-line {
+      width: 140px; height: 1px;
+      background: #1e293b; margin: 0 auto 8px;
+    }
+    .cert-sig-label {
+      font-size: 0.68rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: #64748b;
+    }
+
+    .cert-id-badge {
+      background: #f8fafc; border: 1px solid #e2e8f0;
+      border-radius: 8px; padding: 8px 16px; text-align: center;
+    }
+    .cert-id-label { font-size: 0.6rem; letter-spacing: 0.15em; color: #94a3b8; text-transform: uppercase; }
+    .cert-id-value { font-size: 0.78rem; font-weight: 700; color: #475569; font-family: monospace; }
+
+    .cert-date-block { text-align: center; }
+    .cert-date-value { font-size: 0.95rem; font-weight: 700; color: #1e293b; }
+    .cert-date-line { width: 140px; height: 1px; background: #1e293b; margin: 8px auto 0; }
+    .cert-date-label {
+      font-size: 0.68rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: #64748b; margin-top: 6px;
+    }
+
+    /* States */
+    .state-container {
+      text-align: center; padding: 60px 40px;
+      width: 100%; max-width: 900px;
+      background: rgba(255,255,255,0.05); border-radius: 24px;
+      color: rgba(255,255,255,0.7);
+    }
+    .state-container i { font-size: 3rem; margin-bottom: 20px; display: block; }
+
+    @media print {
+      body { background: white; }
+      .cert-actions-bar { display: none; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="cert-page-wrapper">
+    <!-- Action Bar -->
+    <div class="cert-actions-bar" id="actionsBar">
+      <a href="certificates.html" class="back-btn">
+        <i class="fas fa-arrow-left"></i> Back to Certificates
+      </a>
+    </div>
+
+    <!-- Certificate or State -->
+    <div id="certContainer">
+      <div class="state-container">
+        <i class="fas fa-spinner fa-spin" style="color: #3b82f6;"></i>
+        <p style="font-size: 1.1rem; color: #64748b; font-weight: 500;">Loading your certificate...</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const token = localStorage.getItem('token');
+    const urlParams = new URLSearchParams(window.location.search);
+    const certId = urlParams.get('id');
+
+    if (!certId) {
+      window.location.href = 'certificates.html';
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    async function loadCertificate() {
+      const container = document.getElementById('certContainer');
+      try {
+        const response = await fetch(`http://justtech.runasp.net/api/certificates/${certId}`, {
+          headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
+        });
+
+        if (response.ok) {
+          const cert = await response.json();
+          renderCertificate(cert);
+        } else {
+          container.innerHTML = `
+            <div class="state-container">
+              <i class="fas fa-exclamation-circle" style="color:#ef4444;"></i>
+              <h3 style="font-size:1.3rem;font-weight:700;color:#1e293b;margin-bottom:8px;">Certificate Not Found</h3>
+              <p style="color:#64748b;">This certificate could not be loaded. It may have been removed or the ID is invalid.</p>
+              <a href="certificates.html" class="back-btn" style="display:inline-flex;margin-top:20px;">
+                <i class="fas fa-arrow-left"></i> Back to Certificates
+              </a>
+            </div>`;
+        }
+      } catch (err) {
+        console.error('Error loading certificate:', err);
+        container.innerHTML = `
+          <div class="state-container">
+            <i class="fas fa-wifi" style="color:#ef4444;"></i>
+            <h3 style="font-size:1.3rem;font-weight:700;color:#1e293b;margin-bottom:8px;">Network Error</h3>
+            <p style="color:#64748b;">Please check your connection and try again.</p>
+            <p style="color:#ef4444;font-size:0.8rem;margin-top:10px;">${err.message}</p>
+            <button class="print-btn" onclick="loadCertificate()" style="margin-top:20px;">
+              <i class="fas fa-redo"></i> Retry
+            </button>
+          </div>`;
+      }
+    }
+
+    function renderCertificate(cert) {
+      try {
+        const container = document.getElementById('certContainer');
+        const issuedDate = cert.issuedAt
+          ? new Date(cert.issuedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+          : 'N/A';
+
+        const courseFull = cert.roundName
+          ? `${escapeHtml(cert.courseName)} &mdash; ${escapeHtml(cert.roundName)}`
+          : escapeHtml(cert.courseName || 'Course Completion');
+
+        document.title = `Certificate - ${cert.studentName || 'Student'} | JustTech`;
+
+        container.innerHTML = `
+          <div class="certificate">
+            <!-- Dark Header Band -->
+            <div class="cert-header-band">
+              <div class="cert-brand">
+                <div class="cert-brand-icon"><i class="fas fa-code"></i></div>
+                <div>
+                  <div class="cert-brand-name">JustTech</div>
+                  <div class="cert-brand-sub">Academy</div>
+                </div>
+              </div>
+              <div class="cert-header-badge">
+                <div class="cert-header-seal"><i class="fas fa-award"></i></div>
+                <div class="cert-header-badge-text">Verified</div>
+              </div>
+            </div>
+
+            <!-- Certificate Body -->
+            <div class="cert-body">
+              <span class="cert-corner cert-corner-tl">✦</span>
+              <span class="cert-corner cert-corner-tr">✦</span>
+              <span class="cert-corner cert-corner-bl">✦</span>
+              <span class="cert-corner cert-corner-br">✦</span>
+
+              <div class="cert-type-label">Certificate of Completion</div>
+              <div class="cert-main-title">Certificate of Achievement</div>
+
+              <div class="cert-ornament-line">
+                <span></span><i class="fas fa-star"></i><span></span>
+              </div>
+
+              <div class="cert-awarded-to">This certificate is proudly awarded to</div>
+              <div class="cert-student-name">${escapeHtml(cert.studentName || 'Student')}</div>
+              <div class="cert-name-underline"></div>
+
+              <div class="cert-completing-text">for successfully completing</div>
+              <div class="cert-course-name">${courseFull}</div>
+
+              <!-- Footer -->
+              <div class="cert-footer">
+                <div class="cert-sig">
+                  <div class="cert-sig-line"></div>
+                  <div class="cert-sig-label">JustTech Academy</div>
+                </div>
+
+                <div class="cert-id-badge">
+                  <div class="cert-id-label">Certificate ID</div>
+                  <div class="cert-id-value">#CERT-${String(cert.id || certId).padStart(6, '0')}</div>
+                </div>
+
+                <div class="cert-date-block">
+                  <div class="cert-date-value">${issuedDate}</div>
+                  <div class="cert-date-line"></div>
+                  <div class="cert-date-label">Date of Issue</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      } catch (err) {
+        document.getElementById('certContainer').innerHTML = `<p style="color:red;padding:40px;">Render Error: ${err.message}</p>`;
+      }
+    }
+
+    try {
+      loadCertificate();
+    } catch (err) {
+      document.getElementById('certContainer').innerHTML = `<p style="color:red;padding:40px;">Init Error: ${err.message}</p>`;
+    }
+  </script>
+</body>
+</html>

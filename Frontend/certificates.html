@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JustTech - My Certificates</title>
+  <meta name="description" content="View and download your earned course completion certificates.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script>
+    (function() {
+      if (!localStorage.getItem('token')) window.location.href = 'login.html';
+    })();
+  </script>
+  <style>
+    .content-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 32px;
+    }
+
+    .page-header {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      color: white;
+      padding: 48px 40px;
+      border-radius: 24px;
+      margin-bottom: 40px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .page-header-icon {
+      width: 80px;
+      height: 80px;
+      background: rgba(255, 215, 0, 0.15);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      flex-shrink: 0;
+      border: 2px solid rgba(255,215,0,0.3);
+    }
+
+    .page-header h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .page-header p {
+      opacity: 0.75;
+      font-size: 1rem;
+    }
+
+    .certs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 28px;
+    }
+
+    .cert-card {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid #eef2ff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .cert-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+    }
+
+    .cert-card-top {
+      background: linear-gradient(135deg, #fef9c3, #fde68a);
+      padding: 32px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
+
+    .cert-seal {
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      color: white;
+      box-shadow: 0 4px 12px rgba(245,158,11,0.4);
+      margin-bottom: 16px;
+    }
+
+    .cert-course-name {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #1e293b;
+      margin-bottom: 4px;
+    }
+
+    .cert-round-name {
+      font-size: 0.9rem;
+      color: #64748b;
+      font-weight: 500;
+    }
+
+    .cert-card-body {
+      padding: 20px 24px;
+    }
+
+    .cert-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.875rem;
+      color: #64748b;
+      margin-bottom: 18px;
+    }
+
+    .cert-meta i {
+      color: #10b981;
+    }
+
+    .cert-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .cert-download-btn {
+      flex: 1;
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      color: white;
+      border: none;
+      padding: 11px 16px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .cert-download-btn:hover {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(59,130,246,0.3);
+    }
+
+    .loading-container {
+      grid-column: 1/-1;
+      text-align: center;
+      padding: 80px 40px;
+      color: #94a3b8;
+    }
+
+    .loading-container i {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .loading-container p {
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+
+    .empty-state {
+      grid-column: 1/-1;
+      text-align: center;
+      padding: 80px 40px;
+    }
+
+    .empty-icon {
+      font-size: 4rem;
+      color: #cbd5e1;
+      margin-bottom: 20px;
+    }
+
+    .empty-state h3 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 8px;
+    }
+
+    .empty-state p {
+      color: #64748b;
+      max-width: 400px;
+      margin: 0 auto 24px;
+      line-height: 1.6;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+      to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app-shell">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="mainSidebar">
+      <div class="logo-area">
+        <div class="logo-icon"><i class="fas fa-code"></i></div>
+        <div class="logo-text">
+          <span class="brand-bold">JustTech</span>
+          <span class="brand-light"></span>
+        </div>
+      </div>
+      <nav class="nav-menu">
+        <ul class="nav-list">
+          <li class="nav-item" data-nav="dashboard"><a href="index.html" class="nav-link" id="navDashboard"><i class="fa fa-home"></i><span>Home</span></a></li>
+          <li class="nav-item" data-nav="lectures"><a href="index.html?view=lectures" class="nav-link" id="navLectures"><i class="fas fa-chalkboard-teacher"></i><span>Lectures</span></a></li>
+          <li class="nav-item" data-nav="courses"><a href="index.html?view=courses" class="nav-link" id="navCourses"><i class="fas fa-book-open"></i><span>Enrolled Courses</span></a></li>
+          <li class="nav-item" data-nav="progress"><a href="index.html?view=progress" class="nav-link" id="navProgress"><i class="fas fa-user-graduate"></i><span>My Progress</span></a></li>
+          <li class="nav-item" data-nav="tickets"><a href="index.html?view=tickets" class="nav-link" id="navTickets"><i class="fas fa-ticket-alt"></i><span>Tickets</span></a></li>
+          <li class="nav-item" data-nav="assignments"><a href="assignments.html" class="nav-link" id="navAssignments"><i class="fas fa-tasks"></i><span>Assignments</span></a></li>
+          <li class="nav-item active" data-nav="certificates"><a href="certificates.html" class="nav-link" id="navCertificates"><i class="fas fa-certificate"></i><span>Certificates</span></a></li>
+          <li class="nav-item" data-nav="profile"><a href="index.html?view=profile" class="nav-link" id="navProfile"><i class="fas fa-user-circle"></i><span>Profile</span></a></li>
+        </ul>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="user-mini" id="settingsNav"><i class="fa fa-gear"></i><span>Settings</span></div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+      <div class="top-bar">
+        <button class="mobile-menu-toggle" id="mobileToggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        <h2 class="top-bar-title">My Certificates</h2>
+        <div class="top-bar-actions">
+          <div class="user-avatar" id="userAvatar">S</div>
+        </div>
+      </div>
+
+      <div class="content-container">
+        <!-- Page Header -->
+        <div class="page-header">
+          <div class="page-header-icon">🏆</div>
+          <div>
+            <h1>My Certificates</h1>
+            <p>Your earned course completion certificates. Keep learning to earn more!</p>
+          </div>
+        </div>
+
+        <!-- Certificates Grid -->
+        <div class="certs-grid" id="certsGrid">
+          <div class="loading-container">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Loading your certificates...</p>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const token = localStorage.getItem('token');
+    const studentId = localStorage.getItem('userId');
+    const userName = localStorage.getItem('userName') || 'Student';
+
+    // Set avatar initial
+    const avatarEl = document.getElementById('userAvatar');
+    if (avatarEl && userName) avatarEl.innerText = userName.charAt(0).toUpperCase();
+
+    // Mobile sidebar toggle
+    const mobileToggle = document.getElementById('mobileToggle');
+    const sidebar = document.getElementById('mainSidebar');
+    if (mobileToggle && sidebar) {
+      mobileToggle.addEventListener('click', () => sidebar.classList.toggle('sidebar-open'));
+    }
+
+    async function loadCertificates() {
+      const grid = document.getElementById('certsGrid');
+      try {
+        const response = await fetch(`http://justtech.runasp.net/api/certificates/student/${studentId}`, {
+          headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
+        });
+
+        if (response.ok) {
+          const certs = await response.json();
+          renderCertificates(certs);
+        } else {
+          grid.innerHTML = `
+            <div class="empty-state">
+              <div class="empty-icon"><i class="fas fa-exclamation-circle"></i></div>
+              <h3>Could not load certificates</h3>
+              <p>There was a problem fetching your certificates. Please try again later.</p>
+              <button class="solid-btn" onclick="loadCertificates()"><i class="fas fa-redo"></i> Retry</button>
+            </div>`;
+        }
+      } catch (err) {
+        console.error('Error loading certificates:', err);
+        grid.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon"><i class="fas fa-wifi"></i></div>
+            <h3>Network Error</h3>
+            <p>Please check your connection and try again.</p>
+            <button class="solid-btn" onclick="loadCertificates()"><i class="fas fa-redo"></i> Retry</button>
+          </div>`;
+      }
+    }
+
+    function renderCertificates(certs) {
+      const grid = document.getElementById('certsGrid');
+      if (!certs || certs.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon"><i class="fas fa-certificate"></i></div>
+            <h3>No Certificates Yet</h3>
+            <p>Complete all lectures in a course to earn your certificate. You're almost there — keep learning!</p>
+            <a href="index.html?view=courses" class="solid-btn" style="display:inline-flex;align-items:center;gap:8px;text-decoration:none;">
+              <i class="fas fa-book-open"></i> Browse My Courses
+            </a>
+          </div>`;
+        return;
+      }
+
+      grid.innerHTML = '';
+      certs.forEach(cert => {
+        const issuedDate = cert.issuedAt
+          ? new Date(cert.issuedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+          : 'Date unavailable';
+
+        const card = document.createElement('div');
+        card.className = 'cert-card';
+        card.innerHTML = `
+          <div class="cert-card-top">
+            <div class="cert-seal"><i class="fas fa-award"></i></div>
+            <div class="cert-course-name">${escapeHtml(cert.courseName || 'Course')}</div>
+            <div class="cert-round-name">${escapeHtml(cert.roundName || '')}</div>
+          </div>
+          <div class="cert-card-body">
+            <div class="cert-meta">
+              <i class="fas fa-check-circle"></i>
+              <span>Completed on ${issuedDate}</span>
+            </div>
+            <div class="cert-actions">
+              <a href="view-certificate.html?id=${cert.id}" class="cert-download-btn">
+                <i class="fas fa-eye"></i> View Certificate
+              </a>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    loadCertificates();
+  </script>
+</body>
+
+</html>
