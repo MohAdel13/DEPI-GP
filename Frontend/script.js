@@ -27,7 +27,10 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
     if(views[viewId]) views[viewId].classList.add('active-view');
     
     let titleText = "Dashboard";
-    if(viewId === 'dashboard') titleText = "Dashboard";
+    if(viewId === 'dashboard') {
+      titleText = "Dashboard";
+      loadCourses();
+    }
     else if(viewId === 'rankings') titleText = "Round Rank";
     else if(viewId === 'lectures') titleText = "Lectures";
     else if(viewId === 'stats') titleText = "Round Stats";
@@ -295,9 +298,75 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
     }
   });
   
+  async function loadCourses() {
+    const token = localStorage.getItem('token');
+    const container = document.getElementById('dashboardCoursesContainer');
+    
+    if (!token) {
+      if (!window.location.href.includes('login.html') && !window.location.href.includes('signup.html')) {
+        window.location.href = 'login.html';
+      }
+      return;
+    }
+
+    try {
+      const response = await fetch('http://justtech.runasp.net/api/courses', {
+        headers: { 
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        const courses = await response.json();
+        if (!courses || courses.length === 0) {
+          if (container) container.innerHTML = '<div class="no-courses" style="grid-column: 1/-1; text-align: center; padding: 40px; color: #64748b;">No courses available at the moment.</div>';
+        } else {
+          displayCourses(courses);
+        }
+      } else if (response.status === 401) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('isLoggedIn');
+        window.location.href = 'login.html';
+      } else {
+        if (container) container.innerHTML = '<div class="error-msg" style="grid-column: 1/-1; text-align: center; padding: 40px; color: #ef4444;">Failed to load courses. Please try again later.</div>';
+      }
+    } catch (error) {
+      console.error('Error loading courses:', error);
+      if (container) container.innerHTML = '<div class="error-msg" style="grid-column: 1/-1; text-align: center; padding: 40px; color: #ef4444;">Network error. Please check your connection.</div>';
+    }
+  }
+
+  function displayCourses(courses) {
+    const container = document.getElementById('dashboardCoursesContainer');
+    if (!container) return;
+    
+    container.innerHTML = courses.map(course => `
+      <div class="course-card">
+        <div class="course-card-header">
+          <h3>${escapeHtml(course.name)}</h3>
+          <span class="course-badge">Course</span>
+        </div>
+        <p class="course-desc">${escapeHtml(course.description) || 'No description available'}</p>
+        <div class="course-card-footer">
+          <span class="course-plan"><i class="fas fa-calendar-alt"></i> ${escapeHtml(course.coursePlan) || 'Standard Plan'}</span>
+          <button class="view-course-btn">View Details</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
   function initTickets() { 
     if(document.getElementById('ticketsView')) renderTickets('all'); 
   }
+
+  function initCourses() {
+    if(document.getElementById('dashboardCoursesContainer')) {
+      loadCourses();
+    }
+  }
+
   initTickets();
+  initCourses();
   setActiveView('dashboard');
 })();
