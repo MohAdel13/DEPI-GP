@@ -69,83 +69,15 @@
 
       <!-- ========== DASHBOARD VIEW ========== -->
       <div id="dashboardView" class="view-pane active-view">
-        <div class="hero-card">
-          <div class="hero-left">
-            <div class="badge-php">PHP Course</div>
-            <h1>Current course: <span class="highlight">BackEnd PHP</span></h1>
-            <div class="student-tagline"><i class="fas fa-trophy"></i> JustTech </div>
-          </div>
-          
+        <div class="enrolled-header">
+          <h2><i class="fas fa-graduation-cap"></i> Available Courses</h2>
+          <p>Explore our latest technology courses and start your learning journey</p>
         </div>
-        <div class="stats-grid">
-          
-          <div class="stat-card">
-            <div class="stat-icon"><i class="fas fa-calendar-check"></i></div>
-            <div class="stat-info">
-              <h3>Attendance</h3>
-              <div class="stat-value">90%</div>
-              <p>Excellent record</p>
-            </div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon"><i class="fas fa-tasks"></i></div>
-            <div class="stat-info">
-              <h3>Task Avg</h3>
-              <div class="stat-value">95.16%</div>
-              <p>Consistency</p>
-            </div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon"><i class="fas fa-star"></i></div>
-            <div class="stat-info">
-              <h3>Avg Score</h3>
-              <div class="stat-value">95.94%</div>
-              <p>+ Bonus 0%</p>
-            </div>
-          </div>
-        </div>
-        <div class="section-card">
-          <div class="card-header">
-            <h3><i class="fas fa-chart-bar"></i> Lectures Degree Progress</h3><span class="pill">Last 11 lectures</span>
-          </div>
-          <div class="bar-chart-container">
-            <div class="chart-bars">
-              <div class="bar-item" data-lecture="Lecture 1" data-value="85">
-                <div class="bar-fill" style="height: 85%;"></div><span>L1</span>
-              </div>
-              <div class="bar-item" data-lecture="Lecture 4" data-value="78">
-                <div class="bar-fill" style="height: 78%;"></div><span>L4</span>
-              </div>
-              <div class="bar-item" data-lecture="Lecture 7" data-value="92">
-                <div class="bar-fill" style="height: 92%;"></div><span>L7</span>
-              </div>
-              <div class="bar-item" data-lecture="Lecture 10" data-value="88">
-                <div class="bar-fill" style="height: 88%;"></div><span>L10</span>
-              </div>
-              <div class="bar-item" data-lecture="Lecture 13" data-value="96">
-                <div class="bar-fill" style="height: 96%;"></div><span>L13</span>
-              </div>
-              <div class="bar-item" data-lecture="Lecture 16" data-value="94">
-                <div class="bar-fill" style="height: 94%;"></div><span>L16</span>
-              </div>
-              <div class="bar-item" data-lecture="Lecture 19" data-value="91">
-                <div class="bar-fill" style="height: 91%;"></div><span>L19</span>
-              </div>
-              <div class="bar-item" data-lecture="Lecture 22" data-value="89">
-                <div class="bar-fill" style="height: 89%;"></div><span>L22</span>
-              </div>
-              <div class="bar-item" data-lecture="Lecture 25" data-value="97">
-                <div class="bar-fill" style="height: 97%;"></div><span>L25</span>
-              </div>
-              <div class="bar-item" data-lecture="Lecture 28" data-value="93">
-                <div class="bar-fill" style="height: 93%;"></div><span>L28</span>
-              </div>
-              <div class="bar-item" data-lecture="Lecture 31" data-value="99">
-                <div class="bar-fill" style="height: 99%;"></div><span>L31</span>
-              </div>
-            </div>
-          </div>
-          <div class="lecture-note"><i class="fas fa-chart-simple"></i> Lecture degree trend: continuous improvement
+        
+        <div id="dashboardCoursesContainer" class="courses-grid">
+          <div class="loading-spinner" style="text-align: center; padding: 40px; color: #64748b; width: 100%;">
+            <i class="fas fa-spinner fa-spin" style="font-size: 2rem; margin-bottom: 10px;"></i>
+            <p>Fetching amazing courses for you...</p>
           </div>
         </div>
       </div>
@@ -581,51 +513,18 @@
         </div>
       </div>
 
-      <!-- ========== ENROLLED COURSES VIEW (NEW) ========== -->
-      <div id="coursesView" class="view-pane">
+      <!-- ========== ENROLLED COURSES VIEW (NEW) =====      <div id="coursesView" class="view-pane">
         <div class="enrolled-header">
           <h2><i class="fas fa-graduation-cap"></i> Enrolled Courses</h2>
           <p>Your active learning journey</p>
         </div>
-        <div class="courses-grid-single">
-          <div class="course-master-card">
-            <div class="course-badge-top"><span class="course-status active-status">Active</span><span
-                class="course-mode"><i class="fas fa-globe"></i> Online</span></div>
-            <div class="course-title-section">
-              <h3>PHP 331</h3>
-              <p class="course-sub">BackEnd PHP · Advanced Track</p>
-            </div>
-            <div class="course-stats-mini">
-              <div class="course-stat-item"><span class="stat-number">93.55%</span><span class="stat-label">Attendance
-                  Rate</span></div>
-              <div class="course-stat-item"><span class="stat-number">98.33%</span><span class="stat-label">Task Degree
-                  Rate</span></div>
-            </div>
-            <div class="course-actions">
-              <button class="course-btn outline-btn"><i class="fas fa-calendar-alt"></i> View Course Plan</button>
-              <button class="course-btn solid-btn"><i class="fas fa-info-circle"></i> View Details</button>
-            </div>
-          </div>
-          <!-- additional demo course to match design richness (optional but stays consistent) -->
-          <div class="course-master-card secondary-card">
-            <div class="course-badge-top"><span class="course-status active-status">Active</span><span
-                class="course-mode"><i class="fas fa-globe"></i> Online</span></div>
-            <div class="course-title-section">
-              <h3>JavaScript Advanced</h3>
-              <p class="course-sub">FullStack Integration</p>
-            </div>
-            <div class="course-stats-mini">
-              <div class="course-stat-item"><span class="stat-number">87.2%</span><span class="stat-label">Attendance
-                  Rate</span></div>
-              <div class="course-stat-item"><span class="stat-number">91.5%</span><span class="stat-label">Task
-                  Degree</span></div>
-            </div>
-            <div class="course-actions"><button class="course-btn outline-btn"><i class="fas fa-calendar-alt"></i> View
-                Plan</button><button class="course-btn solid-btn"><i class="fas fa-info-circle"></i> Details</button>
-            </div>
+        <div id="coursesContainer" class="courses-grid">
+          <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i> Loading courses...
           </div>
         </div>
       </div>
+    </div>
 
       <!-- ========== PROFILE VIEW (NEW) ========== -->
       <div id="profileView" class="view-pane">

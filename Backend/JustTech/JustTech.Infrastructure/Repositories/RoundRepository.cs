@@ -10,6 +10,15 @@ namespace JustTech.Infrastructure.Repositories
         public RoundRepository(AppDbContext context) : base(context)
         { }
 
+
+        public override async Task<IEnumerable<Round>> GetAllAsync()
+        {
+            return await _context.Rounds
+                .Include(r => r.Course)
+                .Include(r => r.Instructor)
+                .Where(r => r.DeletedAt == null)
+                .ToListAsync();
+        }
         public async Task<IEnumerable<Round>> GetRoundsByCourseIdAsync(int courseId)
         {
             return await _context.Rounds
