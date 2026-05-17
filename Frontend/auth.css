@@ -415,3 +415,72 @@
       font-size: 1.5rem;
     }
   }
+
+/* Toast Notification Styles */
+.toast-notification {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.85);
+    color: white;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-size: 16px;
+    z-index: 9999;
+    text-align: center;
+    animation: fadeInOut 2s ease-in-out;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    15% { opacity: 1; }
+    85% { opacity: 1; }
+    100% { opacity: 0; visibility: hidden; }
+}
+
+/* Modal Popup Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.modal-popup {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    text-align: center;
+    min-width: 300px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+}
+
+.modal-popup .icon {
+    font-size: 48px;
+    margin-bottom: 15px;
+}
+
+.modal-popup .message {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.modal-popup button {
+    background: #4A90E2;
+    color: white;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.modal-popup button:hover {
+    background: #357ABD;
+}

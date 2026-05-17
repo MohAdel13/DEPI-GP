@@ -224,8 +224,7 @@
         <ul class="nav-list">
           <li class="nav-item" data-nav="dashboard"><a href="index.html" class="nav-link" id="navDashboard"><i
                 class="fa fa-home"></i><span>Home</span></a></li>
-          <li class="nav-item" data-nav="lectures"><a href="index.html?view=lectures" class="nav-link" id="navLectures"><i
-                class="fas fa-chalkboard-teacher"></i><span>Lectures</span></a></li>
+
           <li class="nav-item" data-nav="courses"><a href="index.html?view=courses" class="nav-link" id="navCourses"><i
                 class="fas fa-book-open"></i><span>Enrolled Courses</span></a></li>
           <li class="nav-item" data-nav="assignments"><a href="#" class="nav-link" id="navAssignments"><i
@@ -284,6 +283,18 @@
   </div>
 
   <script>
+    // Toast Notification Function
+    function showToast(message, isError = true) {
+        const existingToast = document.querySelector('.toast-notification');
+        if (existingToast) existingToast.remove();
+        
+        const toast = document.createElement('div');
+        toast.className = 'toast-notification';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        
+        setTimeout(() => toast.remove(), 2000);
+    }
 
     const urlParams = new URLSearchParams(window.location.search);
     const roundId = urlParams.get('roundId');
@@ -508,12 +519,12 @@
           btn.innerText = 'Completed';
           updateProgress();
         } else {
-          alert('Failed to mark as completed. You might have already completed it.');
+          showToast('Failed to mark as completed. You might have already completed it.');
           btn.disabled = false;
           btn.innerText = 'Mark as Completed';
         }
       } catch (err) {
-        alert('Network error.');
+        showToast('Network error.');
         btn.disabled = false;
         btn.innerText = 'Mark as Completed';
       }

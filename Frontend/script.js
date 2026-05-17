@@ -1,3 +1,16 @@
+// Toast Notification Function
+function showToast(message, isError = true) {
+    const existingToast = document.querySelector('.toast-notification');
+    if (existingToast) existingToast.remove();
+    
+    const toast = document.createElement('div');
+    toast.className = 'toast-notification';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => toast.remove(), 2000);
+}
+
 // Check if user is logged in
 console.log('Dashboard Init - Path:', window.location.pathname, 'Token:', !!localStorage.getItem('token'));
 if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login.html') && !window.location.href.includes('signup.html')) {
@@ -221,7 +234,7 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
     sendBtn.addEventListener('click', () => {
       const subject = document.getElementById('ticketSubject')?.value.trim();
       const desc = document.getElementById('ticketDesc')?.value.trim();
-      if(!subject || !desc) { alert("Please fill both subject and description"); return; }
+      if(!subject || !desc) { showToast("Please fill both subject and description"); return; }
       const newTicket = { id: Date.now(), subject, description: desc, status: 'open', date: new Date().toISOString() };
       ticketsArray.unshift(newTicket);
       const subjectInput = document.getElementById('ticketSubject');
@@ -266,20 +279,20 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
     const updateBtn = document.getElementById('updatePasswordBtn');
     
     if (!currentPwd || !newPwd || !confirmPwd) {
-      alert('Please fill all password fields');
+      showToast('Please fill all password fields');
       return;
     }
     if (newPwd !== confirmPwd) {
-      alert('New passwords do not match');
+      showToast('New passwords do not match');
       return;
     }
     if (newPwd.length < 6) {
-      alert('Password must be at least 6 characters');
+      showToast('Password must be at least 6 characters');
       return;
     }
 
     if (!token) {
-      alert('Session expired. Please login again.');
+      showToast('Session expired. Please login again.');
       window.location.href = 'login.html';
       return;
     }
@@ -309,11 +322,11 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
         document.getElementById('confirmPassword').value = '';
       } else {
         const errorData = await response.json().catch(() => ({}));
-        alert(errorData.message || 'Failed to change password. Please check your current password.');
+        showToast(errorData.message || 'Failed to change password. Please check your current password.');
       }
     } catch (error) {
       console.error('Password change error:', error);
-      alert('Network error. Please try again.');
+      showToast('Network error. Please try again.');
     } finally {
       updateBtn.disabled = false;
       updateBtn.innerHTML = '<i class="fas fa-key"></i> Update Password';
@@ -338,7 +351,7 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
   
   document.getElementById('confirmDeleteBtn')?.addEventListener('click', () => {
     localStorage.removeItem('isLoggedIn');
-    alert('Account deleted successfully');
+    showToast('Account deleted successfully');
     window.location.href = 'signup.html';
   });
   
@@ -559,7 +572,7 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
     const studentId = localStorage.getItem('userId');
 
     if (!token || !studentId) {
-      alert('Session expired. Please login again.');
+      showToast('Session expired. Please login again.');
       window.location.href = 'login.html';
       return;
     }
@@ -590,13 +603,13 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
         button.disabled = true;
       } else {
         const errorData = await response.json().catch(() => ({}));
-        alert(errorData.message || 'Enrollment failed. Please try again.');
+        showToast(errorData.message || 'Enrollment failed. Please try again.');
         button.disabled = false;
         button.innerText = originalText;
       }
     } catch (error) {
       console.error('Enrollment error:', error);
-      alert('Network error. Please try again.');
+      showToast('Network error. Please try again.');
       button.disabled = false;
       button.innerText = originalText;
     }
@@ -735,11 +748,11 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
         loadStudentProfile(); // Refresh display
       } else {
         const error = await response.json().catch(() => ({}));
-        alert(error.message || 'Failed to update profile');
+        showToast(error.message || 'Failed to update profile');
       }
     } catch (error) {
       console.error('Error updating profile:', error);
-      alert('Network error while updating profile');
+      showToast('Network error while updating profile');
     } finally {
       saveBtn.disabled = false;
       saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Changes';

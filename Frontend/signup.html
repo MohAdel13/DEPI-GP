@@ -105,6 +105,19 @@
   </div>
 
   <script>
+    // Toast Notification Function
+    function showToast(message, isError = true) {
+        const existingToast = document.querySelector('.toast-notification');
+        if (existingToast) existingToast.remove();
+        
+        const toast = document.createElement('div');
+        toast.className = 'toast-notification';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        
+        setTimeout(() => toast.remove(), 2000);
+    }
+
     // Toggle password visibility
     document.querySelectorAll('.toggle-password').forEach(btn => {
       btn.addEventListener('click', function() {
@@ -158,22 +171,22 @@
       const submitBtn = e.target.querySelector('button[type="submit"]');
 
       if (!name || !email || !password || !confirm) {
-        alert('Please fill in all required fields');
+        showToast('Please fill in all required fields');
         return;
       }
 
       if (password !== confirm) {
-        alert('Passwords do not match!');
+        showToast('Passwords do not match!');
         return;
       }
 
       if (password.length < 6) {
-        alert('Password must be at least 6 characters long');
+        showToast('Password must be at least 6 characters long');
         return;
       }
 
       if (!terms) {
-        alert('Please agree to the Terms of Service');
+        showToast('Please agree to the Terms of Service');
         return;
       }
 
@@ -247,11 +260,11 @@
             }
           }
           
-          alert(errorMessage);
+          showToast(errorMessage);
         }
       } catch (error) {
         console.error('Error:', error);
-        alert('Network error. Please try again later.');
+        showToast('Network error. Please try again later.');
       } finally {
         submitBtn.innerHTML = originalBtnText;
         submitBtn.disabled = false;

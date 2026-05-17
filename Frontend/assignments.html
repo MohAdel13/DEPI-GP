@@ -262,7 +262,7 @@
       <nav class="nav-menu">
         <ul class="nav-list">
           <li class="nav-item"><a href="index.html" class="nav-link"><i class="fa fa-home"></i><span>Home</span></a></li>
-          <li class="nav-item"><a href="index.html?view=lectures" class="nav-link"><i class="fas fa-chalkboard-teacher"></i><span>Lectures</span></a></li>
+
           <li class="nav-item"><a href="index.html?view=courses" class="nav-link"><i class="fas fa-book-open"></i><span>Enrolled Courses</span></a></li>
           <li class="nav-item"><a href="index.html?view=progress" class="nav-link"><i class="fas fa-user-graduate"></i><span>My Progress</span></a></li>
           <li class="nav-item"><a href="index.html?view=tickets" class="nav-link"><i class="fas fa-ticket-alt"></i><span>Tickets</span></a></li>
@@ -326,6 +326,19 @@
   </div>
 
   <script>
+    // Toast Notification Function
+    function showToast(message, isError = true) {
+        const existingToast = document.querySelector('.toast-notification');
+        if (existingToast) existingToast.remove();
+        
+        const toast = document.createElement('div');
+        toast.className = 'toast-notification';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        
+        setTimeout(() => toast.remove(), 2000);
+    }
+
     const urlParams = new URLSearchParams(window.location.search);
     let roundId = urlParams.get('roundId') || 1; // Default to 1 as per example
     const studentId = localStorage.getItem('userId');
@@ -518,13 +531,13 @@
       const answerUrl = document.getElementById('answerUrl').value.trim();
       
       if (!textAnswer && !answerUrl) {
-        alert('Please provide either a text answer or a submission link.');
+        showToast('Please provide either a text answer or a submission link.');
         return;
       }
 
       if (answerUrl) {
         try { new URL(answerUrl); } catch (_) {
-          alert('The submission link is invalid. Please enter a full URL (including http:// or https://)');
+          showToast('The submission link is invalid. Please enter a full URL (including http:// or https://)');
           return;
         }
       }
@@ -551,7 +564,7 @@
         });
 
         if (response.ok) {
-          alert('Assignment submitted successfully!');
+          showToast('Assignment submitted successfully!');
           document.getElementById('submitModal').style.display = 'none';
           
           // Immediate UI update for the specific button
@@ -573,10 +586,10 @@
           setTimeout(fetchAssignments, 2000); 
         } else {
           const err = await response.json().catch(() => ({}));
-          alert(err.message || 'Failed to submit assignment.');
+          showToast(err.message || 'Failed to submit assignment.');
         }
       } catch (err) {
-        alert('Network error.');
+        showToast('Network error.');
       } finally {
         btn.disabled = false;
         btn.innerHTML = 'Submit Answer';

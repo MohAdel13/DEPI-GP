@@ -82,6 +82,26 @@
   </div>
 
   <script>
+    function showModal(message, isSuccess = false) {
+        const modal = document.createElement('div');
+        modal.className = 'modal-overlay';
+        modal.innerHTML = `
+            <div class="modal-popup">
+                <div class="icon">${isSuccess ? '✅' : '❌'}</div>
+                <div class="message">${message}</div>
+                <button onclick="this.closest('.modal-overlay').remove()">OK</button>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        
+        if (isSuccess) {
+            setTimeout(() => {
+                modal.remove();
+                window.location.href = 'index.html';
+            }, 1500);
+        }
+    }
+
     // Toggle password visibility
     document.querySelectorAll('.toggle-password').forEach(btn => {
       btn.addEventListener('click', function() {
@@ -109,7 +129,7 @@
 
       // Simple validation
       if (!email || !password) {
-        alert('Please fill in all fields');
+        showModal('Please fill in all fields');
         return;
       }
 
@@ -156,8 +176,8 @@
             localStorage.removeItem('rememberedEmail');
           }
 
-          // Redirect to dashboard
-          window.location.href = 'index.html';
+          // Show success modal (redirect handled inside)
+          showModal('Login successful!<br>Redirecting...', true);
         } else {
           // Handle error (e.g. 401)
           console.error("Login error:", data);
@@ -170,11 +190,11 @@
             else if (data.title) errorMessage = data.title;
           }
           
-          alert(errorMessage);
+          showModal(errorMessage);
         }
       } catch (error) {
         console.error('Error:', error);
-        alert('Network error. Please try again later.');
+        showModal('Network error. Please try again later.');
       } finally {
         submitBtn.innerHTML = originalBtnText;
         submitBtn.disabled = false;
