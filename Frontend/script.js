@@ -697,8 +697,8 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
         // Fill form fields
         document.getElementById('profileName').value = student.name || '';
         document.getElementById('profileEmail').value = student.email || '';
-        document.getElementById('profilePhone').value = student.phoneNumber || '';
-        document.getElementById('profileBirthdate').value = student.birthDate ? student.birthDate.split('T')[0] : '';
+        document.getElementById('profilePhone').value = student.phone || '';
+        document.getElementById('profileBirthdate').value = student.birthdate ? student.birthdate.split('T')[0] : '';
         document.getElementById('profileCountry').value = student.country || '';
         document.getElementById('profileCity').value = student.city || '';
         document.getElementById('profileCollege').value = student.college || '';
