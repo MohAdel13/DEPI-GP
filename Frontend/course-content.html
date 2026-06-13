@@ -163,7 +163,6 @@
       margin-bottom: 24px;
     }
 
-    /* Video Player Styles */
     .video-player-section {
       background: #000;
       border-radius: 24px;
@@ -171,7 +170,7 @@
       margin-bottom: 32px;
       aspect-ratio: 16 / 9;
       box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-      display: none; /* Hidden until a video is loaded */
+      display: none;
       position: relative;
     }
 
@@ -211,7 +210,6 @@
 
 <body>
   <div class="app-wrapper">
-    <!-- SIDEBAR / NAVIGATION -->
     <aside class="sidebar" id="mainSidebar">
       <div class="logo-area">
         <div class="logo-icon"><i class="fas fa-code"></i></div>
@@ -224,7 +222,6 @@
         <ul class="nav-list">
           <li class="nav-item" data-nav="dashboard"><a href="index.html" class="nav-link" id="navDashboard"><i
                 class="fa fa-home"></i><span>Home</span></a></li>
-
           <li class="nav-item" data-nav="courses"><a href="index.html?view=courses" class="nav-link" id="navCourses"><i
                 class="fas fa-book-open"></i><span>Enrolled Courses</span></a></li>
           <li class="nav-item" data-nav="assignments"><a href="#" class="nav-link" id="navAssignments"><i
@@ -264,7 +261,6 @@
           <p id="progressStats" style="margin-top: 10px; font-size: 0.85rem; color: #64748b;">0/0 lectures completed</p>
         </div>
 
-        <!-- Video Player Section -->
         <div id="videoSection" class="video-player-section">
           <div id="playerWrapper" style="width: 100%; height: 100%;">
             <div class="no-video-placeholder">
@@ -275,15 +271,12 @@
         </div>
 
         <h3 style="margin-bottom: 20px; font-weight: 800; color: #0f172a;">Course Content</h3>
-        <div id="lecturesList" class="lectures-list">
-          <!-- Lectures will be injected here -->
-        </div>
+        <div id="lecturesList" class="lectures-list"></div>
       </div>
     </main>
   </div>
 
   <script>
-    // Toast Notification Function
     function showToast(message, isError = true) {
         const existingToast = document.querySelector('.toast-notification');
         if (existingToast) existingToast.remove();
@@ -329,20 +322,29 @@
     async function fetchLectures() {
       const container = document.getElementById('lecturesList');
       try {
-        const [lecturesRes, progressRes] = await Promise.all([
-          fetch(`http://justtech.runasp.net/api/lectures/round/${roundId}`, {
-            headers: { 'Authorization': `Bearer ${token}` }
-          }),
-          fetch(`http://justtech.runasp.net/api/progress/student/${studentId}`, {
-            headers: { 'Authorization': `Bearer ${token}` }
-          })
-        ]);
+        const lecturesRes = await fetch(`http://justtech.runasp.net/api/lectures/round/${roundId}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
 
-        if (lecturesRes.ok && progressRes.ok) {
+        if (lecturesRes.ok) {
           const lectures = await lecturesRes.json();
-          const progressData = await progressRes.json();
           
-          // progressData is expected to be an array of objects containing lectureId
+          // Try to fetch progress, but don't fail if it returns 404 or non-array
+          let progressData = [];
+          try {
+            const progressRes = await fetch(`http://justtech.runasp.net/api/progress/student/${studentId}`, {
+              headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (progressRes.ok) {
+              const rawData = await progressRes.json();
+              if (Array.isArray(rawData)) {
+                progressData = rawData;
+              }
+            }
+          } catch (e) {
+            console.log('No progress data yet');
+          }
+          
           const completedLectureIds = progressData.map(p => p.lectureId);
           
           renderLectures(lectures, completedLectureIds);
@@ -358,7 +360,6 @@
       document.getElementById('progressText').innerText = progress + '%';
       document.getElementById('progressStats').innerText = `${completedCount}/${totalCount} lectures completed`;
 
-      // Auto-generate certificate on 100% completion
       if (progress === 100 && totalCount > 0) {
         await generateCertificate();
       }
@@ -381,14 +382,12 @@
         if (response.ok) {
           showCertificateBanner();
         }
-        // Silently ignore if already generated (e.g., 409 Conflict)
       } catch (err) {
         console.error('Certificate generation error:', err);
       }
     }
 
     function showCertificateBanner() {
-      // Avoid showing duplicate banners
       if (document.getElementById('certBanner')) return;
 
       const banner = document.createElement('div');
@@ -411,13 +410,10 @@
         <button onclick="this.parentElement.remove()" style="background: none; border: none; color: white; font-size: 1.4rem; cursor: pointer; margin-left: 8px;">✕</button>
       `;
       document.body.appendChild(banner);
-
-      // Auto-dismiss after 8 seconds
       setTimeout(() => banner.remove(), 8000);
     }
 
     async function updateProgress() {
-      // Re-fetch everything to ensure UI is in sync with server state
       await fetchLectures();
     }
 
@@ -455,7 +451,6 @@
       const playerWrapper = document.getElementById('playerWrapper');
       const videoSection = document.getElementById('videoSection');
       
-      // Highlight active lecture
       document.querySelectorAll('.lecture-item').forEach(item => item.classList.remove('active-lecture'));
       element.closest('.lecture-item').classList.add('active-lecture');
 
@@ -475,7 +470,6 @@
             const videoId = extractYoutubeId(videoMaterial.url);
             if (videoId) {
               playerWrapper.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
-              // Scroll to video
               videoSection.scrollIntoView({ behavior: 'smooth' });
             } else {
               playerWrapper.innerHTML = `<div class="no-video-placeholder"><i class="fas fa-exclamation-circle fa-3x"></i><p>Invalid video URL</p></div>`;
@@ -519,7 +513,7 @@
           btn.innerText = 'Completed';
           updateProgress();
         } else {
-          showToast('Failed to mark as completed. You might have already completed it.');
+          showToast('Failed to mark as completed.');
           btn.disabled = false;
           btn.innerText = 'Mark as Completed';
         }

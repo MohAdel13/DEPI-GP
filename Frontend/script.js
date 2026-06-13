@@ -11,6 +11,23 @@ function showToast(message, isError = true) {
     setTimeout(() => toast.remove(), 2000);
 }
 
+function updateAvatarInitials() {
+    const avatarSpan = document.getElementById('userAvatar');
+    if (!avatarSpan) return;
+    
+    const userName = localStorage.getItem('userName');
+    if (userName && userName !== 'Student') {
+        const nameParts = userName.trim().split(' ');
+        if (nameParts.length >= 2) {
+            const firstInitial = nameParts[0].charAt(0);
+            const lastInitial = nameParts[1].charAt(0);
+            avatarSpan.innerText = (firstInitial + lastInitial).toUpperCase();
+        } else {
+            avatarSpan.innerText = userName.charAt(0).toUpperCase();
+        }
+    }
+}
+
 // Check if user is logged in
 console.log('Dashboard Init - Path:', window.location.pathname, 'Token:', !!localStorage.getItem('token'));
 if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login.html') && !window.location.href.includes('signup.html')) {
@@ -722,7 +739,7 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
 
     const studentData = {
       name: document.getElementById('profileName').value,
-      phoneNumber: document.getElementById('profilePhone').value,
+      phone: document.getElementById('profilePhone').value,
       birthDate: document.getElementById('profileBirthdate').value,
       country: document.getElementById('profileCountry').value,
       city: document.getElementById('profileCity').value,
@@ -745,7 +762,10 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
 
       if (response.ok) {
         showSuccess('Profile updated successfully');
-        loadStudentProfile(); // Refresh display
+    loadStudentProfile(); // Refresh display
+    updateAvatarInitials();
+    const newName = document.getElementById('profileName').value;
+    localStorage.setItem('userName', newName);
       } else {
         const error = await response.json().catch(() => ({}));
         showToast(error.message || 'Failed to update profile');
@@ -867,6 +887,7 @@ if (!localStorage.getItem('isLoggedIn') && !window.location.href.includes('login
     try {
       console.log('Initializing application...');
       await ensureUserId();
+       updateAvatarInitials();
       initTickets();
       // initCourses(); // Removed as it was non-existent and causing crashes
       loadStudentProgress();
